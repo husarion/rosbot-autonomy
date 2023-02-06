@@ -48,7 +48,7 @@ services:
         use_sim_time:=False
         map:=/maps/map.yaml
     healthcheck:
-      test: bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && /healthcheck/healthcheck_slam.py"
+      test: bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && /healthcheck/healthcheck_${SLAM_MODE:-slam}.py"
       interval: 10s
       timeout: 10s
       retries: 6
@@ -64,4 +64,3 @@ services:
   #     ros2 launch nav2_bringup navigation_launch.py
   #       params_file:=/nav2_params.yaml
   #       use_sim_time:=False
-
