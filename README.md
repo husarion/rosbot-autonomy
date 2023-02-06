@@ -29,7 +29,7 @@ LIDAR_BAUDRATE=256000
 # SLAM config (select one)
 # =======================================
 SLAM_MODE=slam
-# SLAM_MODE=localization        
+# SLAM_MODE=localization
 ```
 
 **Notes:**
@@ -55,7 +55,7 @@ RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 # 4. Cyclone DDS + VPN
 # RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-# CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml         
+# CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml
 ```
 
 **Notes:**

@@ -11,11 +11,11 @@ if not client.wait_for_service(timeout_sec=2.0):
     exit (1)
 
 request = SaveMap.Request()
-request.free_thresh = 0.25
+request.free_thresh = 0.15
 request.map_topic = "/map"
 request.map_url = "/maps/map"
 request.map_mode = "trinary"
-request.image_format = "pgm"
+request.image_format = "png"
 
 future = client.call_async(request)
 rclpy.spin_until_future_complete(node, future)
