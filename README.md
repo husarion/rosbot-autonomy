@@ -1,36 +1,32 @@
 # rosbot-slam
 
-Create a map of the unknow environment with ROSbot 2 PRO or ROSbot 2R controlled in the LAN network or [over the Internet](https://husarion.com/manuals/rosbot/remote-access/).
+A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it.
 
-### PC
+## Clonning the repo
 
-Clone this repository:
-
-```
-git clone https://github.com/husarion/rosbot-slam.git
-```
-
-**Connect a [gamepad](https://husarion.com/tutorials/other-tutorials/rosbot-gamepad/) to USB port of your PC/laptop** (the steering without the gamepad will also be described as an alternative).
-
-Check your **hardware configs** in the `.env` file:
+This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
-# =======================================
-# Hardware config
-# =======================================
-LIDAR_SERIAL=/dev/ttyUSB0
-
-# for RPLIDAR A2M8 (red circle around the sensor):
-# LIDAR_BAUDRATE=115200
-# for RPLIDAR A2M12 and A3 (violet circle around the sensor):
-LIDAR_BAUDRATE=256000
+git clone https://github.com/husarion/rosbot-slam
+cd rosbot-slam 
+export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet hostname
+./sync_with_rosbot.sh $ROSBOT_ADDR
 ```
 
-**Notes:**
-- Usually RPLIDAR is listed under `/dev/ttyUSB0`, but verify it with `ls -la /dev/ttyUSB*` command.
-- If you have RPLIDAR A3 or A2M12 (with violet border around the lenses) set: `LIDAR_BAUDRATE=256000`. Otherwise (for older A2 LIDARs): `LIDAR_BAUDRATE=115200`.
+## Flashing the ROSbot Firmware
 
-Select your **network configuration** in the `net.env` file:
+Execute in the ROSbot's shell:
+
+```bash
+docker stop rosbot microros || true && docker run \
+--rm -it --privileged \
+husarion/rosbot:humble \
+/flash-firmware.py /root/firmware.bin
+```
+
+## Choosing the Network (DDS) Config
+
+Edit `net.env` file and uncomment on of the configs:
 
 ```bash
 # =======================================
@@ -52,65 +48,62 @@ RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 # CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml
 ```
 
-**Notes:**
-- Husarion's docker images utilize the [husarnet-dds binary](https://github.com/husarnet/husarnet-dds) to create ROS 2 DDS configuration files for Husarnet VPN.
+If you choose to use the VPN option, both your ROSbot and laptop must be connected to the same Husarnet network. Follow the guide [here](https://husarion.com/manuals/rosbot/remote-access/).
 
-To sync workspace with ROSbot (works with the newest [OS images](https://husarion.com/manuals/rosbot/operating-system-reinstallation/)) execute (in `rosbot-mapping` directory):
+## Verifying Hardware Configuration
+
+To ensure proper hardware configuration, review the content of the `.env` file and select the appropriate LIDAR baudrate and serial port. The hardware configuration is defined as follows:
 
 ```bash
-./sync_with_rosbot.sh <ROSbot_ip>
+# =======================================
+# Hardware config
+# =======================================
+LIDAR_SERIAL=/dev/ttyUSB0
+
+# for RPLIDAR A2M8 (red circle around the sensor):
+# LIDAR_BAUDRATE=115200
+# for RPLIDAR A2M12 and A3 (violet circle around the sensor):
+LIDAR_BAUDRATE=256000
 ```
 
-Open a new terminal on PC and run RViz depending on whether you [have](https://github.com/husarion/rosbot-mapping#option-1-with-the-gamepad-connected-to-pc) a gamepad or [not](https://github.com/husarion/rosbot-mapping#option-2-without-the-gamepad). Then you will be able to [control the ROSbot](https://husarion.com/tutorials/other-tutorials/rosbot-gamepad/) and create map of the environment. The map is being saved automatically in the `rosbot-mapping/maps` folder.
+The default options should be suitable.
 
-#### Option 1: With the gamepad connected to PC
+## Switching Between **SLAM** and **Localization Only** Mode
+
+Pull the Docker images defined in `compose.yaml`:
+
+```bash
+docker compose pull
+```
+
+### SLAM Mode
+
+To launch the mapping mode with manual control on the ROSbot, run:
+
+```bash
+SLAM_MODE=slam docker compose up -d
+```
+
+### Localization & navigation
+
+To allow the ROSbot to navigate autonomously on a previously created map, run:
+
+```bash
+SLAM_MODE=localization docker compose up -d
+```
+
+> **Note:** You do not need to stop the containers to switch between modes.
+
+## PC
+
+To visualize the map and control the rebot, launch this part on your PC:
 
 ```bash
 xhost +local:docker && \
 docker compose -f compose.pc.yaml up
 ```
 
-#### Option 2: Without the gamepad
-
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up -d map-saver rviz
-```
-
-Then enter the running `rviz` container:
-
-```bash
-docker exec -it rosbot-mapping-rviz-1 bash
-```
-
-Now, to teleoperate the ROSbot with your keyboard, execute:
-
-```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
-
-## ROSbot
-
-> **Firmware version**
->
-> Before running the project, make sure you have the correct version of a firmware flashed on your robot.
->
-> Firmware flashing command (run in the ROSbot's terminal)
->
-> ```
-> docker stop rosbot microros || true && docker run \
-> --rm -it --privileged \
-> husarion/rosbot:humble \
-> /flash-firmware.py /root/firmware.bin
-> ```
-
-In the ROSbot's terminal execute (in `/home/husarion/rosbot-slam` directory):
-
-```bash
-docker compose -f compose.rosbot.yaml up
-```
-
-## Quick Start (Webots simulation)
+## Simulation (webots)
 
 > **Prerequisites**
 >
