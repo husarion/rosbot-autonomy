@@ -24,12 +24,6 @@ LIDAR_SERIAL=/dev/ttyUSB0
 # LIDAR_BAUDRATE=115200
 # for RPLIDAR A2M12 and A3 (violet circle around the sensor):
 LIDAR_BAUDRATE=256000
-
-# =======================================
-# SLAM config (select one)
-# =======================================
-SLAM_MODE=slam
-# SLAM_MODE=localization
 ```
 
 **Notes:**
