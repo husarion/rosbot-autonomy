@@ -20,23 +20,35 @@ x-cpu-config:
 
 services:
 
+  # Quick start:
+  # docker compose -f compose.pc.yaml up
+  # in a web browser open: http://localhost:8080
+  foxglove:
+    image: ghcr.io/foxglove/studio:latest
+    <<: [ *net-config ]
+
+  rosbridge:
+    build: .
+    <<: [ *net-config ]
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
-  rviz:
-    image: husarion/rviz2:galactic
-    <<: [ *net-config, *cpu-config ]
-    container_name: rviz
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./config/rosbot.rviz:/root/.rviz2/default.rviz
+  # rviz:
+  #   image: husarion/rviz2:galactic
+  #   <<: [ *net-config, *cpu-config ]
+  #   container_name: rviz
+  #   volumes:
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #     - ./config/rosbot.rviz:/root/.rviz2/default.rviz
 
-  joy2twist:
-    image: husarion/joy2twist:humble
-    <<: *net-config
-    devices:
-      - /dev/input
-    volumes:
-      - ./config/joy2twist.yaml:/joy2twist.yaml
-    command: >
-      ros2 launch joy2twist gamepad_controller.launch.py
-        joy2twist_params_file:=/joy2twist.yaml
+  # joy2twist:
+  #   image: husarion/joy2twist:humble
+  #   <<: *net-config
+  #   devices:
+  #     - /dev/input
+  #   volumes:
+  #     - ./config/joy2twist.yaml:/joy2twist.yaml
+  #   command: >
+  #     ros2 launch joy2twist gamepad_controller.launch.py
+  #       joy2twist_params_file:=/joy2twist.yaml
