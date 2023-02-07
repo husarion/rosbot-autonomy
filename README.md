@@ -94,6 +94,12 @@ SLAM_MODE=localization docker compose up -d
 
 > **Note:** You do not need to stop the containers to switch between modes.
 
+### Stopping the Containers
+
+```bash
+docker compose down
+```
+
 ## PC
 
 To visualize the map and control the rebot, launch this part on your PC:
@@ -113,7 +119,7 @@ Start the containers in a new terminal:
 
 ```bash
 xhost +local:docker && \
-docker compose -f compose.sim.webots.yaml up
+SLAM_MODE=slam docker compose -f compose.sim.webots.yaml up -d
 ```
 
 And in the second terminal start `telop-twist-keyboard` for manual ROSbot 2R control:

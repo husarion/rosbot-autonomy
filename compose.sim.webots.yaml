@@ -29,19 +29,34 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: ros2 launch webots_ros2_husarion robot_launch.py robot_name:=rosbot
 
-  mapping:
-    image: husarion/slam-toolbox:humble
+  slam:
+    image: husarion/navigation2:humble
     <<: *net-config
     volumes:
-      - ./config/slam_toolbox_webots.yaml:/slam_params.yaml
-    command: >
-      ros2 launch slam_toolbox online_sync_launch.py
-        slam_params_file:=/slam_params.yaml
-        use_sim_time:=True
-
-  map-saver:
-    image: husarion/nav2-map-server:humble
-    <<: *net-config
-    volumes:
+      - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
       - ./maps:/maps
-    command: bash -c "while true; do ros2 run nav2_map_server map_saver_cli --free 0.15 --fmt png -f /maps/map; sleep 5; done"
+    environment:
+      - SLAM_MODE=${SLAM_MODE:-slam}
+    command: >
+      ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
+        params_file:=/params.yaml
+        use_sim_time:=True
+        map:=/maps/map.yaml
+
+  navigation:
+    image: husarion/navigation2:humble
+    <<: *net-config
+    depends_on:
+      slam: { condition: service_healthy }
+    volumes:
+      - ./config/nav2_params.yaml:/nav2_params.yaml
+    environment:
+      - SLAM_MODE=${SLAM_MODE:-slam}
+    command: >
+      bash -c "
+        if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then 
+          ros2 launch nav2_bringup navigation_launch.py 
+          params_file:=/nav2_params.yaml 
+          use_sim_time:=True; 
+        fi
+      "

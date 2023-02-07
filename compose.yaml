@@ -23,8 +23,6 @@ services:
     <<: *net-config
     devices:
       - ${LIDAR_SERIAL:?err}:/dev/ttyUSB0
-    volumes:
-      - ./healthcheck:/healthcheck
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   slam:
@@ -35,14 +33,13 @@ services:
     volumes:
       - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
       - ./maps:/maps
-      - ./healthcheck:/healthcheck
     environment:
       - SLAM_MODE=${SLAM_MODE:-slam}
     command: >
       ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
         params_file:=/params.yaml
-        use_sim_time:=False
         map:=/maps/map.yaml
+        use_sim_time:=False
 
   navigation:
     image: husarion/navigation2:humble
@@ -57,6 +54,7 @@ services:
       bash -c "
         if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then 
           ros2 launch nav2_bringup navigation_launch.py 
-          params_file:=/nav2_params.yaml use_sim_time:=False; 
+          params_file:=/nav2_params.yaml 
+          use_sim_time:=False; 
         fi
       "
