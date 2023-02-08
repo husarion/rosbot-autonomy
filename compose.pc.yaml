@@ -24,7 +24,9 @@ services:
   # docker compose -f compose.pc.yaml up
   # in a web browser open: http://localhost:8080
   foxglove:
-    image: ghcr.io/foxglove/studio:latest
+    build:
+      context: .
+      dockerfile: foxglove.Dockerfile
     <<: [ *net-config ]
 
   rosbridge:
