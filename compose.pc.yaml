@@ -29,7 +29,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
-
   joy2twist:
     image: husarion/joy2twist:humble
     <<: *net-config
@@ -40,3 +39,19 @@ services:
     command: >
       ros2 launch joy2twist gamepad_controller.launch.py
         joy2twist_params_file:=/joy2twist.yaml
+
+  navigation:
+    image: husarion/navigation2:humble
+    <<: *net-config
+    # depends_on:
+    #   slam: { condition: service_healthy }
+    volumes:
+      - ./config/nav2_params.yaml:/nav2_params.yaml
+    environment:
+      - SLAM_MODE=${SLAM_MODE:-slam}
+    command: >
+      bash -c "
+        if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then 
+          ros2 launch nav2_bringup navigation_launch.py params_file:=/nav2_params.yaml use_sim_time:=False; 
+        fi
+      "

@@ -53,63 +53,41 @@ controller_server:
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
-      movement_time_allowance: 10.0
+      movement_time_allowance: 30.0
+
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.1
-      yaw_goal_tolerance: 0.15
+      yaw_goal_tolerance: 0.25
       stateful: True
-    # DWB parameters
-    FollowPath:
-      # Shim controller first rotates robot in place to orientation of global path
-      # and the switches to DWB - otherwise DWB won't turn in place, but with arc, which
-      # is less optimal
-      plugin: "nav2_rotation_shim_controller::RotationShimController"
-      primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.7 # quite low value to avoid moving in arc
-      forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 1.5
-      max_angular_accel: 4.0
-      simulate_ahead_time: 1.0
 
-      debug_trajectory_details: True
-      min_vel_x: 0.0
-      min_vel_y: 0.0
-      max_vel_x: 0.32
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: 0.007
-      max_speed_xy: 0.40
-      min_speed_theta: 0.0
-      acc_lim_x: 2.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 3.2
-      decel_lim_x: -2.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -3.2
-      vx_samples: 20
-      vy_samples: 5
-      vtheta_samples: 20
-      sim_time: 2.5
-      linear_granularity: 0.05
-      angular_granularity: 0.025
-      transform_tolerance: 1.0
-      xy_goal_tolerance: 0.1
-      trans_stopped_velocity: 0.25
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["BaseObstacle", "ObstacleFootprint", "GoalAlign", "GoalDist", "PathAlign", "PathDist", "RotateToGoal", "Oscillation"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      GoalAlign.scale: 24.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
+    # Nav2 Regulated Pure Pursuit Controller parameters  
+    FollowPath:
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+      desired_linear_vel: 0.5
+      max_linear_accel: 2.5
+      max_linear_decel: 2.5
+      lookahead_dist: 0.5
+      min_lookahead_dist: 0.3
+      max_lookahead_dist: 0.6
+      lookahead_time: 1.5
+      rotate_to_heading_angular_vel: 10.0
+      transform_tolerance: 0.1
+      use_velocity_scaled_lookahead_dist: false
+      min_approach_linear_velocity: 0.05
+      use_approach_linear_velocity_scaling: true
+      max_allowed_time_to_collision: 1.0
+      use_regulated_linear_velocity_scaling: true
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.9
+      regulated_linear_scaling_min_speed: 0.25
+      use_rotate_to_heading: true
+      rotate_to_heading_min_angle: 0.9
+      max_angular_accel: 5.0
+      cost_scaling_dist: 0.3
+      cost_scaling_gain: 1.0
+      inflation_cost_scaling_factor: 5.0
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -150,8 +128,8 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: True
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 2.0
+        inflation_radius: 1.0
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -169,7 +147,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
-      footprint: '[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]'
+      footprint: '[[0.08, 0.10], [0.08, -0.10], [-0.08, -0.10], [-0.08, 0.10]]'
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -189,8 +167,8 @@ global_costmap:
           obstacle_min_range: 0.0
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        cost_scaling_factor: 4.0
+        inflation_radius: 5.5
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -199,51 +177,18 @@ global_costmap:
     ros__parameters:
       use_sim_time: False
 
+# Nav2 Theta Star Planner parameters  
 planner_server:
   ros__parameters:
-    use_sim_time: False
+    expected_planner_frequency: 20.0
+    use_sim_time: True
     planner_plugins: ["GridBased"]
-
     GridBased:
-      plugin: "nav2_smac_planner/SmacPlanner2D"
-      tolerance: 0.125                  # tolerance for planning if unable to reach exact pose, in meters, for 2D node
-      downsample_costmap: false         # whether or not to downsample the map
-      downsampling_factor: 1            # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
-      allow_unknown: false              # allow traveling in unknown space
-      max_iterations: -1                # maximum total iterations to search for before failing
-      max_on_approach_iterations: 1000  # maximum number of iterations to attempt to reach goal once in tolerance, 2D only
-      max_planning_time: 2.0            # max time in s for planner to plan, smooth, and upsample. Will scale maximum smoothing and upsampling times based on remaining time after planning.
-      smooth_path: true                # Whether to smooth searched path
-      motion_model_for_search: "MOORE"  # 2D Moore, Von Neumann
-      angle_quantization_bins: 72       # For SE2 node: Number of angle bins for search, must be 1 for 2D node (no angle search)
-      minimum_turning_radius: 0.20      # For SE2 node & smoother: minimum turning radius in m of path / vehicle
-      reverse_penalty: 2.1              # For Reeds-Shepp model: penalty to apply if motion is reversing, must be => 1
-      change_penalty: 0.20              # For SE2 node: penalty to apply if motion is changing directions, must be >= 0
-      non_straight_penalty: 1.05        # For SE2 node: penalty to apply if motion is non-straight, must be => 1
-      cost_penalty: 1.3                 # For SE2 node: penalty to apply to higher cost zones
-
-      smoother:
-        smoother:
-          w_curve: 30.0                 # weight to minimize curvature of path
-          w_dist: 0.0                   # weight to bind path to original as optional replacement for cost weight
-          w_smooth: 30000.0             # weight to maximize smoothness of path
-          w_cost: 0.025                 # weight to steer robot away from collision and cost
-          cost_scaling_factor: 10.0     # this should match the inflation layer's parameter
-
-        # I do not recommend users mess with this unless they're doing production tuning
-        optimizer:
-          max_time: 0.10                # maximum compute time for smoother
-          max_iterations: 500           # max iterations of smoother
-          debug_optimizer: false        # print debug info
-          gradient_tol: 1.0e-10
-          fn_tol: 1.0e-20
-          param_tol: 1.0e-15
-          advanced:
-            min_line_search_step_size: 1.0e-20
-            max_num_line_search_step_size_iterations: 50
-            line_search_sufficient_function_decrease: 1.0e-20
-            max_num_line_search_direction_restarts: 10
-            max_line_search_step_expansion: 50
+      plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+      how_many_corners: 8
+      w_euc_cost: 1.0
+      w_traversal_cost: 10.0
+      w_heuristic_cost: 1.0
 
 planner_server_rclcpp_node:
   ros__parameters:
@@ -269,7 +214,7 @@ recoveries_server:
     robot_base_frame: base_link
     transform_timeout: 0.1
     use_sim_time: False
-    simulate_ahead_time: 2.0
+    simulate_ahead_time: 1.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
