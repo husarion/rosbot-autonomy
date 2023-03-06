@@ -180,7 +180,7 @@ global_costmap:
 # Nav2 Theta Star Planner parameters  
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 30.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
