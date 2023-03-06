@@ -68,7 +68,7 @@ LIDAR_BAUDRATE=256000
 
 The default options should be suitable.
 
-## Switching Between ***SLAM*** and **Localization Only** Mode
+## Switching Between **SLAM** and **Localization Only** Mode
 
 Pull the Docker images defined in `compose.yaml`:
 
