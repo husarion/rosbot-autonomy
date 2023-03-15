@@ -1,0 +1,303 @@
+{
+  "configById": {
+    "3D!11c37q2": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 9.75349958230284,
+        "phi": 1.4739569848990395,
+        "thetaOffset": 89.58546575067717,
+        "targetOffset": [
+          2.8611263945077345,
+          -0.35692762215180496,
+          -1.9422183595252963e-17
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "followTf": "map",
+      "scene": {
+        "transforms": {
+          "axisScale": 0.09999999999999969
+        }
+      },
+      "transforms": {
+        "frame:map": {
+          "visible": false
+        },
+        "frame:odom": {
+          "visible": false
+        },
+        "frame:base_link": {
+          "visible": false
+        },
+        "frame:body_link": {
+          "visible": false
+        },
+        "frame:camera_link": {
+          "visible": false
+        },
+        "frame:orbbec_astra_link": {
+          "visible": false
+        },
+        "frame:cover_link": {
+          "visible": false
+        },
+        "frame:depth": {
+          "visible": false
+        },
+        "frame:slamtec_rplidar_a2_link": {
+          "visible": false
+        },
+        "frame:laser": {
+          "visible": false
+        },
+        "frame:fl_range": {
+          "visible": false
+        },
+        "frame:fl_wheel_link": {
+          "visible": false
+        },
+        "frame:fr_range": {
+          "visible": false
+        },
+        "frame:fr_wheel_link": {
+          "visible": false
+        },
+        "frame:imu_link": {
+          "visible": false
+        },
+        "frame:rl_range": {
+          "visible": false
+        },
+        "frame:rl_wheel_link": {
+          "visible": false
+        },
+        "frame:rr_range": {
+          "visible": false
+        },
+        "frame:rr_wheel_link": {
+          "visible": false
+        }
+      },
+      "topics": {
+        "/map": {
+          "visible": true,
+          "frameLocked": false,
+          "maxColor": "#000000e0",
+          "minColor": "#ffffffd1",
+          "unknownColor": "#808080c9"
+        },
+        "/scan": {
+          "visible": true,
+          "colorField": "intensity",
+          "colorMode": "flat",
+          "colorMap": "turbo",
+          "flatColor": "#f35050",
+          "explicitAlpha": 1,
+          "pointSize": 7.536286759389032
+        },
+        "/slam_toolbox/scan_visualization": {
+          "visible": false
+        },
+        "/slam_toolbox/graph_visualization": {
+          "visible": true
+        },
+        "/amcl_pose": {
+          "visible": true,
+          "covarianceColor": "#cb6f8540"
+        },
+        "/local_costmap/costmap": {
+          "visible": true,
+          "minColor": "#fafafa00",
+          "maxColor": "#ff00e1",
+          "unknownColor": "#80808000"
+        },
+        "/global_costmap/costmap": {
+          "visible": true,
+          "maxColor": "#0000006b",
+          "minColor": "#ffffff78"
+        },
+        "/plan": {
+          "visible": true,
+          "lineWidth": 1.046619881101594
+        },
+        "/plan_smoothed": {
+          "visible": true,
+          "gradient": [
+            "#00ff3c",
+            "#00f919"
+          ],
+          "lineWidth": 1.0782714169950618,
+          "type": "line"
+        },
+        "/local_costmap/published_footprint": {
+          "visible": true,
+          "lineWidth": 0.007512289773726413,
+          "color": "#6bff76"
+        },
+        "/lookahead_collision_arc": {
+          "visible": false
+        },
+        "/goal_pose": {
+          "visible": false
+        },
+        "/initialpose": {
+          "visible": false
+        },
+        "/set_pose": {
+          "visible": false
+        }
+      },
+      "layers": {
+        "a95f1751-2bc8-4e4e-96c5-b15909559539": {
+          "visible": true,
+          "frameLocked": true,
+          "label": "URDF",
+          "instanceId": "a95f1751-2bc8-4e4e-96c5-b15909559539",
+          "layerId": "foxglove.Urdf",
+          "url": "http://{{.Host}}:{{env "FOXGLOVE_PORT"}}/rosbot.urdf",
+          "order": 1
+        },
+        "f68b8531-3576-4806-a7b4-42acebafd550": {
+          "visible": true,
+          "frameLocked": true,
+          "label": "Grid",
+          "instanceId": "f68b8531-3576-4806-a7b4-42acebafd550",
+          "layerId": "foxglove.Grid",
+          "size": 10,
+          "divisions": 10,
+          "lineWidth": 1,
+          "color": "#248eff",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "order": 2
+        }
+      },
+      "publish": {
+        "type": "pose",
+        "poseTopic": "/goal_pose",
+        "pointTopic": "/goal_poe",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      }
+    },
+    "DiagnosticSummary!i9962z": {
+      "minLevel": 0,
+      "pinnedIds": [],
+      "hardwareIdFilter": "",
+      "topicToRender": "/diagnostics",
+      "sortByLevel": false
+    },
+    "DiagnosticStatusPanel!1ct59b3": {
+      "topicToRender": "/diagnostics",
+      "selectedHardwareId": "none",
+      "selectedName": "ekf_filter_node: Filter diagnostic updater",
+      "collapsedSections": []
+    },
+    "Teleop!jo9z4f": {
+      "publishRate": 10,
+      "upButton": {
+        "field": "linear-x",
+        "value": 0.2
+      },
+      "downButton": {
+        "field": "linear-x",
+        "value": -0.2
+      },
+      "leftButton": {
+        "field": "angular-z",
+        "value": 1
+      },
+      "rightButton": {
+        "field": "angular-z",
+        "value": -1
+      },
+      "topic": "/cmd_vel"
+    },
+    "Gauge!35smwvj": {
+      "path": "/battery.voltage",
+      "minValue": 8,
+      "maxValue": 12.5,
+      "colorMap": "turbo",
+      "colorMode": "colormap",
+      "gradient": [
+        "#0000ff",
+        "#ff00ff"
+      ],
+      "reverse": false,
+      "foxglovePanelTitle": "Battery"
+    },
+    "Plot!n3omhv": {
+      "paths": [
+        {
+          "value": "/battery.voltage",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "minYValue": 8,
+      "maxYValue": 13,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": true,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240,
+      "foxglovePanelTitle": "Plot"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": "3D!11c37q2",
+    "second": {
+      "first": {
+        "direction": "column",
+        "second": "Gauge!35smwvj",
+        "first": {
+          "first": {
+            "direction": "row",
+            "second": "DiagnosticStatusPanel!1ct59b3",
+            "first": "DiagnosticSummary!i9962z"
+          },
+          "second": "Teleop!jo9z4f",
+          "direction": "column"
+        },
+        "splitPercentage": 57.31092436974791
+      },
+      "second": "Plot!n3omhv",
+      "direction": "column",
+      "splitPercentage": 77.72697583278902
+    },
+    "splitPercentage": 57.59773442153554
+  }
+}

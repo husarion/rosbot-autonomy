@@ -7,7 +7,7 @@ x-net-config:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble
+    image: husarion/rosbot:humble-nightly
     <<: *net-config
     command: ros2 launch rosbot_bringup bringup.launch.py
 
@@ -40,3 +40,20 @@ services:
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
+
+  foxglove:
+    image: husarion/foxglove:humble-nightly
+    ports:
+      - 8080:8080
+    volumes:
+      - ./config/layout.json:/src/FoxgloveDefaultLayout.json
+    environment:
+      - FOXGLOVE_PORT=8080
+      - ROSBRIDGE_PORT=9090
+
+  rosbridge:
+    image: husarion/rosbridge:humble-nightly
+    <<: *net-config
+    ports:
+      - 9090:9090
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
