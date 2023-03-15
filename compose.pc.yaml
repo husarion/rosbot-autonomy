@@ -48,6 +48,6 @@ services:
     environment:
       - SLAM_MODE=${SLAM_MODE:-slam}
     command: >
-      ros2 launch nav2_bringup navigation_launch.py
-        params_file:=/nav2_params.yaml
+      ros2 launch nav2_bringup navigation_launch.py 
+        params_file:=/nav2_params.yaml 
         use_sim_time:=False;

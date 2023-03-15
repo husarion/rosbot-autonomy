@@ -54,9 +54,9 @@ services:
       - SLAM_MODE=${SLAM_MODE:-slam}
     command: >
       bash -c "
-        if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then
-          ros2 launch nav2_bringup navigation_launch.py
-          params_file:=/nav2_params.yaml
-          use_sim_time:=True;
+        if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then 
+          ros2 launch nav2_bringup navigation_launch.py 
+          params_file:=/nav2_params.yaml 
+          use_sim_time:=True; 
         fi
       "
