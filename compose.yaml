@@ -40,21 +40,3 @@ services:
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
-
-  navigation:
-    image: husarion/navigation2:humble
-    <<: *net-config
-    depends_on:
-      slam: { condition: service_healthy }
-    volumes:
-      - ./config/nav2_params.yaml:/nav2_params.yaml
-    environment:
-      - SLAM_MODE=${SLAM_MODE:-slam}
-    command: >
-      bash -c "
-        if [[ \"\$SLAM_MODE\" == \"localization\" ]]; then 
-          ros2 launch nav2_bringup navigation_launch.py 
-          params_file:=/nav2_params.yaml 
-          use_sim_time:=False; 
-        fi
-      "

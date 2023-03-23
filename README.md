@@ -83,13 +83,22 @@ To launch the mapping mode with manual control on the ROSbot, run:
 ```bash
 SLAM_MODE=slam docker compose up -d
 ```
+To visualize the map run this part on your **PC**:
+```bash
+xhost +local:docker && \
+docker compose -f compose.pc.yaml up
+```
 
 ### Localization & navigation
 
-To allow the ROSbot to navigate autonomously on a previously created map, run:
+To allow the ROSbot to localize on a previously created map using AMCL, run:
 
 ```bash
 SLAM_MODE=localization docker compose up -d
+```
+To run the navigation stack, run on your **PC**:
+```bash
+docker compose -f compose.pc.yaml run navigation
 ```
 
 > **Note:** You do not need to stop the containers to switch between modes.
@@ -99,16 +108,6 @@ SLAM_MODE=localization docker compose up -d
 ```bash
 docker compose down
 ```
-
-## PC
-
-To visualize the map and control the rebot, launch this part on your PC:
-
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up
-```
-
 ## Simulation (webots)
 
 > **Prerequisites**
