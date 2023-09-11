@@ -1,27 +1,27 @@
-# rosbot-slam
+# rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it.
+A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from Rviz.
 
-## Clonning the repo
+## Repository Setup
 
-This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+This repository contains the Docker Compose setup for both PC and ROSbot 2R/PRO. You can clone it to both PC and ROSbot 2R/PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
-git clone https://github.com/husarion/rosbot-slam
-cd rosbot-slam 
+git clone https://github.com/husarion/rosbot-autonomy
+cd rosbot-autonomy
 export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet hostname
 ./sync_with_rosbot.sh $ROSBOT_ADDR
 ```
 
-## Flashing the ROSbot Firmware
+## Flashing the ROSbot's Firmware
 
-Execute in the ROSbot's shell:
+To flash the Micro-ROS based firmware for STM32F4 microcontroller responisble for low-level functionalities of ROSbot 2R/PRO, execute in the ROSbot's shell:
 
 ```bash
 docker stop rosbot microros || true && docker run \
 --rm -it --privileged \
-husarion/rosbot:humble \
-/flash-firmware.py /root/firmware.bin
+husarion/rosbot:humble-0.6.1-20230712 \
+flash-firmware.py /root/firmware.bin
 ```
 
 ## Choosing the Network (DDS) Config
@@ -34,10 +34,10 @@ Edit `net.env` file and uncomment on of the configs:
 # =======================================
 
 # 1. Fast DDS + LAN
-RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+# RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 # 2. Cyclone DDS + LAN
-# RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # 3. Fast DDS + VPN
 # RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -45,10 +45,23 @@ RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 # 4. Cyclone DDS + VPN
 # RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+# FASTRTPS_DEFAULT_PROFILES_FILE=/husarnet-fastdds.xml
 # CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml
+
+# =======================================
+# Setup ROS_DOMAIN_ID for all containers
+# =======================================
+
+ROS_DOMAIN_ID=123
 ```
 
-If you choose to use the VPN option, both your ROSbot and laptop must be connected to the same Husarnet network. Follow the guide [here](https://husarion.com/manuals/rosbot/remote-access/).
+> **VPN connection**
+>
+> If you choose to use the VPN option, both your ROSbot 2R/PRO and laptop must be connected to the same Husarnet network.
+>
+> If they are not, follow this guide:
+>
+> [Connecting ROSbot and Laptop over the Internet (VPN)](https://husarion.com/software/os/remote-access/).
 
 ## Verifying Hardware Configuration
 
@@ -58,7 +71,6 @@ To ensure proper hardware configuration, review the content of the `.env` file a
 # =======================================
 # Hardware config
 # =======================================
-LIDAR_SERIAL=/dev/ttyUSB0
 
 # for RPLIDAR A2M8 (red circle around the sensor):
 # LIDAR_BAUDRATE=115200
@@ -68,7 +80,9 @@ LIDAR_BAUDRATE=256000
 
 The default options should be suitable.
 
-## Switching Between **SLAM** and **Localization Only** Mode
+## I. Running on a Physical Robot
+
+### ROSbot 2R/PRO
 
 Pull the Docker images defined in `compose.yaml`:
 
@@ -76,29 +90,20 @@ Pull the Docker images defined in `compose.yaml`:
 docker compose pull
 ```
 
-### SLAM Mode
+#### Option 1: SLAM Mode
 
-To launch the mapping mode with manual control on the ROSbot, run:
+To start a mapping mode
 
 ```bash
 SLAM_MODE=slam docker compose up -d
 ```
-To visualize the map run this part on your **PC**:
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up
-```
 
-### Localization & navigation
+#### Option 2: Localization Mode
 
-To allow the ROSbot to localize on a previously created map using AMCL, run:
+To allow the ROSbot 2R/PRO to localize on a previously created map using AMCL, run:
 
 ```bash
 SLAM_MODE=localization docker compose up -d
-```
-To run the navigation stack, run on your **PC**:
-```bash
-docker compose -f compose.pc.yaml run navigation
 ```
 
 > **Note:** You do not need to stop the containers to switch between modes.
@@ -108,27 +113,42 @@ docker compose -f compose.pc.yaml run navigation
 ```bash
 docker compose down
 ```
-## Simulation (webots)
+
+### PC
+
+To initiate a user interface and navigation stack based on Rviz, execute these commands on your PC:
+
+```bash
+xhost +local:docker && \
+docker compose -f compose.pc.yaml up
+```
+
+To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in rviz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in Rviz to inform the robot of its location on the map.
+
+-----------
+
+## II. Simulation
 
 > **Prerequisites**
 >
-> The `compose.sim.webots.yaml` file uses NVIDIA Container Runtime. Make sure you have NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+> The `compose.sim.gazebo.yaml` and `compose.sim.webots.yaml` files use NVIDIA Container Runtime. Make sure you have NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+
+### Gazebo
 
 Start the containers in a new terminal:
 
 ```bash
 xhost +local:docker && \
-SLAM_MODE=slam docker compose -f compose.sim.webots.yaml up -d
+SLAM_MODE=slam docker compose -f compose.sim.gazebo.yaml up
 ```
 
-And in the second terminal start `telop-twist-keyboard` for manual ROSbot 2R control:
+### Webots
+
+Start the containers in a new terminal:
 
 ```bash
-docker exec -it rviz bash
+xhost +local:docker && \
+SLAM_MODE=slam docker compose -f compose.sim.webots.yaml up
 ```
 
-And inside the running container shell execute:
-
-```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
+To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in rviz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in Rviz to inform the robot of its location on the map.

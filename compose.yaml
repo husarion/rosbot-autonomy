@@ -7,26 +7,40 @@ x-net-config:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble
+    image: husarion/rosbot:humble-0.6.1-20230712
     <<: *net-config
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
-    image: husarion/micro-ros-agent:humble
+    image: husarion/micro-xrce-agent:v2.4.1
+    container_name: microros
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
-    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
+    environment: #only two envs are valid for micro-xrce-agent
+      - FASTRTPS_DEFAULT_PROFILES_FILE            # ***
+      - XRCE_DOMAIN_ID_OVERRIDE=${ROS_DOMAIN_ID:-}  # ***
+    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble-nightly
+    image: husarion/rplidar:humble
     <<: *net-config
     devices:
-      - ${LIDAR_SERIAL:?err}:/dev/ttyUSB0
+      - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
+  navigation:
+    image: husarion/navigation2:humble-1.1.8-20230809
+    <<: *net-config
+    volumes:
+      - ./config/nav2_params.yaml:/params.yaml
+    command: >
+      ros2 launch nav2_bringup navigation_launch.py
+        params_file:=/params.yaml
+        use_sim_time:=False;
+
   slam:
-    image: husarion/navigation2:humble
+    image: husarion/navigation2:humble-1.1.8-20230809
     <<: *net-config
     depends_on:
       rplidar: { condition: service_healthy }
