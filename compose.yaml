@@ -13,7 +13,6 @@ services:
 
   microros:
     image: husarion/micro-xrce-agent:v2.4.1
-    container_name: microros
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
