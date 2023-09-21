@@ -22,7 +22,7 @@ services:
     command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble
+    image: husarion/rplidar:humble-1.0.1-20230427
     <<: *net-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
