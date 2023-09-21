@@ -1,10 +1,10 @@
 # rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from Rviz.
+A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz.
 
 ## Repository Setup
 
-This repository contains the Docker Compose setup for both PC and ROSbot 2R/PRO. You can clone it to both PC and ROSbot 2R/PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
 git clone https://github.com/husarion/rosbot-autonomy
@@ -15,7 +15,7 @@ export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet h
 
 ## Flashing the ROSbot's Firmware
 
-To flash the Micro-ROS based firmware for STM32F4 microcontroller responisble for low-level functionalities of ROSbot 2R/PRO, execute in the ROSbot's shell:
+To flash the Micro-ROS based firmware for STM32F4 microcontroller responisble for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
 ```bash
 docker stop rosbot microros || true && docker run \
@@ -82,7 +82,7 @@ The default options should be suitable.
 
 ## I. Running on a Physical Robot
 
-### ROSbot 2R/PRO
+### ROSbot 2, 2R and 2 PRO 
 
 Pull the Docker images defined in `compose.yaml`:
 
@@ -100,13 +100,14 @@ SLAM_MODE=slam docker compose up -d
 
 #### Option 2: Localization Mode
 
-To allow the ROSbot 2R/PRO to localize on a previously created map using AMCL, run:
+To allow the ROSbot 2, 2R and 2 PRO to localize on a previously created map using AMCL, run:
 
 ```bash
 SLAM_MODE=localization docker compose up -d
 ```
 
-> **Note:** You do not need to stop the containers to switch between modes.
+> [!NOTE]
+> You do not need to stop the containers to switch between modes.
 
 ### Stopping the Containers
 
