@@ -58,7 +58,8 @@ docker compose pull
 docker compose up -d
 ```
 
-> **Note:** You need to restart containers to switch between modes. Use following command to stop container: `docker compose down`.
+> [!NOTE]
+> You need to restart containers to switch between modes. Use following command to stop container: `docker compose down`.
 
 ### PC
 
