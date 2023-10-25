@@ -1,8 +1,10 @@
-x-net-config:
-  &net-config
+x-common-config:
+  &common-config
   network_mode: host
   ipc: host
-  env_file: net.env
+  env_file:
+   - .env
+   - net.env
 
 services:
 
@@ -30,7 +32,7 @@ services:
 
   slam:
     image: husarion/navigation2:humble-1.1.8-20230809
-    <<: *net-config
+    <<: *common-config
     depends_on:
       rplidar: { condition: service_healthy }
     volumes:
@@ -46,7 +48,7 @@ services:
 
   navigation:
     image: husarion/navigation2:humble-1.1.8-20230809
-    <<: *net-config
+    <<: *common-config
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
     command: >

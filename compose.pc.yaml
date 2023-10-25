@@ -1,8 +1,10 @@
-x-net-config:
-  &net-config
+x-common-config:
+  &common-config
   network_mode: host
   ipc: host
-  env_file: net.env
+  env_file:
+   - .env
+   - net.env
 
 x-gpu-config:
   &gpu-config
@@ -24,8 +26,7 @@ services:
   # "cpu-config" with "gpu-config"
   rviz:
     image: husarion/rviz2:humble-11.2.6-20230809
-    <<: [ *net-config, *cpu-config ]
+    <<: [ *common-config, *cpu-config ]
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
-
