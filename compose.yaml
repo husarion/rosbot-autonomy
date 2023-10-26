@@ -13,7 +13,7 @@ services:
 
   microros:
     image: husarion/micro-ros-agent:humble-3.1.3-20231013-stable
-    <<: *common-config
+    <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
