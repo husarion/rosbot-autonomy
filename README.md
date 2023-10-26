@@ -51,7 +51,7 @@ Edit `net.env` file and uncomment on of the configs:
 
 ### ROSbot 2, 2R and 2 PRO
 
-Run Docker images defined in `compose.yaml`:
+Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
 
 ```bash
 docker compose pull

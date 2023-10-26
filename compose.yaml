@@ -12,14 +12,11 @@ services:
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
 
   microros:
-    image: husarion/micro-xrce-agent:v2.4.1
-    <<: *net-config
+    image: husarion/micro-ros-agent:humble-3.1.3-20231013-stable
+    <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
-    environment: #only two envs are valid for micro-xrce-agent
-      - FASTRTPS_DEFAULT_PROFILES_FILE            # ***
-      - XRCE_DOMAIN_ID_OVERRIDE=${ROS_DOMAIN_ID:-}  # ***
-    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000 # -v6
+    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
     image: husarion/rplidar:humble-1.0.1-20230427
