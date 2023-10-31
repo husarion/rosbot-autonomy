@@ -20,7 +20,7 @@ To flash the Micro-ROS based firmware for STM32F4 microcontroller responisble fo
 ```bash
 docker stop rosbot microros || true && docker run \
 --rm -it --privileged \
-husarion/rosbot:humble-0.6.1-20230712 \
+husarion/rosbot:humble-0.8.4-20230921-stable \
 flash-firmware.py /root/firmware.bin
 ```
 

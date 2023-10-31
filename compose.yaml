@@ -7,7 +7,7 @@ x-net-config:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.6.1-20230712
+    image: husarion/rosbot:humble-0.8.4-20230921-stable
     <<: *net-config
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
 
@@ -19,7 +19,7 @@ services:
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20230427
+    image: husarion/rplidar:humble-1.0.1-20230629-stable
     <<: *net-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
