@@ -23,31 +23,19 @@ services:
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
   rviz:
-    image: husarion/rviz2:galactic
+    image: husarion/rviz2:humble-11.2.6-20230809
     <<: [ *net-config, *cpu-config ]
-    container_name: rviz
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
-  joy2twist:
-    image: husarion/joy2twist:humble
-    <<: *net-config
-    devices:
-      - /dev/input
-    volumes:
-      - ./config/joy2twist.yaml:/joy2twist.yaml
-    command: >
-      ros2 launch joy2twist gamepad_controller.launch.py
-        joy2twist_params_file:=/joy2twist.yaml
 
+  # The navigation is run on a PC due to the higher demand for computing power
   navigation:
-    image: husarion/navigation2:humble
+    image: husarion/navigation2:humble-1.1.8-20230809
     <<: *net-config
     volumes:
-      - ./config/nav2_params.yaml:/nav2_params.yaml
-    environment:
-      - SLAM_MODE=${SLAM_MODE:-slam}
+      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
     command: >
-      ros2 launch nav2_bringup navigation_launch.py 
-        params_file:=/nav2_params.yaml 
-        use_sim_time:=False;
+      ros2 launch nav2_bringup navigation_launch.py
+        params_file:=/params.yaml
+        use_sim_time:=False
