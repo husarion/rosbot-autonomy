@@ -18,17 +18,17 @@ services:
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      - LOCAL_TRANSPORT=builtin
+      - LOCAL_TRANSPORT=shm
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
-      - ROS_LOCALHOST_ONLY
 
   rosbot:
     image: husarion/rosbot:humble-add_healthcheck
     <<: *net-config
+    volumes:
+      - ./localhost-shm-only.xml:/localhost-shm-only.xml
     environment:
-      - ROS_LOCALHOST_ONLY
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
 
   microros:
@@ -36,27 +36,30 @@ services:
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
+    volumes:
+      - ./localhost-shm-only.xml:/localhost-shm-only.xml
     environment:
-      - ROS_LOCALHOST_ONLY
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5' # Limit to 25% of a CPU
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5' # Limit to 25% of a CPU
 
   rplidar:
     image: husarion/rplidar:humble-healthcheck_cpp
     <<: *net-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
+    volumes:
+      - ./localhost-shm-only.xml:/localhost-shm-only.xml
     environment:
-      - ROS_LOCALHOST_ONLY
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5' # Limit to 25% of a CPU
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5' # Limit to 25% of a CPU
 
   slam:
     image: husarion/navigation2:humble-add_healthcheck
@@ -66,11 +69,10 @@ services:
       rosbot: { condition: service_healthy }
     volumes:
       - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
-      - ./maps:/maps
+      - ./localhost-shm-only.xml:/localhost-shm-only.xml
     environment:
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
       - SLAM_MODE=${SLAM_MODE:-slam}
-      - ROS_LOCALHOST_ONLY
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: >
       ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
         params_file:=/params.yaml
@@ -84,9 +86,9 @@ services:
       slam: { condition: service_healthy }
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
+      - ./localhost-shm-only.xml:/localhost-shm-only.xml
     environment:
-      - ROS_LOCALHOST_ONLY
-      # - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
     command: >
       ros2 launch nav2_bringup navigation_launch.py
         params_file:=/params.yaml
