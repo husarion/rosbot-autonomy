@@ -2,6 +2,12 @@ x-net-config:
   &net-config
   network_mode: host
   ipc: host
+  healthcheck:
+    test: ["CMD", "sh", "-c", "exit 0"]
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 10s
 
 services:
 
@@ -33,6 +39,10 @@ services:
     environment:
       - ROS_LOCALHOST_ONLY
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' # Limit to 25% of a CPU
 
   rplidar:
     image: husarion/rplidar:humble-healthcheck_cpp
@@ -43,6 +53,10 @@ services:
       - ROS_LOCALHOST_ONLY
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' # Limit to 25% of a CPU
 
   slam:
     image: husarion/navigation2:humble-add_healthcheck
@@ -57,12 +71,6 @@ services:
       - SLAM_MODE=${SLAM_MODE:-slam}
       - ROS_LOCALHOST_ONLY
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    healthcheck:
-      test: ["CMD", "sh", "-c", "exit 0"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
     command: >
       ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
         params_file:=/params.yaml
