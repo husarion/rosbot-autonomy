@@ -36,21 +36,25 @@ services:
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
   rviz:
-    image: husarion/rviz2:humble-11.2.6-20230809
+    # image: husarion/rviz2:humble-11.2.6-20230809
+    image: husarion/rviz2:galactic-nightly
     <<: [ *net-config, *cpu-config ]
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
       - ./localhost-shm-only.xml:/localhost-shm-only.xml
 
-  # # The navigation is run on a PC due to the higher demand for computing power
+  # # # The navigation is run on a PC due to the higher demand for computing power
   # navigation:
-  #   image: husarion/navigation2:humble-1.1.8-20230809
+  #   # image: husarion/navigation2:humble-1.1.8-20230809
+  #   image: husarion/navigation2:humble-add_healthcheck
   #   <<: *net-config
   #   volumes:
   #     - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
+  #     - ./localhost-shm-only.xml:/localhost-shm-only.xml
   #   environment:
-  #     - ROS_LOCALHOST_ONLY=1
+  #     # - ROS_LOCALHOST_ONLY=1
+  #     - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
   #   command: >
   #     ros2 launch nav2_bringup navigation_launch.py
   #       params_file:=/params.yaml
