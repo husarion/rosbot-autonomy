@@ -31,7 +31,7 @@ services:
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
 
   microros:
-    image: husarion/micro-ros-agent:humble-3.1.3-20231117
+    image: husarion/micro-ros-agent:humble-nightly
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
