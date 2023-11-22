@@ -198,11 +198,11 @@ builtin-topics:
     qos:
       reliability: true
       durability: false
-  - name: "rt/parameter_events"
-    type: "rcl_interfaces::msg::dds_::ParameterEvent_"
-    qos:
-      reliability: false
-      durability: false
+  # - name: "rt/parameter_events"
+  #   type: "rcl_interfaces::msg::dds_::ParameterEvent_"
+  #   qos:
+  #     reliability: false
+  #     durability: false
   - name: "rt/planner_server/transition_event"
     type: "lifecycle_msgs::msg::dds_::TransitionEvent_"
     qos:
