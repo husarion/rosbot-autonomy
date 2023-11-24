@@ -1,19 +1,13 @@
-# This is the second param file for the slam_toolbox. The difference between this and the slam_toolbox_params.yaml is the use_scan_matching param which
-# is set to false. Webots has a bugged lidar parser to the LidarScan message type that's why the map is building incorrectly. It looks like every frame
-# of map is rotating about the center of the robot. Summing up there is no robot position correction during mapping.
-
-# Follow the issue:
-# https://github.com/cyberbotics/webots/issues/5540
-
 slam_toolbox:
   ros__parameters:
+
     # Plugin params
     solver_plugin: solver_plugins::CeresSolver
     ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
     ceres_preconditioner: SCHUR_JACOBI
     ceres_trust_strategy: LEVENBERG_MARQUARDT
     ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None #HuberLoss
+    ceres_loss_function: None
 
     # ROS Parameters
     odom_frame: odom
@@ -25,7 +19,7 @@ slam_toolbox:
     debug_logging: false
     throttle_scans: 1
     transform_publish_period: 0.04
-    map_update_interval: 1.0
+    map_update_interval: 3.0
     resolution: 0.04
     max_laser_range: 12.0 #for rastering images
     minimum_time_interval: 0.05

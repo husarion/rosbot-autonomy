@@ -18,12 +18,12 @@ slam_toolbox:
 
     debug_logging: false
     throttle_scans: 1
-    transform_publish_period: 0.02
-    map_update_interval: 5.0
+    transform_publish_period: 0.04
+    map_update_interval: 3.0
     resolution: 0.04
     max_laser_range: 12.0 #for rastering images
     minimum_time_interval: 0.05
-    transform_timeout: 0.05
+    transform_timeout: 0.1
     tf_buffer_duration: 20.0
     stack_size_to_use: 40000000 #// program needs a larger stack size to serialize large maps
     enable_interactive_mode: false
@@ -58,9 +58,9 @@ slam_toolbox:
     distance_variance_penalty: 0.5
     angle_variance_penalty: 1.0
 
-    fine_search_angle_offset: 0.003
-    coarse_search_angle_offset: 0.3
-    coarse_angle_resolution: 0.03
-    minimum_angle_penalty: 0.8
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.349
+    coarse_angle_resolution: 0.0349
+    minimum_angle_penalty: 0.9
     minimum_distance_penalty: 0.5
     use_response_expansion: true
