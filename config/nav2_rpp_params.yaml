@@ -49,7 +49,7 @@ controller_server:
   ros__parameters:
     use_sim_time: False
 
-    controller_frequency: 10.0
+    controller_frequency: 5.0
 
     # if velocity is below threshold value it is set to 0
     min_x_velocity_threshold: 0.01    # Measured
@@ -74,15 +74,15 @@ controller_server:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
 
       # Velocity/accelaration limits also have to be adjusted in the velocity smoother
-      desired_linear_vel: 0.5
-      lookahead_dist: 0.6
+      desired_linear_vel: 0.4
+      lookahead_dist: 0.5
       transform_tolerance: 0.1
 
       # Adaptive lookahead gain
       use_velocity_scaled_lookahead_dist: True
       lookahead_time: 1.5
-      min_lookahead_dist: 0.25
-      max_lookahead_dist: 0.75
+      min_lookahead_dist: 0.3
+      max_lookahead_dist: 0.6
 
       # Approach to goal
       min_approach_linear_velocity: 0.15
@@ -139,12 +139,9 @@ local_costmap:
       rolling_window: True
 
       footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
+      footprint_padding: 0.03
 
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        enabled: True
-        map_subscribe_transient_local: True # QoS setting; durability policy transient local, combined with any depth, provides functionality similar to that of latching publishers
+      plugins: ["obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -189,6 +186,7 @@ global_costmap:
       track_unknown_space: True # if False, treats unknown space as free space, else as unknown space
 
       footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
+      footprint_padding: 0.03
 
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       static_layer:
@@ -225,6 +223,7 @@ global_costmap:
 planner_server:
   ros__parameters:
     use_sim_time: False
+    expected_planner_frequency: 2.0
 
     planner_plugins: ["GridBased"]
     GridBased:
