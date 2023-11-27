@@ -116,7 +116,7 @@ controller_server:
       decel_lim_y: 0.0
       decel_lim_theta: -3.2
       vx_samples: 20
-      vy_samples: 5
+      vy_samples: 1
       vtheta_samples: 20
       sim_time: 1.5
       linear_granularity: 0.05
@@ -133,9 +133,9 @@ controller_server:
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
       PathDist.scale: 32.0
-      GoalDist.scale: 24.0
+      GoalDist.scale: 12.0
       RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 2.0
+      RotateToGoal.slowing_factor: 1.3
       RotateToGoal.lookahead_time: -1.0
 
 local_costmap:
@@ -147,8 +147,8 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: true
-      width: 3
-      height: 3
+      width: 2
+      height: 2
       resolution: 0.04
       robot_radius: 0.16
       plugins: ["obstacle_layer", "inflation_layer"]
