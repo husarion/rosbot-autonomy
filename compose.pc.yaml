@@ -2,7 +2,7 @@ x-net-config:
   &net-config
   network_mode: host
   ipc: host
-  env_file: net.env
+  # network_mode: bridge
 
 x-gpu-config:
   &gpu-config
@@ -11,31 +11,64 @@ x-gpu-config:
     - DISPLAY=${DISPLAY:?err}
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
 x-cpu-config:
   &cpu-config
   environment:
     - DISPLAY=${DISPLAY:?err}
     - LIBGL_ALWAYS_SOFTWARE=1
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
 services:
 
-  # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
-  # "cpu-config" with "gpu-config"
   rviz:
-    image: husarion/rviz2:humble-11.2.6-20230809
-    <<: [ *net-config, *cpu-config ]
+    image: husarion/rviz2:iron-nightly
+    # image: husarion/rviz2:galactic-nightly
+    network_mode: host
+    ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
+    environment:
+      - DISPLAY=${DISPLAY:?err}
+      - LIBGL_ALWAYS_SOFTWARE=1
+      - ROS_DISCOVERY_SERVER=rosbot2r:11811
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
-  # The navigation is run on a PC due to the higher demand for computing power
-  navigation:
-    image: husarion/navigation2:humble-1.1.8-20230809
-    <<: *net-config
-    volumes:
-      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
-    command: >
-      ros2 launch nav2_bringup navigation_launch.py
-        params_file:=/params.yaml
-        use_sim_time:=False
+  # ros2router:
+  #   image: husarnet/ros2router:1.3.0
+  #   network_mode: host
+  #   ipc: host
+  #   volumes:
+  #     - ./filter.yaml:/filter.yaml
+  #   environment:
+  #     - LOCAL_TRANSPORT=shm
+  #     - ROS_DISCOVERY_SERVER=rosbot2r:11811
+  #     - DISCOVERY_SERVER_ID=10
+
+  # # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
+  # # "cpu-config" with "gpu-config"
+  # rviz:
+  #   image: husarion/rviz2:humble-nightly
+  #   # image: husarion/rviz2:galactic-nightly
+  #   <<: [ *net-config, *cpu-config ]
+  #   volumes:
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #     - ./config/rosbot.rviz:/root/.rviz2/default.rviz
+
+  # # # The navigation is run on a PC due to the higher demand for computing power
+  # navigation:
+  #   # image: husarion/navigation2:humble-1.1.8-20230809
+  #   image: husarion/navigation2:humble-add_healthcheck
+  #   <<: *net-config
+  #   volumes:
+  #     - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
+  #     - ./localhost-shm-only.xml:/localhost-shm-only.xml
+  #   environment:
+  #     # - ROS_LOCALHOST_ONLY=1
+  #     - FASTRTPS_DEFAULT_PROFILES_FILE=/localhost-shm-only.xml
+  #   command: >
+  #     ros2 launch nav2_bringup navigation_launch.py
+  #       params_file:=/params.yaml
+  #       use_sim_time:=False

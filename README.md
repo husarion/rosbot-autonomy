@@ -18,10 +18,7 @@ export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet h
 To flash the Micro-ROS based firmware for STM32F4 microcontroller responisble for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
 ```bash
-docker stop rosbot microros || true && docker run \
---rm -it --privileged \
-husarion/rosbot:humble-0.8.4-20230921-stable \
-flash-firmware.py /root/firmware.bin
+./flash_firmware.sh
 ```
 
 ## Verifying User Configuration
