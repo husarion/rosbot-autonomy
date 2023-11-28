@@ -4,11 +4,14 @@ allowlist:
   - name: "rt/clicked_point"
   - name: "rt/goal_pose"
   - name: "rt/initialpose"
+  - name: "rt/global_costmap/costmap"
+  - name: "rt/global_costmap/costmap_updates"
   - name: "rt/local_costmap/costmap"
   - name: "rt/local_costmap/costmap_updates"
   - name: "rt/local_costmap/published_footprint"
   - name: "rt/local_plan"
   - name: "rt/map_updates"
+  - name: "rt/unsmoothed_plan"
   - name: "rt/plan"
   # - name: "rt/waypoints"
   # - name: "rt/behavior_server/transition_event"
@@ -40,6 +43,11 @@ allowlist:
   - name: "rt/tf_static"
   # - name: "rt/velocity_smoother/transition_event"
   # - name: "rt/waypoint_follower/transition_event"
+  - name: "rt/marker"
+  - name: "rt/received_global_plan"
+  - name: "rt/lookahead_collision_arc"
+  - name: "rt/lookahead_point"
+
 
 blocklist: []
 builtin-topics:
@@ -55,6 +63,16 @@ builtin-topics:
       durability: false # false true
   - name: "rt/initialpose"
     type: "geometry_msgs::msg::dds_::PoseWithCovarianceStamped_"
+    qos:
+      reliability: true
+      durability: false
+  - name: "rt/global_costmap/costmap"
+    type: "nav_msgs::msg::dds_::OccupancyGrid_"
+    qos:
+      reliability: true
+      durability: false
+  - name: "rt/global_costmap/costmap_updates"
+    type: "map_msgs::msg::dds_::OccupancyGridUpdate_"
     qos:
       reliability: true
       durability: false
