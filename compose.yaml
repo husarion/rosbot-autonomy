@@ -2,13 +2,6 @@ x-net-config:
   &net-config
   network_mode: host
   ipc: host
-  # shm_size: '4gb'
-  # healthcheck:
-  #   test: ["CMD", "sh", "-c", "exit 0"]
-  #   interval: 30s
-  #   timeout: 10s
-  #   retries: 3
-  #   start_period: 10s
 
 services:
 
@@ -38,10 +31,6 @@ services:
     environment:
       - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '0.5' # Limit to 25% of a CPU
 
   rplidar:
     image: husarion/rplidar:humble-healthcheck_cpp
