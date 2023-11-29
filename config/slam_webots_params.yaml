@@ -1,50 +1,54 @@
-# This is the second param file for the slam_toolbox. The difference between this and the slam_toolbox_params.yaml is the use_scan_matching param which
-# is set to false. Webots has a bugged lidar parser to the LidarScan message type that's why the map is building incorrectly. It looks like every frame
-# of map is rotating about the center of the robot. Summing up there is no robot position correction during mapping.
-
-# Follow the issue:
-# https://github.com/cyberbotics/webots/issues/5540
-
 slam_toolbox:
   ros__parameters:
+
     # Plugin params
     solver_plugin: solver_plugins::CeresSolver
     ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
     ceres_preconditioner: SCHUR_JACOBI
     ceres_trust_strategy: LEVENBERG_MARQUARDT
     ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None #HuberLoss
+    ceres_loss_function: None
 
     # ROS Parameters
     odom_frame: odom
     map_frame: map
     base_frame: base_link
     scan_topic: /scan
+    use_map_saver: true
     mode: mapping #localization
+
+    # lifelong params
+    lifelong_search_use_tree: false
+    lifelong_minimum_score: 0.1
+    lifelong_iou_match: 0.85
+    lifelong_node_removal_score: 0.04
+    lifelong_overlap_score_scale: 0.06
+    lifelong_constraint_multiplier: 0.08
+    lifelong_nearby_penalty: 0.001
+    lifelong_candidates_scale: 0.03
 
     debug_logging: false
     throttle_scans: 1
     transform_publish_period: 0.04
-    map_update_interval: 1.0
+    map_update_interval: 5.0
     resolution: 0.05
     max_laser_range: 12.0 #for rastering images
-    minimum_time_interval: 0.05
-    transform_timeout: 0.1
-    tf_buffer_duration: 20.0
+    minimum_time_interval: 0.5
+    transform_timeout: 0.2
+    tf_buffer_duration: 10.
     stack_size_to_use: 40000000 #// program needs a larger stack size to serialize large maps
-    enable_interactive_mode: false
 
     # General Parameters
     # The localization correction based on the lidar measurements is turned off because of bug with lidar in webots simulator.
     # https://github.com/cyberbotics/webots/issues/5540
     use_scan_matching: false
     use_scan_barycenter: true
-    minimum_travel_distance: 0.2
-    minimum_travel_heading: 0.1
+    minimum_travel_distance: 0.4
+    minimum_travel_heading: 0.5
     scan_buffer_size: 10
-    scan_buffer_maximum_scan_distance: 0.5
+    scan_buffer_maximum_scan_distance: 10.0
     link_match_minimum_response_fine: 0.1
-    link_scan_maximum_distance: 0.75
+    link_scan_maximum_distance: 1.5
     loop_search_maximum_distance: 3.0
     do_loop_closing: true
     loop_match_minimum_chain_size: 10
