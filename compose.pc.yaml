@@ -1,35 +1,17 @@
-x-net-config:
-  &net-config
-  network_mode: host
-  ipc: host
-
-x-gpu-config:
-  &gpu-config
-  runtime: nvidia
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - NVIDIA_VISIBLE_DEVICES=all
-    - NVIDIA_DRIVER_CAPABILITIES=all
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-
-x-cpu-config:
-  &cpu-config
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - LIBGL_ALWAYS_SOFTWARE=1
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-
 services:
 
   rviz:
-    image: husarion/rviz2:iron-nightly
+    image: husarion/rviz2:iron-12.4.5-20231122
     network_mode: host
     ipc: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
+    # runtime: nvidia # uncomment if you want to use GPU
     environment:
       - DISPLAY=${DISPLAY:?err}
-      - LIBGL_ALWAYS_SOFTWARE=1
+      - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use GPU
+      # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU
+      # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU
       - ROS_DISCOVERY_SERVER=rosbot2r:11811
       - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml

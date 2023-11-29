@@ -17,14 +17,14 @@ services:
       - DISCOVERY_SERVER_ID=0
 
   rosbot:
-    image: husarion/rosbot:humble-add_healthcheck
+    image: husarion/rosbot:humble-0.10.3-20231128
     <<: *net-config
     environment:
       - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
 
   microros:
-    image: husarion/micro-ros-agent:humble-nightly
+    image: husarion/micro-ros-agent:humble-3.1.3-20231122
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
@@ -33,7 +33,7 @@ services:
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble-healthcheck_cpp
+    image: husarion/rplidar:humble-1.0.1-20231128-stable
     <<: *net-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
@@ -42,7 +42,7 @@ services:
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   slam:
-    image: husarion/navigation2:humble-add_healthcheck
+    image: husarion/navigation2:humble-1.1.12-20231128-stable
     <<: *net-config
     depends_on:
       rplidar: { condition: service_healthy }
@@ -60,7 +60,7 @@ services:
         use_sim_time:=False
 
   navigation:
-    image: husarion/navigation2:humble-add_healthcheck
+    image: husarion/navigation2:humble-1.1.12-20231128-stable
     <<: *net-config
     depends_on:
       slam: { condition: service_healthy }
