@@ -99,7 +99,7 @@ controller_server:
       # Velocity/accelaration limits also have to be adjusted in the velocity smoother
       desired_linear_vel: 0.4
       lookahead_dist: 0.5
-      transform_tolerance: 0.1
+      transform_tolerance: 0.25
 
       # Adaptive lookahead gain
       use_velocity_scaled_lookahead_dist: False # Currently doesn't work, uncomment in next release
@@ -108,8 +108,8 @@ controller_server:
       max_lookahead_dist: 0.6
 
       # Approach to goal
-      min_approach_linear_velocity: 0.15
-      approach_velocity_scaling_dist: 1.0
+      min_approach_linear_velocity: 0.2
+      approach_velocity_scaling_dist: 0.5
 
       # Collision detector
       use_collision_detection: True
@@ -126,8 +126,9 @@ controller_server:
       inflation_cost_scaling_factor: 3.0
 
       # Minimum speed in high cost spaces with high curvature
-      regulated_linear_scaling_min_speed: 0.15
+      regulated_linear_scaling_min_speed: 0.25
 
+      allow_reversing: False
       use_rotate_to_heading: True
       rotate_to_heading_min_angle: 0.7
 
@@ -211,7 +212,6 @@ global_costmap:
       track_unknown_space: True # if False, treats unknown space as free space, else as unknown space
 
       footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
-      footprint_padding: 0.05 # adding panning causes the path to be planned at a greater distance from the obstacle
 
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       static_layer:
@@ -260,7 +260,7 @@ planner_server:
       max_iterations: 1000000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000 # maximum number of iterations to attempt to reach goal once in tolerance
       max_planning_time: 3.0 # max time in s for planner to plan, smooth
-      cost_travel_multiplier: 2.0 # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
+      cost_travel_multiplier: 2.5 # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
       use_final_approach_orientation: False # Whether to set the final path pose at the goal's orientation to the requested orientation (False) or in line with the approach angle so the robot doesn't rotate to heading (True)
       smoother:
         max_iterations: 1000
@@ -278,7 +278,7 @@ recoveries_server:
 
     global_frame: odom
     robot_base_frame: base_link
-    transform_tolerance: 0.1
+    transform_tolerance: 0.25
 
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
