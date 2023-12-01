@@ -93,8 +93,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.10
-      yaw_goal_tolerance: 0.20
+      xy_goal_tolerance: 0.2
+      yaw_goal_tolerance: 0.2
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -119,10 +119,10 @@ controller_server:
       vy_samples: 1
       vtheta_samples: 12
       sim_time: 1.5
-      linear_granularity: 0.05
-      angular_granularity: 0.025
+      linear_granularity: 0.1
+      angular_granularity: 0.1
       transform_tolerance: 0.2
-      xy_goal_tolerance: 0.05
+      xy_goal_tolerance: 0.2
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -141,7 +141,7 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
+      update_frequency: 3.0
       publish_frequency: 2.0
       global_frame: odom
       robot_base_frame: base_link
@@ -151,11 +151,11 @@ local_costmap:
       height: 2
       resolution: 0.04
       robot_radius: 0.16
-      plugins: ["obstacle_layer", "inflation_layer"]
-      inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        enabled: True
+        map_subscribe_transient_local: True
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -167,12 +167,14 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 3.0
-          raytrace_min_range: 0.0
+          raytrace_min_range: 0.2
           obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
+          obstacle_min_range: 0.2
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 3.0
+        inflation_radius: 0.55
+
       always_send_full_costmap: True
 
 global_costmap:
@@ -183,10 +185,13 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      robot_radius: 0.16
+      robot_radius: 0.2 # bigger radius causes the path to be planned at a greater distance from the obstacle
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -198,12 +203,9 @@ global_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 3.0
-          raytrace_min_range: 0.0
+          raytrace_min_range: 0.2
           obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
-      static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
+          obstacle_min_range: 0.2
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
@@ -228,7 +230,7 @@ map_saver:
 planner_server:
   ros__parameters:
     use_sim_time: True
-    expected_planner_frequency: 2.0
+    expected_planner_frequency: 1.0
 
     planner_plugins: ["GridBased"]
     GridBased:
@@ -237,14 +239,14 @@ planner_server:
       downsample_costmap: False # whether or not to downsample the map
       downsampling_factor: 1 # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       allow_unknown: true # allow traveling in unknown space
-      max_iterations: 1000000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
-      max_on_approach_iterations: 1000 # maximum number of iterations to attempt to reach goal once in tolerance
-      max_planning_time: 3.0 # max time in s for planner to plan, smooth
+      max_iterations: 500000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 500 # maximum number of iterations to attempt to reach goal once in tolerance
+      max_planning_time: 2.0 # max time in s for planner to plan, smooth
       motion_model_for_search: "MOORE" # 2D Moore, Von Neumann
       cost_travel_multiplier: 2.0 # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
       use_final_approach_orientation: False # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
       smoother:
-        max_iterations: 1000
+        max_iterations: 500
         w_smooth: 0.3
         w_data: 0.2
         tolerance: 1e-10
@@ -267,7 +269,7 @@ behavior_server:
   ros__parameters:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
-    cycle_frequency: 10.0
+    cycle_frequency: 5.0
     behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
@@ -307,7 +309,7 @@ velocity_smoother:
   ros__parameters:
     use_sim_time: False
 
-    smoothing_frequency: 20.0
+    smoothing_frequency: 5.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
     max_velocity: [0.5, 0.0, 1.5]   # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
@@ -315,8 +317,7 @@ velocity_smoother:
     max_accel: [1.0, 0.0, 3.2]
     max_decel: [-1.0, 0.0, -3.2]  # Measured
     # odom_topic: "odometry/filtered" # Used in the CLOSED_LOOP feedback mode
-
     odom_duration: 0.1
-    deadband_velocity: [0.01, 0.01, 0.1] # Measured
+    deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
 

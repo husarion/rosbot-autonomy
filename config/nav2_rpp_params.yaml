@@ -49,7 +49,7 @@ controller_server:
   ros__parameters:
     use_sim_time: False
 
-    controller_frequency: 10.0
+    controller_frequency: 5.0
 
     # if velocity is below threshold value it is set to 0
     min_x_velocity_threshold: 0.01    # Measured
@@ -111,9 +111,8 @@ controller_server:
       # it is only used when rotating to heading (use_rotate_to_heading)
       # for some reason rotate_to_heading_angular_vel is ignored and robot rotates with
       # max_angular_accel/10. angular velocity (that's why it is set to higher value)
-      max_angular_accel: 10.0
+      max_angular_accel: 7.0
       rotate_to_heading_angular_vel: 2.5
-      max_robot_pose_search_dist: 10.0
       use_interpolation: True
 
 controller_server_rclcpp_node:
@@ -128,7 +127,7 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
 
-      update_frequency: 5.0
+      update_frequency: 3.0
       publish_frequency: 2.0
 
       width: 4
@@ -139,9 +138,12 @@ local_costmap:
       rolling_window: True
 
       footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
-      footprint_padding: 0.03
 
-      plugins: ["obstacle_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        enabled: True
+        map_subscribe_transient_local: True
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -153,9 +155,9 @@ local_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 3.5
-          raytrace_min_range: 0.0
+          raytrace_min_range: 0.2
           obstacle_max_range: 3.0
-          obstacle_min_range: 0.0
+          obstacle_min_range: 0.2
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: True
@@ -186,7 +188,7 @@ global_costmap:
       track_unknown_space: True # if False, treats unknown space as free space, else as unknown space
 
       footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
-      footprint_padding: 0.03
+      footprint_padding: 0.05 # adding panning causes the path to be planned at a greater distance from the obstacle
 
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       static_layer:
@@ -204,9 +206,9 @@ global_costmap:
           marking: True
           data_type: "LaserScan"
           raytrace_max_range: 2.5
-          raytrace_min_range: 0.0
+          raytrace_min_range: 0.2
           obstacle_max_range: 2.0
-          obstacle_min_range: 0.0
+          obstacle_min_range: 0.2
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: True
@@ -223,7 +225,7 @@ global_costmap:
 planner_server:
   ros__parameters:
     use_sim_time: False
-    expected_planner_frequency: 2.0
+    expected_planner_frequency: 1.0
 
     planner_plugins: ["GridBased"]
     GridBased:
@@ -257,7 +259,7 @@ recoveries_server:
 
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
-    cycle_frequency: 10.0
+    cycle_frequency: 5.0
 
     recovery_plugins: ["spin", "backup", "wait"]
     spin:
@@ -298,7 +300,7 @@ velocity_smoother:
   ros__parameters:
     use_sim_time: False
 
-    smoothing_frequency: 20.0
+    smoothing_frequency: 5.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
     max_velocity: [0.5, 0.0, 1.5]   # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
