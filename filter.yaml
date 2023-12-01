@@ -4,6 +4,8 @@ allowlist:
   - name: "rt/clicked_point"
   - name: "rt/goal_pose"
   - name: "rt/initialpose"
+  - name: "rt/global_costmap/costmap"
+  - name: "rt/global_costmap/costmap_updates"
   - name: "rt/local_costmap/costmap"
   - name: "rt/local_costmap/costmap_updates"
   - name: "rt/local_costmap/published_footprint"
@@ -55,6 +57,16 @@ builtin-topics:
       durability: false # false true
   - name: "rt/initialpose"
     type: "geometry_msgs::msg::dds_::PoseWithCovarianceStamped_"
+    qos:
+      reliability: true
+      durability: false
+  - name: "rt/global_costmap/costmap"
+    type: "nav_msgs::msg::dds_::OccupancyGrid_"
+    qos:
+      reliability: true
+      durability: false
+  - name: "rt/global_costmap/costmap_updates"
+    type: "map_msgs::msg::dds_::OccupancyGridUpdate_"
     qos:
       reliability: true
       durability: false
