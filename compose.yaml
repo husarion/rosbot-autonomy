@@ -60,10 +60,11 @@ services:
         use_sim_time:=False
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231128-stable
+    image: husarion/navigation2:humble-arm64-from-sourece
     <<: *net-config
     depends_on:
-      slam: { condition: service_healthy }
+      rplidar: { condition: service_healthy }
+      rosbot: { condition: service_healthy }
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
     environment:

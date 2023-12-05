@@ -378,7 +378,8 @@ Visualization Manager:
           Enabled: true
           Name: MPPI Controller
           Namespaces:
-            {}
+            Candidate Trajectories: false
+            Optimal Trajectory: true
           Topic:
             Depth: 5
             Durability Policy: Volatile
@@ -514,7 +515,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.029172897338867
+      Distance: 6.791298866271973
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

@@ -3,10 +3,16 @@ bt_navigator:
     use_sim_time: False
     global_frame: map
     robot_base_frame: base_link
-    enable_groot_monitoring: False
-    # groot_zmq_publisher_port: 1666
-    # groot_zmq_server_port: 1667
-    default_bt_xml_filename: "default_bt_xml_filename"
+    odom_topic: /odom
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    wait_for_service_timeout: 1000
+    action_server_result_timeout: 900.0
+    navigators: ["navigate_to_pose", "navigate_through_poses"]
+    navigate_to_pose:
+      plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
+    navigate_through_poses:
+      plugin: "nav2_bt_navigator/NavigateThroughPosesNavigator"
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_follow_path_action_bt_node
@@ -40,7 +46,7 @@ bt_navigator_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    controller_frequency: 10.0
+    controller_frequency: 5.0
     min_x_velocity_threshold: 0.01    # Measured
     min_y_velocity_threshold: 0.01    # Measured
     min_theta_velocity_threshold: 0.1 # Measured
@@ -57,7 +63,7 @@ controller_server:
     # Goal checker parameters
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.15
       yaw_goal_tolerance: 0.25
       stateful: True
 
@@ -65,15 +71,15 @@ controller_server:
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 30
-      model_dt: 0.1
-      batch_size: 1000
-      vx_std: 0.4
+      model_dt: 0.2
+      batch_size: 500
+      vx_std: 0.15
       vy_std: 0.0
-      wz_std: 0.5
-      vx_max: 0.6
-      vx_min: -0.4
+      wz_std: 0.35
+      vx_max: 0.3
+      vx_min: -0.2
       vy_max: 0.0
-      wz_max: 1.5
+      wz_max: 0.7
       iteration_count: 1
       prune_distance: 1.8
       transform_tolerance: 0.25
@@ -257,16 +263,16 @@ planner_server:
     GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
       tolerance: 0.125 # tolerance for planning if unable to reach exact pose, in meters
-      downsample_costmap: false # whether or not to downsample the map
+      downsample_costmap: False # whether or not to downsample the map
       downsampling_factor: 1 # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       allow_unknown: true # allow traveling in unknown space
-      max_iterations: 1000000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
-      max_on_approach_iterations: 1000 # maximum number of iterations to attempt to reach goal once in tolerance
+      max_iterations: 500000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 500 # maximum number of iterations to attempt to reach goal once in tolerance
       max_planning_time: 3.0 # max time in s for planner to plan, smooth
       cost_travel_multiplier: 2.5 # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
-      use_final_approach_orientation: false # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
+      use_final_approach_orientation: False # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
       smoother:
-        max_iterations: 1000
+        max_iterations: 500
         w_smooth: 0.3
         w_data: 0.2
         tolerance: 1e-10
@@ -279,7 +285,7 @@ recoveries_server:
   ros__parameters:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
-    cycle_frequency: 10.0
+    cycle_frequency: 5.0
     recovery_plugins: ["spin", "backup", "wait"]
     spin:
       plugin: "nav2_recoveries/Spin"
@@ -310,7 +316,7 @@ velocity_smoother:
   ros__parameters:
     use_sim_time: False
 
-    smoothing_frequency: 10.0
+    smoothing_frequency: 5.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
     max_velocity: [0.5, 0.0, 1.5]   # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)

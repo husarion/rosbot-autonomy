@@ -23,7 +23,7 @@ services:
     command: ros2 launch rosbot_gazebo simulation.launch.py mecanum:=${MECANUM:-True}
 
   slam:
-    image: husarion/navigation2:humble-1.1.12-20231127
+    image: husarion/navigation2:humble-arm64-from-sourece
     volumes:
       - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
       - ./maps:/maps
@@ -36,7 +36,7 @@ services:
         use_sim_time:=True
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231127
+    image: husarion/navigation2:humble-arm64-from-sourece
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
     command: >
