@@ -30,6 +30,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
 - **`LIDAR_BAUDRATE`** - depend on mounted LiDAR
 - **`MECANUM`** - wheel type
 - **`SLAM`** - choose between mapping and localization modes
+- **`SAVE_MAP_PERIO`** - period of time for autosave map (set 0 to disable)
 - **`CONTROLLER`** - choose controller type
 
 ## Choosing the Network (DDS) Config

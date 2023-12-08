@@ -2,27 +2,16 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
+  environment:
+    - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 services:
-
-  ros2router:
-    image: husarnet/ros2router:1.4.0
-    network_mode: host
-    ipc: host
-    volumes:
-      - ./filter.yaml:/filter.yaml
-    environment:
-      - LOCAL_TRANSPORT=shm
-      - DISCOVERY_SERVER_LISTENING_PORT=11811
-      - DISCOVERY_SERVER_ID=0
 
   rosbot:
     image: husarion/rosbot:humble-nightly
     <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
-    environment:
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
@@ -34,8 +23,6 @@ services:
     <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    environment:
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   navigation:
