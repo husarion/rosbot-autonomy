@@ -144,7 +144,7 @@ controller_server:
       time_steps: 30
       model_dt: 0.2
       batch_size: 500
-      vx_std: 0.15
+      vx_std: 0.2
       vy_std: 0.0
       wz_std: 0.35
       vx_max: 0.3
@@ -179,7 +179,7 @@ controller_server:
       ConstraintCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 4.0
+        cost_weight: 2.0
       GoalCritic:
         enabled: true
         cost_power: 1
@@ -189,7 +189,7 @@ controller_server:
         enabled: true
         cost_power: 1
         cost_weight: 3.0
-        threshold_to_consider: 0.1
+        threshold_to_consider: 0.5
       PreferForwardCritic:
         enabled: true
         cost_power: 1
