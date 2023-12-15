@@ -40,8 +40,8 @@ for TOPIC in "$@"; do
     [ "$DURABILITY" == "TRANSIENT_LOCAL" ] && DURABILITY_BOOL="true"
 
     # Print entry for current topic with QoS settings
-    echo "  - name: \"rt$TOPIC\""
-    echo "    type: \"$DDS_TYPE\""
+    echo "  - name: rt$TOPIC"
+    echo "    type: $DDS_TYPE"
     echo "    qos:"
     echo "      reliability: $RELIABILITY_BOOL"
     echo "      durability: $DURABILITY_BOOL"

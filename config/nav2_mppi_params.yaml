@@ -1,6 +1,7 @@
+---
 amcl:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
     global_frame_id: map
     odom_frame_id: odom
@@ -9,10 +10,10 @@ amcl:
 
     robot_model_type: nav2_amcl::DifferentialMotionModel
 
-    set_initial_pose: True
-    always_reset_initial_pose: True
+    set_initial_pose: true
+    always_reset_initial_pose: true
 
-    tf_broadcast: True
+    tf_broadcast: true
     transform_tolerance: 1.0
 
     alpha1: 0.2
@@ -24,7 +25,7 @@ amcl:
     # Beam skipping - ignores beams for which a majoirty of particles do not agree with the map
     # prevents correct particles from getting down weighted because of unexpected obstacles
     # such as humans
-    do_beamskip: False
+    do_beamskip: false
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -63,15 +64,15 @@ amcl:
 
 amcl_map_client:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
 amcl_rclcpp_node:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
@@ -79,11 +80,11 @@ bt_navigator:
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     action_server_result_timeout: 900.0
-    navigators: ["navigate_to_pose", "navigate_through_poses"]
+    navigators: [navigate_to_pose, navigate_through_poses]
     navigate_to_pose:
-      plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
+      plugin: nav2_bt_navigator/NavigateToPoseNavigator
     navigate_through_poses:
-      plugin: "nav2_bt_navigator/NavigateThroughPosesNavigator"
+      plugin: nav2_bt_navigator/NavigateThroughPosesNavigator
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_follow_path_action_bt_node
@@ -112,35 +113,35 @@ bt_navigator:
 
 bt_navigator_rclcpp_node:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
 controller_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     controller_frequency: 5.0
     min_x_velocity_threshold: 0.01    # Measured
     min_y_velocity_threshold: 0.01    # Measured
     min_theta_velocity_threshold: 0.1 # Measured
-    progress_checker_plugin: "progress_checker"
-    goal_checker_plugin: "goal_checker"
-    controller_plugins: ["FollowPath"]
+    progress_checker_plugin: progress_checker
+    goal_checker_plugin: goal_checker
+    controller_plugins: [FollowPath]
 
     # Progress checker parameters
     progress_checker:
-      plugin: "nav2_controller::SimpleProgressChecker"
+      plugin: nav2_controller::SimpleProgressChecker
       required_movement_radius: 0.5
       movement_time_allowance: 30.0
 
     # Goal checker parameters
     goal_checker:
-      plugin: "nav2_controller::SimpleGoalChecker"
+      plugin: nav2_controller::SimpleGoalChecker
       xy_goal_tolerance: 0.15
       yaw_goal_tolerance: 0.25
-      stateful: True
+      stateful: true
 
     # MPPI controller
     FollowPath:
-      plugin: "nav2_mppi_controller::MPPIController"
+      plugin: nav2_mppi_controller::MPPIController
       time_steps: 30
       model_dt: 0.2
       batch_size: 500
@@ -156,7 +157,7 @@ controller_server:
       transform_tolerance: 0.25
       temperature: 0.3
       gamma: 0.015
-      motion_model: "DiffDrive"
+      motion_model: DiffDrive
       visualize: false
       reset_period: 1.0 # (only in Humble)
       regenerate_noises: false
@@ -165,17 +166,8 @@ controller_server:
         time_step: 5
       AckermannConstrains:
         min_turning_r: 0.05
-      critics:
-        [
-          "ConstraintCritic",
-          "ObstaclesCritic",
-          "GoalCritic",
-          "GoalAngleCritic",
-          "PathAlignCritic",
-          "PathFollowCritic",
-          "PathAngleCritic",
-          "PreferForwardCritic",
-        ]
+      critics: [ConstraintCritic, ObstaclesCritic, GoalCritic, GoalAngleCritic, PathAlignCritic, PathFollowCritic,
+        PathAngleCritic, PreferForwardCritic]
       ConstraintCritic:
         enabled: true
         cost_power: 1
@@ -234,7 +226,7 @@ controller_server:
 
 controller_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
 local_costmap:
   local_costmap:
@@ -243,45 +235,45 @@ local_costmap:
       publish_frequency: 2.0
       global_frame: odom
       robot_base_frame: base_link
-      use_sim_time: False
+      use_sim_time: false
       rolling_window: true
       width: 4
       height: 4
       resolution: 0.04
-      footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      footprint: '[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]'
+      plugins: [static_layer, obstacle_layer, inflation_layer]
       static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        enabled: True
-        map_subscribe_transient_local: True
+        plugin: nav2_costmap_2d::StaticLayer
+        enabled: true
+        map_subscribe_transient_local: true
       obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
-        enabled: True
+        plugin: nav2_costmap_2d::ObstacleLayer
+        enabled: true
         observation_sources: scan
         scan:
           topic: /scan
           max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "LaserScan"
+          clearing: true
+          marking: true
+          data_type: LaserScan
           raytrace_max_range: 2.5
           raytrace_min_range: 0.2
           obstacle_max_range: 2.0
           obstacle_min_range: 0.2
       inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        enabled: True
+        plugin: nav2_costmap_2d::InflationLayer
+        enabled: true
         cost_scaling_factor: 3.0
         inflation_radius: 0.55
 
-      always_send_full_costmap: True
+      always_send_full_costmap: true
 
   local_costmap_client:
     ros__parameters:
-      use_sim_time: False
+      use_sim_time: false
   local_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: False
+      use_sim_time: false
 
 global_costmap:
   global_costmap:
@@ -290,71 +282,71 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
-      use_sim_time: False
-      footprint: "[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]"
+      use_sim_time: false
+      footprint: '[[0.10, 0.12], [0.10, -0.12], [-0.10, -0.12], [-0.10, 0.12]]'
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: [static_layer, obstacle_layer, inflation_layer]
       static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        enabled: True
-        map_subscribe_transient_local: True
+        plugin: nav2_costmap_2d::StaticLayer
+        enabled: true
+        map_subscribe_transient_local: true
       obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
-        enabled: True
+        plugin: nav2_costmap_2d::ObstacleLayer
+        enabled: true
         observation_sources: scan
         scan:
           topic: /scan
           max_obstacle_height: 2.0
-          clearing: True
-          marking: True
-          data_type: "LaserScan"
+          clearing: true
+          marking: true
+          data_type: LaserScan
           raytrace_max_range: 2.5
           raytrace_min_range: 0.2
           obstacle_max_range: 2.0
           obstacle_min_range: 0.2
       inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
+        plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 3.0
         inflation_radius: 0.55
-      always_send_full_costmap: True
+      always_send_full_costmap: true
   global_costmap_client:
     ros__parameters:
-      use_sim_time: False
+      use_sim_time: false
   global_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: False
+      use_sim_time: false
 
 map_server:
   ros__parameters:
-    use_sim_time: False
-    yaml_filename: "map.yaml"
+    use_sim_time: false
+    yaml_filename: map.yaml
 
 map_saver:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
-    map_subscribe_transient_local: True
+    map_subscribe_transient_local: true
 
 planner_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     expected_planner_frequency: 1.0
 
-    planner_plugins: ["GridBased"]
+    planner_plugins: [GridBased]
     GridBased:
-      plugin: "nav2_smac_planner/SmacPlanner2D"
+      plugin: nav2_smac_planner/SmacPlanner2D
       tolerance: 0.125 # tolerance for planning if unable to reach exact pose, in meters
-      downsample_costmap: False # whether or not to downsample the map
+      downsample_costmap: false # whether or not to downsample the map
       downsampling_factor: 1 # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       allow_unknown: true # allow traveling in unknown space
       max_iterations: 500000 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 500 # maximum number of iterations to attempt to reach goal once in tolerance
       max_planning_time: 3.0 # max time in s for planner to plan, smooth
       cost_travel_multiplier: 2.5 # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
-      use_final_approach_orientation: False # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
+      use_final_approach_orientation: false # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
       smoother:
         max_iterations: 500
         w_smooth: 0.3
@@ -363,11 +355,11 @@ planner_server:
 
 planner_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
 behavior_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
     global_frame: odom
     robot_base_frame: base_link
@@ -377,17 +369,17 @@ behavior_server:
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 5.0
 
-    behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
+    behavior_plugins: [spin, backup, drive_on_heading, assisted_teleop, wait]
     spin:
-      plugin: "nav2_behaviors/Spin"
+      plugin: nav2_behaviors/Spin
     backup:
-      plugin: "nav2_behaviors/BackUp"
+      plugin: nav2_behaviors/BackUp
     drive_on_heading:
-      plugin: "nav2_behaviors/DriveOnHeading"
+      plugin: nav2_behaviors/DriveOnHeading
     wait:
-      plugin: "nav2_behaviors/Wait"
+      plugin: nav2_behaviors/Wait
     assisted_teleop:
-      plugin: "nav2_behaviors/AssistedTeleop"
+      plugin: nav2_behaviors/AssistedTeleop
 
     # spin & backup
     simulate_ahead_time: 0.5
@@ -478,19 +470,19 @@ waypoint_follower:
   ros__parameters:
     loop_rate: 5
     stop_on_failure: false
-    waypoint_task_executor_plugin: "wait_at_waypoint"
+    waypoint_task_executor_plugin: wait_at_waypoint
     wait_at_waypoint:
-      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
-      enabled: True
+      plugin: nav2_waypoint_follower::WaitAtWaypoint
+      enabled: true
       waypoint_pause_duration: 200
 
 velocity_smoother:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
 
     smoothing_frequency: 5.0
-    scale_velocities: False
-    feedback: "OPEN_LOOP"
+    scale_velocities: false
+    feedback: OPEN_LOOP
     max_velocity: [0.5, 0.0, 1.5]   # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
     min_velocity: [-0.5, 0.0, -1.5] # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
     max_accel: [1.0, 0.0, 3.2]
