@@ -53,7 +53,7 @@ Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
 
 ```bash
 docker compose pull
-docker compose up -d
+docker compose up
 ```
 
 > [!NOTE]
