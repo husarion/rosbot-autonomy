@@ -54,8 +54,8 @@ builtin-topics:
   - name: rt/goal_pose   # 2D Goal Pose button
     type: geometry_msgs::msg::dds_::PoseStamped_
     qos:
-      reliability: false # false true
-      durability: false # false true
+      reliability: false
+      durability: false
   - name: rt/initialpose
     type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
     qos:
@@ -94,7 +94,7 @@ builtin-topics:
   - name: rt/map_updates
     type: map_msgs::msg::dds_::OccupancyGridUpdate_
     qos:
-      reliability: false
+      reliability: true
       durability: true
   - name: rt/plan
     type: nav_msgs::msg::dds_::Path_
@@ -194,8 +194,8 @@ builtin-topics:
   - name: rt/map
     type: nav_msgs::msg::dds_::OccupancyGrid_
     qos:
-      reliability: false
-      durability: true # false true
+      reliability: true
+      durability: true
   - name: rt/map_metadata
     type: nav_msgs::msg::dds_::MapMetaData_
     qos:
@@ -304,13 +304,13 @@ builtin-topics:
   - name: rt/tf
     type: tf2_msgs::msg::dds_::TFMessage_
     qos:
-      reliability: true # false true
+      reliability: true
       durability: false
   - name: rt/tf_static
     type: tf2_msgs::msg::dds_::TFMessage_
     qos:
-      reliability: true # false true
-      durability: true # false true
+      reliability: true
+      durability: true
   - name: rt/velocity_smoother/transition_event
     type: lifecycle_msgs::msg::dds_::TransitionEvent_
     qos:

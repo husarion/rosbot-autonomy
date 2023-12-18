@@ -194,7 +194,7 @@ controller_server:
         critical_weight: 20.0
         consider_footprint: false
         collision_cost: 10000.0
-        collision_margin_distance: 0.12
+        collision_margin_distance: 0.10
         near_goal_distance: 0.5
         inflation_radius: 0.55 # (only in Humble)
         cost_scaling_factor: 3.0 # (only in Humble)
