@@ -80,7 +80,7 @@ blocklist: []
 #     type: map_msgs::msg::dds_::OccupancyGridUpdate_
 #     qos:
 #       reliability: true
-#       durability: false
+#       durability: true
 #   - name: rt/local_costmap/published_footprint
 #     type: geometry_msgs::msg::dds_::PolygonStamped_
 #     qos:
@@ -94,7 +94,7 @@ blocklist: []
 #   - name: rt/map_updates
 #     type: map_msgs::msg::dds_::OccupancyGridUpdate_
 #     qos:
-#       reliability: false
+#       reliability: true
 #       durability: true
 #   - name: rt/plan
 #     type: nav_msgs::msg::dds_::Path_
@@ -194,8 +194,8 @@ blocklist: []
 #   - name: rt/map
 #     type: nav_msgs::msg::dds_::OccupancyGrid_
 #     qos:
-#       reliability: false
-#       durability: true # false true
+#       reliability: true
+#       durability: true
 #   - name: rt/map_metadata
 #     type: nav_msgs::msg::dds_::MapMetaData_
 #     qos:
