@@ -2,17 +2,21 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
+  env_file: dds.env
 
 services:
 
   ros2router:
-    image: husarnet/ros2router:1.4.0
+    image: husarnet/ros2router:release-1.5.0
     network_mode: host
     ipc: host
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      - LOCAL_TRANSPORT=shm
+    # # envs for LAN only setup
+    #   - ROS_LOCALHOST_ONLY=0
+    #   - USE_HUSARNET=false
+    # envs for Husarnet only setup
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
 

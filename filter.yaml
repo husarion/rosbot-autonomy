@@ -44,7 +44,7 @@ allowlist:
   # - name: "rt/velocity_smoother/transition_event"
   # - name: "rt/waypoint_follower/transition_event"
 
-# blocklist: []
+blocklist: []
 # builtin-topics:
 #   - name: rt/clicked_point
 #     type: geometry_msgs::msg::dds_::PointStamped_
@@ -54,8 +54,8 @@ allowlist:
 #   - name: rt/goal_pose   # 2D Goal Pose button
 #     type: geometry_msgs::msg::dds_::PoseStamped_
 #     qos:
-#       reliability: false
-#       durability: false
+#       reliability: false # false true
+#       durability: false # false true
 #   - name: rt/initialpose
 #     type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
 #     qos:
@@ -304,13 +304,13 @@ allowlist:
 #   - name: rt/tf
 #     type: tf2_msgs::msg::dds_::TFMessage_
 #     qos:
-#       reliability: true
+#       reliability: true # false true
 #       durability: false
 #   - name: rt/tf_static
 #     type: tf2_msgs::msg::dds_::TFMessage_
 #     qos:
-#       reliability: true
-#       durability: true
+#       reliability: true # false true
+#       durability: true # false true
 #   - name: rt/velocity_smoother/transition_event
 #     type: lifecycle_msgs::msg::dds_::TransitionEvent_
 #     qos:
