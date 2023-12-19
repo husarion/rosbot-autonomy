@@ -25,25 +25,11 @@ To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible fo
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
-### Parameters
-
 - **`LIDAR_BAUDRATE`** - depend on mounted LiDAR
 - **`MECANUM`** - wheel type
 - **`SLAM`** - choose between mapping and localization modes
-- **`SAVE_MAP_PERIO`** - period of time for autosave map (set 0 to disable)
-- **`CONTROLLER`** - choose controller type
-
-## Choosing the Network (DDS) Config
-
-Edit `net.env` file and uncomment on of the configs:
-
-### Parameters
-
-- **`RMW_IMPLEMENTATION`**
-- **`ROS_DOMAIN_ID`**
-
-> [!NOTE]
-> If you choose to use the VPN option, both your ROSbot XL and laptop must be connected to the same Husarnet network. If they are not, follow this guide: [Connecting ROSbot and Laptop over the Internet (VPN)](https://husarion.com/software/os/remote-access/).
+- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
+- **`CONTROLLER`** - choose the navigation controller type
 
 ## I. Running on a Physical Robot
 

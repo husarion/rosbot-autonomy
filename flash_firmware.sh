@@ -1,9 +1,7 @@
 #!/bin/bash
 
-DOCKER_IMAGE=$(yq .services.rosbot.image $(dirname "$0")/compose.yaml)
-
 docker stop $(docker ps -q)
 
 docker run --rm -it --privileged \
-$DOCKER_IMAGE \
-/flash-firmware.py /root/firmware.bin
+$(yq .services.rosbot.image $(dirname "$0")/compose.yaml) \
+ros2 run rosbot_utils flash_firmware

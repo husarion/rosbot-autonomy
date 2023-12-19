@@ -14,4 +14,3 @@ services:
       # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU
       # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU
       - ROS_DISCOVERY_SERVER=rosbot2r:11811
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
