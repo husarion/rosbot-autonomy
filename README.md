@@ -1,6 +1,41 @@
 # rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz.
+A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
+
+
+## Connecting ROSbot and laptop over VPN
+
+Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
+
+1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
+
+   ```bash
+   curl https://install.husarnet.com/install.sh | sudo bash
+   ```
+
+   and connect to the Husarnet network with:
+
+   ```bash
+   sudo husarnet join <paste-join-code-here>
+   ```
+
+3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
+
+   ```bash
+   sudo husarnet join <paste-join-code-here> rosbot2r
+   ```
+
+4. Modify the `.env` file and set your ROSbot's Husanret hostname in this line:
+
+   ```bash
+   # =======================================
+   # Husarnet config
+   # =======================================
+
+   # The Husarnet hostname of the ROSbot
+   ROSBOT_HOSTNAME=rosbot2r
+   ```
 
 ## Repository Setup
 
@@ -82,3 +117,18 @@ docker compose -f compose.sim.webots.yaml up
 ```
 
 To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in RViz to inform the robot of its location on the map.
+
+## pre-commit
+
+[pre-commit configuration](.pre-commit-config.yaml) checks file formats before contributing. Usage:
+
+```bash
+# install pre-commit
+pip install pre-commit
+
+# initialize pre-commit workspace
+pre-commit install
+
+# manually run tests
+pre-commit run -a
+```

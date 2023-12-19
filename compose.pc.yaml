@@ -13,4 +13,4 @@ services:
       - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use GPU
       # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU
       # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU
-      - ROS_DISCOVERY_SERVER=rosbot2r:11811
+      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
