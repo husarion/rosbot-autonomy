@@ -1,9 +1,14 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  env_file: dds.env
+
 services:
 
   rviz:
     image: husarion/rviz2:iron-12.4.5-20231122
-    network_mode: host
-    ipc: host
+    <<: *common-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/root/.rviz2/default.rviz
