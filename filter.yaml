@@ -1,0 +1,323 @@
+---
+# reliability: true - reliable, false - best effort
+# durability: true - transient local, false - volatile
+allowlist:
+  - name: rt/clicked_point
+  - name: rt/goal_pose
+  - name: rt/initialpose
+  - name: rt/global_costmap/costmap
+  - name: rt/global_costmap/costmap_updates
+  - name: rt/local_costmap/costmap
+  - name: rt/local_costmap/costmap_updates
+  - name: rt/local_costmap/published_footprint
+  - name: rt/local_plan
+  - name: rt/map_updates
+  - name: rt/plan
+  # - name: "rt/waypoints"
+  # - name: "rt/behavior_server/transition_event"
+  # - name: "rt/bond"
+  # - name: "rt/bt_navigator/transition_event"
+  - name: rt/cmd_ser
+  - name: rt/cmd_vel
+  # - name: "rt/dynamic_joint_states"
+  # - name: "rt/global_costmap/global_costmap/transition_event"
+  # - name: "rt/joint_state_broadcaster/transition_event"
+  # - name: "rt/joint_states"
+  - name: rt/map
+  - name: rt/map_metadata
+  - name: rt/odometry/filtered
+  # - name: "rt/parameter_events"
+  # - name: "rt/planner_server/transition_event"
+  - name: rt/pose
+  - name: rt/robot_description
+  # - name: "rt/rosbot_base_controller/odom"
+  # - name: "rt/rosbot_base_controller/transition_event"
+  - name: rt/scan
+  - name: rt/set_pose
+  # - name: "rt/slam_toolbox/feedback"
+  # - name: "rt/slam_toolbox/graph_visualization"
+  # - name: "rt/slam_toolbox/scan_visualization"
+  # - name: "rt/slam_toolbox/update"
+  # - name: "rt/smoother_server/transition_event"
+  - name: rt/tf
+  - name: rt/tf_static
+  # - name: "rt/velocity_smoother/transition_event"
+  # - name: "rt/waypoint_follower/transition_event"
+
+blocklist: []
+# builtin-topics:
+#   - name: rt/clicked_point
+#     type: geometry_msgs::msg::dds_::PointStamped_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/goal_pose   # 2D Goal Pose button
+#     type: geometry_msgs::msg::dds_::PoseStamped_
+#     qos:
+#       reliability: false # false true
+#       durability: false # false true
+#   - name: rt/initialpose
+#     type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/global_costmap/costmap
+#     type: nav_msgs::msg::dds_::OccupancyGrid_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/global_costmap/costmap_updates
+#     type: map_msgs::msg::dds_::OccupancyGridUpdate_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/local_costmap/costmap
+#     type: nav_msgs::msg::dds_::OccupancyGrid_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/local_costmap/costmap_updates
+#     type: map_msgs::msg::dds_::OccupancyGridUpdate_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/local_costmap/published_footprint
+#     type: geometry_msgs::msg::dds_::PolygonStamped_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/local_plan
+#     type: nav_msgs::msg::dds_::Path_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/map_updates
+#     type: map_msgs::msg::dds_::OccupancyGridUpdate_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/plan
+#     type: nav_msgs::msg::dds_::Path_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/waypoints
+#     type: visualization_msgs::msg::dds_::MarkerArray_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/battery
+#     type: sensor_msgs::msg::dds_::BatteryState_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/behavior_server/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/bond
+#     type: bond::msg::dds_::Status_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/bt_navigator/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/button/left
+#     type: std_msgs::msg::dds_::Bool_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/button/right
+#     type: std_msgs::msg::dds_::Bool_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/cmd_ser
+#     type: std_msgs::msg::dds_::UInt32MultiArray_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/cmd_vel
+#     type: geometry_msgs::msg::dds_::Twist_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/diagnostics
+#     type: diagnostic_msgs::msg::dds_::DiagnosticArray_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/dynamic_joint_states
+#     type: control_msgs::msg::dds_::DynamicJointState_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/global_costmap/global_costmap/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/imu_broadcaster/imu
+#     type: sensor_msgs::msg::dds_::Imu_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/imu_broadcaster/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/joint_state_broadcaster/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/joint_states
+#     type: sensor_msgs::msg::dds_::JointState_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/led/left
+#     type: std_msgs::msg::dds_::Bool_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/led/right
+#     type: std_msgs::msg::dds_::Bool_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/map
+#     type: nav_msgs::msg::dds_::OccupancyGrid_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/map_metadata
+#     type: nav_msgs::msg::dds_::MapMetaData_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/map_saver/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/odometry/filtered
+#     type: nav_msgs::msg::dds_::Odometry_
+#     qos:
+#       reliability: true
+#       durability: false
+#   # - name: "rt/parameter_events"
+#   #   type: "rcl_interfaces::msg::dds_::ParameterEvent_"
+#   #   qos:
+#   #     reliability: false
+#   #     durability: false
+#   - name: rt/planner_server/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/pose
+#     type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/range/fl
+#     type: sensor_msgs::msg::dds_::Range_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/range/fr
+#     type: sensor_msgs::msg::dds_::Range_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/range/rl
+#     type: sensor_msgs::msg::dds_::Range_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/range/rr
+#     type: sensor_msgs::msg::dds_::Range_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/robot_description
+#     type: std_msgs::msg::dds_::String_
+#     qos:
+#       reliability: true
+#       durability: true
+#   - name: rt/rosbot_base_controller/odom
+#     type: nav_msgs::msg::dds_::Odometry_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/rosbot_base_controller/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/rosout
+#     type: rcl_interfaces::msg::dds_::Log_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/scan
+#     type: sensor_msgs::msg::dds_::LaserScan_
+#     qos:
+#       reliability: false
+#       durability: false
+#   - name: rt/set_pose
+#     type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/slam_toolbox/feedback
+#     type: visualization_msgs::msg::dds_::InteractiveMarkerFeedback_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/slam_toolbox/graph_visualization
+#     type: visualization_msgs::msg::dds_::MarkerArray_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/slam_toolbox/scan_visualization
+#     type: sensor_msgs::msg::dds_::LaserScan_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/slam_toolbox/update
+#     type: visualization_msgs::msg::dds_::InteractiveMarkerUpdate_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/smoother_server/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/tf
+#     type: tf2_msgs::msg::dds_::TFMessage_
+#     qos:
+#       reliability: true # false true
+#       durability: false
+#   - name: rt/tf_static
+#     type: tf2_msgs::msg::dds_::TFMessage_
+#     qos:
+#       reliability: true # false true
+#       durability: true # false true
+#   - name: rt/velocity_smoother/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false
+#   - name: rt/waypoint_follower/transition_event
+#     type: lifecycle_msgs::msg::dds_::TransitionEvent_
+#     qos:
+#       reliability: true
+#       durability: false

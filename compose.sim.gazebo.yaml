@@ -8,38 +8,35 @@ x-gpu-config:
 
 services:
 
-  rviz:
-    image: husarion/rviz2:humble-11.2.6-20230809
-    <<: *gpu-config
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./config/rosbot.rviz:/root/.rviz2/default.rviz
-
   rosbot:
-    image: husarion/rosbot-gazebo:humble-0.8.2-20230901
+    image: husarion/rosbot-gazebo:humble-0.10.3-20231127
     <<: *gpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: ros2 launch rosbot_gazebo simulation.launch.py mecanum:=${MECANUM:-True}
 
-  slam:
-    image: husarion/navigation2:humble-1.1.8-20230809
+  navigation:
+    image: husarion/navigation2:humble-1.1.12-20231219
+
+    <<: *gpu-config
     volumes:
-      - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
+      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
-      - SLAM_MODE=${SLAM_MODE:-slam}
+      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
+      ros2 launch nav2_bringup bringup_launch.py
+        slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=True
 
-  navigation:
-    image: husarion/navigation2:humble-1.1.8-20230809
+  rviz:
+    image: husarion/rviz2:humble-11.2.6-20230809
+    <<: *gpu-config
+    depends_on:
+      rosbot: { condition: service_healthy }
+      navigation: { condition: service_healthy }
     volumes:
-      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
-    command: >
-      ros2 launch nav2_bringup navigation_launch.py
-        params_file:=/params.yaml
-        use_sim_time:=True
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./config/rosbot.rviz:/root/.rviz2/default.rviz

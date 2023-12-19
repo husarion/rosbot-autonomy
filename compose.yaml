@@ -1,42 +1,57 @@
-x-net-config:
-  &net-config
+x-common-config:
+  &common-config
   network_mode: host
   ipc: host
-  env_file: net.env
+  env_file: dds.env
 
 services:
 
-  rosbot:
-    image: husarion/rosbot:humble-0.8.4-20230921-stable
-    <<: *net-config
-    command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-True}
+  ros2router:
+    image: husarnet/ros2router:release-1.5.0
+    network_mode: host
+    ipc: host
+    volumes:
+      - ./filter.yaml:/filter.yaml
+    environment:
+    # # envs for LAN only setup
+    #   - ROS_LOCALHOST_ONLY=0
+    #   - USE_HUSARNET=false
+    # envs for Husarnet only setup
+      - DISCOVERY_SERVER_LISTENING_PORT=11811
+      - DISCOVERY_SERVER_ID=0
 
-  microros:
-    image: husarion/micro-ros-agent:humble-3.1.3-20231013-stable
-    <<: *net-config
+  rosbot:
+    image: husarion/rosbot:humble-0.11.0-20231211
+    <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
-    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
+    command: >
+      ros2 launch rosbot_bringup combined.launch.py
+        mecanum:=${MECANUM:-False}
+        serial_port:=$SERIAL_PORT
+        serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20230629-stable
-    <<: *net-config
+    image: husarion/rplidar:humble-1.0.1-20231219
+    <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
-  slam:
-    image: husarion/navigation2:humble-1.1.8-20230809
-    <<: *net-config
+  navigation:
+    image: husarion/navigation2:humble-1.1.12-20231219
+    <<: *common-config
     depends_on:
       rplidar: { condition: service_healthy }
+      rosbot: { condition: service_healthy }
     volumes:
-      - ./config/${SLAM_MODE:-slam}_params.yaml:/params.yaml
+      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
-      - SLAM_MODE=${SLAM_MODE:-slam}
+      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup ${SLAM_MODE:-slam}_launch.py
+      ros2 launch nav2_bringup bringup_launch.py
+        slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
