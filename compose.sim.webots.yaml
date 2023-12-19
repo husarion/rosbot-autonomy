@@ -16,7 +16,8 @@ services:
     command: ros2 launch webots_ros2_husarion rosbot_launch.py
 
   navigation:
-    image: husarion/navigation2:humble-arm64-from-sourece
+    image: husarion/navigation2:humble-1.1.12-20231219
+
     <<: *gpu-config
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_webots_params.yaml:/params.yaml

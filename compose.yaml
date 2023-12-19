@@ -2,8 +2,6 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  environment:
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
 services:
 
@@ -19,7 +17,7 @@ services:
       - DISCOVERY_SERVER_ID=0
 
   rosbot:
-    image: husarion/rosbot:humble-nightly
+    image: husarion/rosbot:humble-0.11.0-20231211
     <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
@@ -30,14 +28,14 @@ services:
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-nightly
+    image: husarion/rplidar:humble-1.0.1-20231219
     <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   navigation:
-    image: husarion/navigation2:humble-arm64-from-sourece
+    image: husarion/navigation2:humble-1.1.12-20231219
     <<: *common-config
     depends_on:
       rplidar: { condition: service_healthy }
