@@ -2,6 +2,9 @@
 
 A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
 
+You can test the robot's autonomy on two branches:
+- [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
+- [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
 
 ## Connecting ROSbot and laptop over VPN
 
@@ -44,16 +47,7 @@ This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R a
 ```bash
 git clone https://github.com/husarion/rosbot-autonomy
 cd rosbot-autonomy
-export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet hostname
-./sync_with_rosbot.sh $ROSBOT_ADDR
-```
-
-## Flashing the ROSbot's Firmware
-
-To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
-
-```bash
-./flash_firmware.sh
+./sync_with_rosbot.sh rosbot2r # Or clone the same repo on your rosbot
 ```
 
 ## Verifying User Configuration
@@ -72,24 +66,38 @@ To ensure proper user configuration, review the content of the `.env` file and s
 
 Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
 
+#### Pulling the latest version
+
 ```bash
 docker compose pull
+```
+
+#### Flashing the ROSbot's Firmware
+
+To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
+
+```bash
+./flash_firmware.sh
+```
+
+#### Running autonomy
+
+```bash
 docker compose up
 ```
 
-> [!NOTE]
-> You need to restart containers to switch between modes. Use following command to stop container: `docker compose down`.
-
 ### PC
 
-To initiate a user interface and navigation stack based on RViz, execute these commands on your PC:
+Open the **Google Chrome** browser on your laptop and navigate to:
 
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up
-```
+http://rosbot2r:8080/ui
 
-To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in RViz to inform the robot of its location on the map.
+#### Result
+
+![autonomy-result](.docs/autonomy-result.gif)
+
+> [!NOTE]
+> To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 
 ---
 
@@ -116,9 +124,9 @@ xhost +local:docker && \
 docker compose -f compose.sim.webots.yaml up
 ```
 
-To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in RViz to inform the robot of its location on the map.
+## Developer info
 
-## pre-commit
+### pre-commit
 
 [pre-commit configuration](.pre-commit-config.yaml) checks file formats before contributing. Usage:
 
