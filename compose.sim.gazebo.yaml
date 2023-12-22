@@ -53,7 +53,7 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-ds:
-    image: husarion/foxglove-bridge:humble-nav2
+    image: husarion/foxglove-bridge:humble-0.7.3-20231222
     ports:
       - 8765:8765
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
