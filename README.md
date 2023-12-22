@@ -93,7 +93,7 @@ http://rosbot2r:8080/ui
 
 #### Result
 
-![foxglove_result](.docs/foxglove_result.gif)
+![foxglove_result](.docs/autonomy-result.gif)
 
 > [!NOTE]
 > To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[Pose Estimate]** button in Foxglove to inform the robot of its location on the map.
