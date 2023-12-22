@@ -25,17 +25,6 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-4. Modify the `.env` file and set your ROSbot's Husanret hostname in this line:
-
-   ```bash
-   # =======================================
-   # Husarnet config
-   # =======================================
-
-   # The Husarnet hostname of the ROSbot
-   ROSBOT_HOSTNAME=rosbot2r
-   ```
-
 ## Repository Setup
 
 This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
@@ -82,9 +71,6 @@ To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible fo
 docker compose up
 ```
 
-> [!NOTE]
-> You need to restart containers to switch between modes. Use following command to stop container: `docker compose down`.
-
 ### PC
 
 Open the **Google Chrome** browser on your laptop and navigate to:
@@ -93,10 +79,10 @@ http://rosbot2r:8080/ui
 
 #### Result
 
-![foxglove_result](.docs/autonomy-result.gif)
+![autonomy-result](.docs/autonomy-result.gif)
 
 > [!NOTE]
-> To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[Pose Estimate]** button in Foxglove to inform the robot of its location on the map.
+> To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[Goal Pose]** in Foxglove. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by changing the published message from **/goal_pose** to **/initialpose** topic.
 
 ---
 
@@ -107,29 +93,29 @@ http://rosbot2r:8080/ui
 
 ### Gazebo
 
-Start the containers in a new terminal:
+1. Start the containers in a new terminal:
 
-```bash
-xhost +local:docker && \
-docker compose -f compose.sim.gazebo.yaml up
-```
+   ```bash
+   xhost +local:docker && \
+   docker compose -f compose.sim.gazebo.yaml up
+   ```
 
-Then open the **Google Chrome** browser on your laptop and navigate to:
+2. Then open the **Google Chrome** browser on your laptop and navigate to:
 
-http://localhost:8080/ui
+   http://localhost:8080/ui
 
 ### Webots
 
-Start the containers in a new terminal:
+1. Start the containers in a new terminal:
 
-```bash
-xhost +local:docker && \
-docker compose -f compose.sim.webots.yaml up
-```
+   ```bash
+   xhost +local:docker && \
+   docker compose -f compose.sim.webots.yaml up
+   ```
 
-Then open the **Google Chrome** browser on your laptop and navigate to:
+2. Then open the **Google Chrome** browser on your laptop and navigate to:
 
-http://localhost:8080/ui
+   http://localhost:8080/ui
 
 ## Developer info
 
