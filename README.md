@@ -45,6 +45,9 @@ To ensure proper user configuration, review the content of the `.env` file and s
 - **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
 - **`CONTROLLER`** - choose the navigation controller type
 
+> [!IMPORTANT]
+> Due to efficiency and official manufacturer support, it is recommended to use `foxglove-websocket`. When using `rosbridge-websocket`, it is necessary to edit `Custom Layers` to visualize the robot mesh.
+
 ## I. Running on a Physical Robot
 
 ### ROSbot 2, 2R and 2 PRO
