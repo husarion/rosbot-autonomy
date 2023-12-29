@@ -45,6 +45,7 @@ services:
     image: husarion/foxglove:1.83.0
     ports:
       - 8080:8080
+      - 8765:8765
     volumes:
       - ./config/layout.json:/foxglove/default-layout.json
     environment:
@@ -52,6 +53,7 @@ services:
       # - DS_PORT=9090
       - DS_TYPE=foxglove-websocket
       - DS_PORT=8765
+      - DS_HOST=foxglove-ds
       - UI_PORT=8080
       - DISABLE_CACHE=true
       - DISABLE_INTERACTION=false
