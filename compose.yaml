@@ -16,7 +16,6 @@ services:
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
       - USER
       # ==========================
       # envs for Husarnet setup
@@ -41,7 +40,6 @@ services:
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT
-        namespace:=${ROBOT_NAMESPACE:-robot}
         serial_baudrate:=576000
 
   rplidar:
@@ -53,7 +51,6 @@ services:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: >
       ros2 launch /husarion_utils/rplidar.launch.py
-        robot_namespace:=${ROBOT_NAMESPACE:-robot}
         serial_baudrate:=${LIDAR_BAUDRATE:-256000}
         serial_port:=/dev/ttyUSB0
 
@@ -76,5 +73,3 @@ services:
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
-        use_namespace:=True
-        namespace:=${ROBOT_NAMESPACE:-robot}
