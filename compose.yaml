@@ -2,45 +2,66 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  env_file: dds.env
+  restart: unless-stopped
+
+x-ros-envs:
+  &ros-envs
+  env_file: .env.dds
 
 services:
 
   ros2router:
-    image: husarnet/ros2router:release-1.5.0
-    network_mode: host
-    ipc: host
+    image: husarnet/ros2router:1.6.3
+    <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-    # # envs for LAN only setup
-    #   - ROS_LOCALHOST_ONLY=0
-    #   - USE_HUSARNET=false
-    # envs for Husarnet only setup
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
+    # entrypoint: tail -f /dev/null
 
   rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
-    <<: *common-config
+    image: husarion/rosbot:humble-0.12.0-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - ${SERIAL_PORT:?err}
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT
+        namespace:=${ROBOT_NAMESPACE:-robot}
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20231219
-    <<: *common-config
+    image: husarion/rplidar:humble-1.0.1-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
+    command: >
+      ros2 launch /husarion_utils/rplidar.launch.py
+        robot_namespace:=${ROBOT_NAMESPACE:-robot}
+        serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+        serial_port:=/dev/ttyUSB0
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
-    <<: *common-config
+    image: husarion/navigation2:humble-1.1.12-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
     depends_on:
       rplidar: { condition: service_healthy }
       rosbot: { condition: service_healthy }
@@ -55,3 +76,5 @@ services:
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
+        use_namespace:=True
+        namespace:=${ROBOT_NAMESPACE:-robot}

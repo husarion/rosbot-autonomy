@@ -77,7 +77,7 @@ docker compose pull
 To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
 ```bash
-./flash_firmware.sh
+./flash_rosbot_firmware.sh
 ```
 
 #### Running autonomy
