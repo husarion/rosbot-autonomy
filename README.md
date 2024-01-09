@@ -29,15 +29,10 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-4. Modify the `.env` file and set your ROSbot's Husanret hostname in this line:
+4. Modify the `.env` file and set ROSbot's namespace. Should be the same as Husarnet device name:
 
    ```bash
-   # =======================================
-   # Husarnet config
-   # =======================================
-
-   # The Husarnet hostname of the ROSbot
-   ROSBOT_HOSTNAME=rosbot2r
+   ROBOT_NAMESPACE=rosbot2r
    ```
 
 ## Repository Setup
@@ -59,6 +54,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
 - **`SLAM`** - choose between mapping and localization modes
 - **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
 - **`CONTROLLER`** - choose the navigation controller type
+- **`ROBOT_NAMESPACE`** - type your ROSbot device name the same as in Husarnet.
 
 ## I. Running on a Physical Robot
 
@@ -88,9 +84,12 @@ docker compose up
 
 ### PC
 
-Open the **Google Chrome** browser on your laptop and navigate to:
+To initiate a user interface and navigation stack based on RViz, execute these commands on your PC:
 
-http://rosbot2r:8080/ui
+```bash
+xhost +local:docker && \
+docker compose -f compose.pc.yaml up
+```
 
 #### Result
 

@@ -31,7 +31,7 @@ services:
 
   rosbot:
     image: husarion/rosbot:humble-0.12.0-20240104
-    <<: 
+    <<:
       - *common-config
       - *ros-envs
     devices:
@@ -44,7 +44,7 @@ services:
 
   rplidar:
     image: husarion/rplidar:humble-1.0.1-20240104
-    <<: 
+    <<:
       - *common-config
       - *ros-envs
     devices:
@@ -56,7 +56,7 @@ services:
 
   navigation:
     image: husarion/navigation2:humble-1.1.12-20240104
-    <<: 
+    <<:
       - *common-config
       - *ros-envs
     depends_on:

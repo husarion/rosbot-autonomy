@@ -9,6 +9,7 @@ repos:
       - id: check-yaml
       - id: check-xml
       - id: check-added-large-files
+        args: [--maxkb=13000]
       - id: check-ast
       - id: check-json
       - id: name-tests-test
