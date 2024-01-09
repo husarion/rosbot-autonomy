@@ -3,10 +3,7 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Maps1
-        - /Maps1/Map1
-        - /Maps1/Map1/Topic1
+      Expanded: ~
       Splitter Ratio: 0.6294117569923401
     Tree Height: 898
   - Class: rviz_common/Selection
