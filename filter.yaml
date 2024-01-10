@@ -2,45 +2,45 @@
 # reliability: true - reliable, false - best effort
 # durability: true - transient local, false - volatile
 allowlist:
-  - name: rt/clicked_point
-  - name: rt/goal_pose
-  - name: rt/initialpose
-  - name: rt/global_costmap/costmap
-  - name: rt/global_costmap/costmap_updates
-  - name: rt/local_costmap/costmap
-  - name: rt/local_costmap/costmap_updates
-  - name: rt/local_costmap/published_footprint
-  - name: rt/local_plan
-  - name: rt/map_updates
-  - name: rt/plan
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/clicked_point
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/goal_pose
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/initialpose
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/global_costmap/costmap
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/global_costmap/costmap_updates
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/local_costmap/costmap
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/local_costmap/costmap_updates
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/local_costmap/published_footprint
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/local_plan
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/map_updates
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/plan
   # - name: "rt/waypoints"
   # - name: "rt/behavior_server/transition_event"
   # - name: "rt/bond"
   # - name: "rt/bt_navigator/transition_event"
-  - name: rt/cmd_ser
-  - name: rt/cmd_vel
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/cmd_ser
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/cmd_vel
   # - name: "rt/dynamic_joint_states"
   # - name: "rt/global_costmap/global_costmap/transition_event"
   # - name: "rt/joint_state_broadcaster/transition_event"
   # - name: "rt/joint_states"
-  - name: rt/map
-  - name: rt/map_metadata
-  - name: rt/odometry/filtered
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/map
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/map_metadata
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/odometry/filtered
   # - name: "rt/parameter_events"
   # - name: "rt/planner_server/transition_event"
-  - name: rt/pose
-  - name: rt/robot_description
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/pose
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/robot_description
   # - name: "rt/rosbot_base_controller/odom"
   # - name: "rt/rosbot_base_controller/transition_event"
-  - name: rt/scan
-  - name: rt/set_pose
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/scan
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/set_pose
   # - name: "rt/slam_toolbox/feedback"
   # - name: "rt/slam_toolbox/graph_visualization"
   # - name: "rt/slam_toolbox/scan_visualization"
   # - name: "rt/slam_toolbox/update"
   # - name: "rt/smoother_server/transition_event"
-  - name: rt/tf
-  - name: rt/tf_static
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/tf
+  - name: rt/{{ .Env.ROBOT_NAMESPACE }}/tf_static
   # - name: "rt/velocity_smoother/transition_event"
   # - name: "rt/waypoint_follower/transition_event"
 

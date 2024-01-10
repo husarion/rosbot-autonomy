@@ -36,7 +36,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /robot_description
+            Value: robot_description
           Enabled: true
           Links:
             All Links Enabled: true
@@ -151,7 +151,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /local_costmap/published_footprint
+            Value: local_costmap/published_footprint
           Value: true
         - Class: rviz_default_plugins/TF
           Enabled: false
@@ -197,7 +197,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Best Effort
-            Value: /scan
+            Value: scan
           Use Fixed Frame: true
           Use rainbow: true
           Value: false
@@ -237,13 +237,13 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /map
+            Value: map
           Update Topic:
             Depth: 5
             Durability Policy: Transient Local
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /map_updates
+            Value: map_updates
           Use Timestamp: false
           Value: true
         - Alpha: 0.30000001192092896
@@ -260,13 +260,13 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: System Default
-            Value: /global_costmap/costmap
+            Value: global_costmap/costmap
           Update Topic:
             Depth: 5
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /global_costmap/costmap_updates
+            Value: global_costmap/costmap_updates
           Use Timestamp: false
           Value: true
         - Alpha: 0.699999988079071
@@ -283,13 +283,13 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /local_costmap/costmap
+            Value: local_costmap/costmap
           Update Topic:
             Depth: 5
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /local_costmap/costmap_updates
+            Value: local_costmap/costmap_updates
           Use Timestamp: false
           Value: true
       Enabled: true
@@ -329,7 +329,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /amcl_pose
+            Value: amcl_pose
           Value: true
         - Alpha: 1
           Class: nav2_rviz_plugins/ParticleCloud
@@ -345,7 +345,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Best Effort
-            Value: /particle_cloud
+            Value: particle_cloud
           Value: true
       Enabled: true
       Name: AMCL
@@ -377,7 +377,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /unsmoothed_plan
+            Value: unsmoothed_plan
           Value: true
         - Alpha: 1
           Buffer Length: 1
@@ -405,7 +405,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /plan
+            Value: plan
           Value: true
         - Alpha: 1
           Axes Length: 1
@@ -425,7 +425,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Best Effort
-            Value: /goal_pose
+            Value: goal_pose
           Value: true
       Enabled: true
       Name: Planner
@@ -441,7 +441,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /marker
+            Value: marker
           Value: true
         - Class: rviz_common/Group
           Displays:
@@ -471,7 +471,7 @@ Visualization Manager:
                 Filter size: 10
                 History Policy: Keep Last
                 Reliability Policy: Reliable
-                Value: /received_global_plan
+                Value: received_global_plan
               Value: true
             - Alpha: 1
               Buffer Length: 1
@@ -499,7 +499,7 @@ Visualization Manager:
                 Filter size: 10
                 History Policy: Keep Last
                 Reliability Policy: Reliable
-                Value: /lookahead_collision_arc
+                Value: lookahead_collision_arc
               Value: true
             - Alpha: 1
               Class: rviz_default_plugins/PointStamped
@@ -514,7 +514,7 @@ Visualization Manager:
                 Filter size: 10
                 History Policy: Keep Last
                 Reliability Policy: Reliable
-                Value: /lookahead_point
+                Value: lookahead_point
               Value: true
           Enabled: true
           Name: RPP Controller
@@ -528,7 +528,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /trajectories
+            Value: trajectories
           Value: true
       Enabled: true
       Name: Controller
@@ -555,14 +555,14 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /initialpose
+        Value: initialpose
     - Class: rviz_default_plugins/SetGoal
       Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /goal_pose
+        Value: goal_pose
     - Class: rviz_default_plugins/PublishPoint
       Single click: true
       Topic:
@@ -570,7 +570,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /clicked_point
+        Value: clicked_point
   Transformation:
     Current:
       Class: rviz_default_plugins/TF
