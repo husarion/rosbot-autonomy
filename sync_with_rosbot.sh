@@ -14,7 +14,7 @@ fi
 
 # If your ROSbot's IP address is provided as an argument, execute synchronization
 if [ $# -eq 1 ]; then
-    echo "Syncing with ROSbot at IP: $1"
+    echo "Syncing with: $1"
     sshpass -p "husarion" rsync -vRr --delete ./ husarion@$1:/home/husarion/${PWD##*/}
 
     while inotifywait -r -e modify,create,delete,move ./ ; do
