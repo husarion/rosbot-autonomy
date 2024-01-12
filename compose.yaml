@@ -11,24 +11,24 @@ x-ros-envs:
 
 services:
 
-  # ros2router:
-  #   image: husarnet/ros2router:1.6.3
-  #   <<: *common-config
-  #   volumes:
-  #     - ./filter.yaml:/filter.yaml
-  #   environment:
-  #     - USER
-  #     # ==========================
-  #     # envs for Husarnet setup
-  #     # ==========================
-  #     - DISCOVERY_SERVER_LISTENING_PORT=11811
-  #     - DISCOVERY_SERVER_ID=0
-  #     # ==========================
-  #     # envs for LAN setup
-  #     # ==========================
-  #     # - ROS_LOCALHOST_ONLY=0
-  #     # - HUSARNET_PARTICIPANT_ENABLED=false
-  #   # entrypoint: tail -f /dev/null
+  ros2router:
+    image: husarnet/ros2router:1.6.3
+    <<: *common-config
+    volumes:
+      - ./filter.yaml:/filter.yaml
+    environment:
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
+      - DISCOVERY_SERVER_LISTENING_PORT=11811
+      - DISCOVERY_SERVER_ID=0
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
+    # entrypoint: tail -f /dev/null
 
   rosbot:
     image: husarion/rosbot:humble-0.12.0-20240104
