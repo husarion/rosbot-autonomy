@@ -151,14 +151,12 @@ docker compose -f compose.sim.webots.yaml up
 
 ---
 
-
 ### Result
 
 ![autonomy-result](.docs/autonomy-result.gif)
 
 > [!NOTE]
 > To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
-
 
 ## Developer info
 
