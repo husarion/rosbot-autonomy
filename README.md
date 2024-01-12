@@ -41,8 +41,8 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-> [!NOTE]
-> `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
+   > [!NOTE]
+   > `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
 
 ### 📡 Step 3: Sync
 
@@ -67,7 +67,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
 - **`ROBOT_NAMESPACE`** - type your ROSbot device name the same as in Husarnet.
 
 > [!IMPORTANT]
-> Modify the `.env` file and set ROSbot's namespace. Should be the same as Husarnet device name.
+> The value of the `ROBOT_NAMESPACE` parameter in the `.env` file should be the same as the name of the Husarnet device.
 
 ### 🤖 Step 5: Running Autonomy
 
@@ -131,7 +131,9 @@ xhost +local:docker && \
 docker compose -f compose.pc.yaml up
 ```
 
-#### Gazebo Simulation
+---
+
+#### II. Gazebo Simulation
 
 Start the containers in a new terminal:
 
@@ -140,7 +142,9 @@ xhost +local:docker && \
 docker compose -f compose.sim.gazebo.yaml up
 ```
 
-#### Webots Simulation
+---
+
+#### III. Webots Simulation
 
 Start the containers in a new terminal:
 
@@ -153,10 +157,9 @@ docker compose -f compose.sim.webots.yaml up
 
 ### Result
 
-![autonomy-result](.docs/autonomy-result.gif)
+To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 
-> [!NOTE]
-> To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
+![autonomy-result](.docs/autonomy-result.gif)
 
 ## Developer info
 
