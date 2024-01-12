@@ -41,8 +41,8 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-   > [!NOTE]
-   > `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
+> [!NOTE]
+> `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
 
 ### 📡 Step 3: Sync
 
