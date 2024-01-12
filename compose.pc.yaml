@@ -42,4 +42,8 @@ services:
     environment:
       - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
       - USER
-    command: rviz2 -d /default.rviz
+    command: >
+      rviz2 -d /default.rviz --ros-args
+        -r /tf:=tf
+        -r /tf_static:=tf_static
+        -r __ns:=/${ROBOT_NAMESPACE}

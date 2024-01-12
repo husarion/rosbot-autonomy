@@ -3,6 +3,7 @@
 A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
 
 You can test the robot's autonomy on two branches:
+
 - [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
 - [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
 
