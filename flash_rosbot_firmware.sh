@@ -27,8 +27,7 @@ if ! command -v /usr/bin/yq &> /dev/null; then
     YQ_VERSION=v4.35.1
     curl -L https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_$(get_arch) -o /usr/bin/yq
     chmod +x /usr/bin/yq
-    echo "done!"
-    echo "Now rerun the script as a normal user"
+    echo "Done!"
     exit 0
 fi
 
