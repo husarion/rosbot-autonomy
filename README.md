@@ -113,7 +113,7 @@ Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
    To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
    ```bash
-   ./flash_rosbot_firmware.sh
+   sudo ./flash_rosbot_firmware.sh
    ```
 
 4. Running autonomy
