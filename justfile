@@ -110,7 +110,7 @@ run-teleop-docker:
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-sshpass _install-inotify-tools _install-rsync
     #!/bin/bash
-    sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ ; do
-        sshpass -p "{{password}}" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    sshpass -p "husarion" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' ; do
+        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
