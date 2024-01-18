@@ -33,7 +33,7 @@ services:
     # entrypoint: tail -f /dev/null
 
   rosbot:
-    image: husarion/rosbot:humble-0.12.0-20240104
+    image: husarion/rosbot:humble-0.13.0-20240115
     <<:
       - *common-config
       - *ros-envs
@@ -43,7 +43,6 @@ services:
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT
-        namespace:=${ROBOT_NAMESPACE}
         serial_baudrate:=576000
 
   rplidar:
