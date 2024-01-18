@@ -13,7 +13,7 @@ _install-sshpass:
 
 _install-inotify-tools:
     #!/bin/bash
-    if ! command -v inotify-tools &> /dev/null; then
+    if ! command -v inotifywait &> /dev/null; then
         echo "inotify-tools is not installed. Installing it..."
         sudo apt-get install -y inotify-tools || { echo "Failed to install inotify-tools. Exiting."; exit 1; }
     fi
