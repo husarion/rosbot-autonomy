@@ -1,10 +1,7 @@
 x-gpu-config:
   &gpu-config
   runtime: nvidia
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - NVIDIA_VISIBLE_DEVICES=all
-    - NVIDIA_DRIVER_CAPABILITIES=all
+  env_file: .env.gpu
 
 services:
 

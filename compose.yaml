@@ -6,7 +6,7 @@ x-common-config:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
+    image: husarion/rosbot:humble-0.13.0-20240115
     <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
@@ -17,14 +17,17 @@ services:
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20231219
+    image: husarion/rplidar:humble-1.0.1-20240104
     <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
+    command: >
+      ros2 launch /husarion_utils/rplidar.launch.py
+        serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+        serial_port:=/dev/ttyUSB0
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
+    image: husarion/navigation2:humble-namespace
     <<: *common-config
     depends_on:
       rplidar: { condition: service_healthy }
@@ -32,10 +35,8 @@ services:
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
-    environment:
-      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup bringup_launch.py
+      ros2 launch /husarion_utils/bringup_launch.py
         slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
