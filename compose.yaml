@@ -8,8 +8,8 @@ x-common-config:
 x-ros-envs:
   &ros-envs
   environment:
-  - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-  - USER=${USER:-root}
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+    - USER=${USER:-root}
 
 services:
 

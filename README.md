@@ -9,6 +9,34 @@ You can test the robot's autonomy on two branches:
 
 ## Quick start
 
+> [!NOTE]
+> To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
+>
+> Install it with:
+>
+> ```bash
+> wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
+> echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
+> sudo apt update
+> sudo apt install just
+> ```
+
+To see all available commands just run `just`:
+
+```bash
+husarion@rosbot2r:~/rosbot-telepresence$ just
+Available recipes:
+    connect-husarnet joincode hostname # connect to Husarnet VPN network
+    flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
+    start-pc          # start RViz visualization on PC
+    start-gazebo-sim  # start Gazebo simulator with autonomy
+    start-webots-sim  # start Webots simulator with autonomy
+    run-teleop        # run teleop_twist_keybaord (host)
+    run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
+    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+```
+
 ### ⬇️ Step 1: Clone repository
 
 Go to the directory in which you want to save the project and execute the following commands:
@@ -23,22 +51,18 @@ cd rosbot-autonomy
 Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
+2. Connect your laptop to the Husarnet network.
 
    ```bash
-   curl https://install.husarnet.com/install.sh | sudo bash
+   export JOINCODE=<paste-join-code-here>
+   just connect-husarnet $JOINCODE my-laptop
    ```
 
-   and connect to the Husarnet network with:
+3. Connect your ROSbot and add ROSbot to the Husarnet network.
 
    ```bash
-   sudo husarnet join <paste-join-code-here>
-   ```
-
-3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
-
-   ```bash
-   sudo husarnet join <paste-join-code-here> rosbot2r
+   export JOINCODE=<paste-join-code-here>
+   just connect-husarnet $JOINCODE rosbot2r
    ```
 
 > [!NOTE]
@@ -46,14 +70,14 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
 
 ### 📡 Step 3: Sync
 
-This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `just sync` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
-./sync_with_rosbot.sh rosbot2r
+just sync rosbot2r
 ```
 
 > [!NOTE]
-> This `sync_with_rosbot.sh` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
+> This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
 
 ### 🔧 Step 4: Verifying User Configuration
 
@@ -78,7 +102,7 @@ Below are three options for starting autonomy:
 - in Webots simulation
 
 > [!IMPORTANT]
-> The `compose.sim.gazebo.yaml` and `compose.sim.webots.yaml` files use NVIDIA Container Runtime. Make sure you have NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+> To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
 
 ---
 
@@ -86,94 +110,67 @@ Below are three options for starting autonomy:
 
 To enable autonomy on the robot, it is necessary:
 
-- starting autonomy on ROSbot (`compose.yaml`)
-- launching visualization on PC (`compose.pc.yaml`)
+- starting autonomy on ROSbot
+- launching visualization on PC
 
 ##### ROSbot Actions
 
-Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
-
-1. Connect to the ROSbot
+1. Connect to the ROSbot.
 
    ```bash
    ssh husarion@rosbot2r
+   cd rosbot-autonomy
    ```
 
    > [!NOTE]
    > `rosbot2r` is the name of device set in Husarnet.
 
-2. Pulling the latest version
-
-   ```bash
-   docker compose pull
-   ```
-
-3. Flashing the ROSbot's Firmware
+2. Flashing the ROSbot's Firmware.
 
    To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
    ```bash
-   sudo ./flash_rosbot_firmware.sh
+   just flash-firmware
    ```
 
-4. Running autonomy
+3. Running autonomy on ROSbot.
 
    ```bash
-   docker compose up
+   just start-rosbot
    ```
 
 ##### PC
 
-To initiate a user interface and navigation stack based on RViz, execute these commands on your PC:
+To initiate a user interface and navigation stack based on RViz, execute below command on your PC:
 
 ```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up
+just start-pc
 ```
 
 ---
 
 #### II. Gazebo Simulation
 
-Start the containers in a new terminal:
+To start Gazebo simulator run:
 
 ```bash
-xhost +local:docker && \
-docker compose -f compose.sim.gazebo.yaml up
+just start-gazebo-sim
 ```
 
 ---
 
 #### III. Webots Simulation
 
-Start the containers in a new terminal:
+To start Webots simulator run:
 
 ```bash
-xhost +local:docker && \
-docker compose -f compose.sim.webots.yaml up
+just start-webots-sim
 ```
 
 ---
 
 ### Result
 
-To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
+To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 
 ![autonomy-result](.docs/autonomy-result.gif)
-
-## Developer info
-
-### pre-commit
-
-[pre-commit configuration](.pre-commit-config.yaml) checks file formats before contributing. Usage:
-
-```bash
-# install pre-commit
-pip install pre-commit
-
-# initialize pre-commit workspace
-pre-commit install
-
-# manually run tests
-pre-commit run -a
-```

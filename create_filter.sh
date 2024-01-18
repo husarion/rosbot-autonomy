@@ -6,6 +6,10 @@ if [ "$#" -lt 1 ]; then
     exit 1
 fi
 
+echo "Analyzing topics"
+
+{
+
 echo "allowlist:"
 
 # Loop over each topic provided as argument
@@ -50,3 +54,7 @@ done
 
 echo "blocklist: []"
 echo "builtin-topics: []"
+
+} > new-filter.yaml
+
+echo "Done! new-filter.yaml file created!"
