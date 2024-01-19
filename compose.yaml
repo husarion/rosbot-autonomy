@@ -10,6 +10,8 @@ services:
     <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
+    environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
@@ -21,6 +23,8 @@ services:
     <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
+    environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
     command: >
       ros2 launch /husarion_utils/rplidar.launch.py
         serial_baudrate:=${LIDAR_BAUDRATE:-256000}
@@ -32,6 +36,9 @@ services:
     depends_on:
       rplidar: { condition: service_healthy }
       rosbot: { condition: service_healthy }
+    environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
+      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
@@ -43,13 +50,14 @@ services:
         use_sim_time:=False
 
   foxglove:
-    image: husarion/foxglove:1.83.0
+    image: husarion/foxglove:1.84.0
     ports:
       - 8080:8080
       - 8765:8765
     volumes:
       - ./config/layout.json:/foxglove/default-layout.json
     environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
       # - DS_TYPE=rosbridge-websocket
       # - DS_PORT=9090
       - DS_TYPE=foxglove-websocket
@@ -66,5 +74,5 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-ds:
-    image: husarion/foxglove-bridge:humble-0.7.3-20231222
+    image: husarion/foxglove-bridge:humble-0.7.3-20240108
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]

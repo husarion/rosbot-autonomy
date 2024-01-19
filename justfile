@@ -76,18 +76,22 @@ flash-firmware: _install-yq
 
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
+    mkdir -m 777 -p maps
+    docker compose down
     docker compose pull
     docker compose up
 
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
     xhost +local:docker
+    docker compose -f compose.sim.gazebo.yaml down
     docker compose -f compose.sim.gazebo.yaml pull
     docker compose -f compose.sim.gazebo.yaml up
 
 # start Webots simulator with autonomy
 start-webots-sim:
     xhost +local:docker
+    docker compose -f compose.sim.webots.yaml down
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
@@ -104,7 +108,8 @@ run-teleop-docker:
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-sshpass _install-inotify-tools _install-rsync
     #!/bin/bash
-    sshpass -p "husarion" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' ; do
-        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    mkdir -m 777 -p maps
+    sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
+        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done

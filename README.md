@@ -65,7 +65,7 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    ```
 
 > [!NOTE]
-> `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
+> `rosbot2r` is the robot name that will be used to connect to the robot.
 
 ### 📡 Step 3: Sync
 
@@ -143,6 +143,9 @@ To enable autonomy on the robot, it is necessary:
 Open the **Google Chrome** browser on your laptop and navigate to:
 
 http://rosbot2r:8080/ui
+
+> [!NOTE]
+> `rosbot2r` is the name of device set in Husarnet.
 
 ---
 
