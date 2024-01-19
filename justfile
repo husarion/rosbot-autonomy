@@ -116,7 +116,7 @@ run-teleop-docker:
 sync hostname password="husarion": _install-sshpass _install-inotify-tools _install-rsync
     #!/bin/bash
     mkdir -m 777 -p maps
-    sshpass -p "husarion" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' ; do
-        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    sshpass -p "husarion" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
+        sshpass -p "husarion" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
