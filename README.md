@@ -83,11 +83,11 @@ just sync rosbot2r
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
-- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR
-- **`MECANUM`** - wheel type
-- **`SLAM`** - choose between mapping and localization modes
-- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
-- **`CONTROLLER`** - choose the navigation controller type
+- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR,
+- **`MECANUM`** - wheel type,
+- **`SLAM`** - choose between mapping and localization modes,
+- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable),
+- **`CONTROLLER`** - choose the navigation controller type,
 - **`ROBOT_NAMESPACE`** - type your ROSbot device name the same as in Husarnet.
 
 > [!IMPORTANT]
