@@ -6,36 +6,40 @@ x-gpu-config:
 services:
 
   rosbot:
-    image: husarion/rosbot-gazebo:humble-0.10.3-20231127
+    image: husarion/rosbot-gazebo:humble-0.13.0-20240115
     <<: *gpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    command: ros2 launch rosbot_gazebo simulation.launch.py mecanum:=${MECANUM:-True}
+    command: >
+      ros2 launch rosbot_gazebo simulation.launch.py
+        mecanum:=${MECANUM:-True}
+        namespace:=${ROBOT_NAMESPACE}
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
-
+    image: husarion/navigation2:humble-namespace
     <<: *gpu-config
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
       - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup bringup_launch.py
+      ros2 launch /husarion_utils/bringup_launch.py
         slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=True
 
   foxglove:
-    image: husarion/foxglove:1.83.0
+    image: husarion/foxglove:1.84.0
     ports:
       - 8080:8080
       - 8765:8765
     volumes:
       - ./config/layout.json:/foxglove/default-layout.json
     environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
       # - DS_TYPE=rosbridge-websocket
       # - DS_PORT=9090
       - DS_TYPE=foxglove-websocket
@@ -52,5 +56,5 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-ds:
-    image: husarion/foxglove-bridge:humble-0.7.3-20231222
+    image: husarion/foxglove-bridge:humble-0.7.3-20240108
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
