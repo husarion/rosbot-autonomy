@@ -29,7 +29,7 @@ _install-yq:
     #!/bin/bash
     if ! command -v /usr/bin/yq &> /dev/null; then \
         if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install dependencies"; \
+            echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
             exit 1; \
         fi
 
@@ -64,7 +64,6 @@ connect-husarnet joincode hostname:
 
 # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
 flash-firmware: _install-yq
-    #!/bin/bash
     echo "Stopping all running containers"
     docker ps -q | xargs -r docker stop
 
