@@ -10,6 +10,8 @@ services:
     <<: *gpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
     command: >
       ros2 launch rosbot_gazebo simulation.launch.py
         mecanum:=${MECANUM:-True}
