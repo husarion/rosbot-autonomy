@@ -18,7 +18,7 @@ services:
         namespace:=${ROBOT_NAMESPACE}
 
   navigation:
-    image: husarion/navigation2:humble-namespace
+    image: husarion/navigation2:humble-1.1.12-20240123
     <<: *gpu-config
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml

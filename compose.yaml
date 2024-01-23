@@ -31,7 +31,7 @@ services:
         serial_port:=/dev/ttyUSB0
 
   navigation:
-    image: husarion/navigation2:humble-namespace
+    image: husarion/navigation2:humble-1.1.12-20240123
     <<: *common-config
     depends_on:
       rplidar: { condition: service_healthy }
