@@ -94,6 +94,12 @@ start-pc:
     docker compose -f compose.pc.yaml pull
     docker compose -f compose.pc.yaml up
 
+# restart the navigation stack (and SLAM)
+restart-nav2:
+    #!/bin/bash
+    docker compose down navigation
+    docker compose up -d navigation
+
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
     xhost +local:docker

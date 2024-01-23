@@ -41,10 +41,12 @@ services:
     <<:
       - *common-config
       - *cpu-config
-      - *dds-envs
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/default.rviz
+    environment:
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+      - USER=${USER:-root}
     command: >
       rviz2 -d /default.rviz --ros-args
         -r /tf:=tf
