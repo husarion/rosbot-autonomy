@@ -13,6 +13,10 @@ x-gpu-config:
   runtime: nvidia
   env_file: .env.gpu
 
+x-dds-envs:
+  &dds-envs
+  env_file: .env.dds
+
 services:
 
   ros2router:
@@ -20,6 +24,7 @@ services:
     <<: *common-config
     environment:
       - USER
+      - ROBOT_NAMESPACE
       # ==========================
       # envs for Husarnet setup
       # ==========================
@@ -36,12 +41,10 @@ services:
     <<:
       - *common-config
       - *cpu-config
+      - *dds-envs
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./config/rosbot.rviz:/default.rviz
-    environment:
-      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-      - USER
     command: >
       rviz2 -d /default.rviz --ros-args
         -r /tf:=tf

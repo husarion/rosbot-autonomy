@@ -1,28 +1,34 @@
 set dotenv-load
 
 [private]
+alias husarnet := connect-husarnet
+[private]
+alias flash := flash-firmware
+[private]
+alias rosbot := start-rosbot
+[private]
+alias pc := start-pc
+[private]
+alias teleop := run-teleop
+[private]
+alias teleop-docker := run-teleop-docker
+[private]
+alias gazebo := start-gazebo-sim
+[private]
+alias webots := start-webots-sim
+
+[private]
 default:
   @just --list --unsorted
-
-_install-sshpass:
-    #!/bin/bash
-    if ! command -v sshpass &> /dev/null; then
-        echo "sshpass is not installed. Installing it..."
-        sudo apt-get install -y sshpass || { echo "Failed to install sshpass. Exiting."; exit 1; }
-    fi
-
-_install-inotify-tools:
-    #!/bin/bash
-    if ! command -v inotifywait &> /dev/null; then
-        echo "inotify-tools is not installed. Installing it..."
-        sudo apt-get install -y inotify-tools || { echo "Failed to install inotify-tools. Exiting."; exit 1; }
-    fi
 
 _install-rsync:
     #!/bin/bash
     if ! command -v rsync &> /dev/null; then
-        echo "rsync is not installed. Installing it..."
-        sudo apt-get install -y rsync || { echo "Failed to install rsync. Exiting."; exit 1; }
+        if [ "$EUID" -ne 0 ]; then \
+            echo "Please run as root to install dependencies"; \
+            exit 1; \
+        fi
+        sudo apt-get install -y rsync sshpass inotify-tools
     fi
 
 _install-yq:
@@ -113,7 +119,7 @@ run-teleop-docker:
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
 # copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion": _install-sshpass _install-inotify-tools _install-rsync
+sync hostname password="husarion":  _install-rsync
     #!/bin/bash
     mkdir -m 777 -p maps
     sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
