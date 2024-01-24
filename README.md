@@ -25,7 +25,7 @@ Autonomous navigation & mapping for ROSbot 2R / 2 PRO with RViz interface runnin
 To see all available commands just run `just`:
 
 ```bash
-husarion@rosbot2r:~/rosbot-telepresence$ just
+husarion@rosbot2r:~/rosbot-autonomy$ just
 Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
     flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
