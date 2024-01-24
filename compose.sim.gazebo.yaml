@@ -10,21 +10,16 @@ services:
     <<: *gpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    environment:
-      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
     command: >
       ros2 launch rosbot_gazebo simulation.launch.py
         mecanum:=${MECANUM:-True}
-        namespace:=${ROBOT_NAMESPACE}
 
   navigation:
     image: husarion/navigation2:humble-1.1.12-20240123
-    <<: *gpu-config
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
-      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
       - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
       ros2 launch /husarion_utils/bringup_launch.py
@@ -41,7 +36,6 @@ services:
     volumes:
       - ./config/layout.json:/foxglove/default-layout.json
     environment:
-      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE}
       # - DS_TYPE=rosbridge-websocket
       # - DS_PORT=9090
       - DS_TYPE=foxglove-websocket

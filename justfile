@@ -1,47 +1,47 @@
 set dotenv-load
 
 [private]
+alias husarnet := connect-husarnet
+[private]
+alias flash := flash-firmware
+[private]
+alias rosbot := start-rosbot
+[private]
+alias gazebo := start-gazebo-sim
+[private]
+alias webots := start-webots-sim
+
+[private]
 default:
   @just --list --unsorted
-
-_install-sshpass:
-    #!/bin/bash
-    if ! command -v sshpass &> /dev/null; then
-        echo "sshpass is not installed. Installing it..."
-        sudo apt-get install -y sshpass || { echo "Failed to install sshpass. Exiting."; exit 1; }
-    fi
-
-_install-inotify-tools:
-    #!/bin/bash
-    if ! command -v inotifywait &> /dev/null; then
-        echo "inotify-tools is not installed. Installing it..."
-        sudo apt-get install -y inotify-tools || { echo "Failed to install inotify-tools. Exiting."; exit 1; }
-    fi
 
 _install-rsync:
     #!/bin/bash
     if ! command -v rsync &> /dev/null; then
-        echo "rsync is not installed. Installing it..."
-        sudo apt-get install -y rsync || { echo "Failed to install rsync. Exiting."; exit 1; }
+        if [ "$EUID" -ne 0 ]; then
+            echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
+            exit 1
+        fi
+        sudo apt-get install -y rsync sshpass inotify-tools
     fi
 
 _install-yq:
     #!/bin/bash
-    if ! command -v /usr/bin/yq &> /dev/null; then \
-        if [ "$EUID" -ne 0 ]; then \
+    if ! command -v /usr/bin/yq &> /dev/null; then
+        if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1; \
+            exit 1
         fi
 
         YQ_VERSION=v4.35.1
         ARCH=$(arch)
 
-        if [ "$ARCH" = "x86_64" ]; then \
-            YQ_ARCH="amd64"; \
-        elif [ "$ARCH" = "aarch64" ]; then \
-            YQ_ARCH="arm64"; \
-        else \
-            YQ_ARCH="$ARCH"; \
+        if [ "$ARCH" = "x86_64" ]; then
+            YQ_ARCH="amd64"
+        elif [ "$ARCH" = "aarch64" ]; then
+            YQ_ARCH="arm64"
+        else
+            YQ_ARCH="$ARCH"
         fi
 
         curl -L https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${YQ_ARCH} -o /usr/bin/yq
@@ -52,18 +52,19 @@ _install-yq:
 # connect to Husarnet VPN network
 connect-husarnet joincode hostname:
     #!/bin/bash
-    if [ "$EUID" -ne 0 ]; then \
-        echo "Please run as root"; \
-        exit; \
+    if [ "$EUID" -ne 0 ]; then
+        echo "Please run as root"
+        exit
     fi
-    if ! command -v husarnet > /dev/null; then \
-        echo "Husarnet is not installed. Installing now..."; \
-        curl https://install.husarnet.com/install.sh | sudo bash; \
+    if ! command -v husarnet > /dev/null; then
+        echo "Husarnet is not installed. Installing now..."
+        curl https://install.husarnet.com/install.sh | sudo bash
     fi
     husarnet join {{joincode}} {{hostname}}
 
 # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
 flash-firmware: _install-yq
+    #!/bin/bash
     echo "Stopping all running containers"
     docker ps -q | xargs -r docker stop
 
@@ -75,6 +76,7 @@ flash-firmware: _install-yq
 
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
+    #!/bin/bash
     mkdir -m 777 -p maps
     docker compose down
     docker compose pull
@@ -82,6 +84,7 @@ start-rosbot:
 
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
+    #!/bin/bash
     xhost +local:docker
     docker compose -f compose.sim.gazebo.yaml down
     docker compose -f compose.sim.gazebo.yaml pull
@@ -89,17 +92,14 @@ start-gazebo-sim:
 
 # start Webots simulator with autonomy
 start-webots-sim:
+    #!/bin/bash
     xhost +local:docker
     docker compose -f compose.sim.webots.yaml down
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
-# run teleop_twist_keybaord (host)
-run-teleop:
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}
-
 # copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion": _install-sshpass _install-inotify-tools _install-rsync
+sync hostname password="husarion": _install-rsync
     #!/bin/bash
     mkdir -m 777 -p maps
     sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
