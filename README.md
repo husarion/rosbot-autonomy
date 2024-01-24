@@ -31,10 +31,10 @@ Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
     flash-firmware     # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
     start-rosbot       # start ROSbot 2R / 2 PRO autonomy containers
-    start-gazebo-sim   # start Gazebo simulator with autonomy
-    start-webots-sim   # start Webots simulator with autonomy
-    restart-navigation # Restart Nav2 container
-    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+    start-gazebo-sim   # start the Gazebo simulation
+    start-webots-sim   # start the Webots simulation
+    restart-navigation # Restart the Nav2 container
+    sync hostname password="husarion" # Copy repo content to remote host with 'rsync' and watch for changes
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN

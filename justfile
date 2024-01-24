@@ -12,6 +12,10 @@ alias gazebo := start-gazebo-sim
 alias webots := start-webots-sim
 
 [private]
+default:
+    @just --list --unsorted
+
+[private]
 pre-commit:
     #!/bin/bash
     if ! command -v pre-commit &> /dev/null; then
@@ -19,10 +23,6 @@ pre-commit:
         pre-commit install
     fi
     pre-commit run -a
-
-[private]
-default:
-  @just --list --unsorted
 
 _install-rsync:
     #!/bin/bash
@@ -91,7 +91,7 @@ start-rosbot:
     docker compose pull
     docker compose up
 
-# start Gazebo simulator with autonomy
+# start the Gazebo simulation
 start-gazebo-sim:
     #!/bin/bash
     xhost +local:docker
@@ -99,7 +99,7 @@ start-gazebo-sim:
     docker compose -f compose.sim.gazebo.yaml pull
     docker compose -f compose.sim.gazebo.yaml up
 
-# start Webots simulator with autonomy
+# start the Webots simulation
 start-webots-sim:
     #!/bin/bash
     xhost +local:docker
@@ -107,13 +107,13 @@ start-webots-sim:
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
-# Restart Nav2 container
+# Restart the Nav2 container
 restart-navigation:
     #!/bin/bash
     docker compose down navigation
     docker compose up -d navigation
 
-# copy repo content to remote host with 'rsync' and watch for changes
+# Copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync
     #!/bin/bash
     mkdir -m 777 -p maps
