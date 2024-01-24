@@ -12,6 +12,15 @@ alias gazebo := start-gazebo-sim
 alias webots := start-webots-sim
 
 [private]
+pre-commit:
+    #!/bin/bash
+    if ! command -v pre-commit &> /dev/null; then
+        pip install pre-commit
+        pre-commit install
+    fi
+    pre-commit run -a
+
+[private]
 default:
   @just --list --unsorted
 
@@ -100,7 +109,7 @@ start-webots-sim:
 
 # Restart Nav2 container
 restart-navigation:
-    #!/bin/bash   
+    #!/bin/bash
     docker compose down navigation
     docker compose up -d navigation
 
