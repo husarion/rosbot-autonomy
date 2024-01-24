@@ -86,7 +86,7 @@ flash-firmware: _install-yq
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
-    mkdir -m 777 -p maps
+    mkdir -m 775 -p maps
     docker compose down
     docker compose pull
     docker compose up
@@ -116,7 +116,7 @@ restart-navigation:
 # Copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync
     #!/bin/bash
-    mkdir -m 777 -p maps
+    mkdir -m 775 -p maps
     sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
