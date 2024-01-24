@@ -1,4 +1,4 @@
-set dotenv-load
+set dotenv-load # to read ROBOT_NAMESPACE from .env file
 
 [private]
 alias husarnet := connect-husarnet
@@ -93,7 +93,7 @@ flash-firmware: _install-yq
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
-    mkdir -m 666 -p maps
+    mkdir -m 775 -p maps
     docker compose down
     docker compose pull
     docker compose up
@@ -140,9 +140,9 @@ run-teleop-docker:
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
 # copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion":  _install-rsync
+sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     #!/bin/bash
-    mkdir -m 777 -p maps
+    mkdir -m 775 -p maps
     sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}

@@ -36,7 +36,7 @@ Available recipes:
     start-webots-sim  # start Webots simulator with autonomy
     run-teleop        # run teleop_twist_keybaord (host)
     run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
-    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
@@ -55,7 +55,8 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   > [!IMPORTANT]
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change the line:
    > ```bash
    > ROBOT_NAMESPACE=rosbot2r
    > ```
