@@ -23,7 +23,7 @@ default:
 
 _install-rsync:
     #!/bin/bash
-    if ! command -v rsync &> /dev/null; then
+    if ! command -v rsync &> /dev/null && ! command -v sshpass &> /dev/null && ! command -v inotifywait &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then \
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
             exit 1; \
