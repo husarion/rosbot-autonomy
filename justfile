@@ -19,35 +19,45 @@ alias webots := start-webots-sim
 
 [private]
 default:
-  @just --list --unsorted
+    @just --list --unsorted
+
+[private]
+pre-commit:
+    #!/bin/bash
+    if ! command -v pre-commit &> /dev/null; then
+        pip install pre-commit
+        pre-commit install
+    fi
+    pre-commit run -a
 
 _install-rsync:
     #!/bin/bash
-    if ! command -v rsync &> /dev/null && ! command -v sshpass &> /dev/null && ! command -v inotifywait &> /dev/null; then
-        if [ "$EUID" -ne 0 ]; then \
+    if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
+        if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1; \
+            exit 1
         fi
         sudo apt-get install -y rsync sshpass inotify-tools
     fi
 
+
 _install-yq:
     #!/bin/bash
-    if ! command -v /usr/bin/yq &> /dev/null; then \
-        if [ "$EUID" -ne 0 ]; then \
+    if ! command -v /usr/bin/yq &> /dev/null; then
+        if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1; \
+            exit 1
         fi
 
         YQ_VERSION=v4.35.1
         ARCH=$(arch)
 
-        if [ "$ARCH" = "x86_64" ]; then \
-            YQ_ARCH="amd64"; \
-        elif [ "$ARCH" = "aarch64" ]; then \
-            YQ_ARCH="arm64"; \
-        else \
-            YQ_ARCH="$ARCH"; \
+        if [ "$ARCH" = "x86_64" ]; then
+            YQ_ARCH="amd64"
+        elif [ "$ARCH" = "aarch64" ]; then
+            YQ_ARCH="arm64"
+        else
+            YQ_ARCH="$ARCH"
         fi
 
         curl -L https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${YQ_ARCH} -o /usr/bin/yq
@@ -58,13 +68,13 @@ _install-yq:
 # connect to Husarnet VPN network
 connect-husarnet joincode hostname:
     #!/bin/bash
-    if [ "$EUID" -ne 0 ]; then \
-        echo "Please run as root"; \
-        exit; \
+    if [ "$EUID" -ne 0 ]; then
+        echo "Please run as root"
+        exit
     fi
-    if ! command -v husarnet > /dev/null; then \
-        echo "Husarnet is not installed. Installing now..."; \
-        curl https://install.husarnet.com/install.sh | sudo bash; \
+    if ! command -v husarnet > /dev/null; then
+        echo "Husarnet is not installed. Installing now..."
+        curl https://install.husarnet.com/install.sh | sudo bash
     fi
     husarnet join {{joincode}} {{hostname}}
 
@@ -82,13 +92,15 @@ flash-firmware: _install-yq
 
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
-    mkdir -m 777 -p maps
+    #!/bin/bash
+    mkdir -m 666 -p maps
     docker compose down
     docker compose pull
     docker compose up
 
 # start RViz visualization on PC
 start-pc:
+    #!/bin/bash
     xhost +local:docker
     docker compose -f compose.pc.yaml down
     docker compose -f compose.pc.yaml pull
@@ -102,6 +114,7 @@ restart-nav2:
 
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
+    #!/bin/bash
     xhost +local:docker
     docker compose -f compose.sim.gazebo.yaml down
     docker compose -f compose.sim.gazebo.yaml pull
@@ -109,6 +122,7 @@ start-gazebo-sim:
 
 # start Webots simulator with autonomy
 start-webots-sim:
+    #!/bin/bash
     xhost +local:docker
     docker compose -f compose.sim.webots.yaml down
     docker compose -f compose.sim.webots.yaml pull
@@ -122,6 +136,7 @@ run-teleop:
 
 # run teleop_twist_keybaord (inside rviz2 container)
 run-teleop-docker:
+    #!/bin/bash
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
 # copy repo content to remote host with 'rsync' and watch for changes
@@ -132,4 +147,3 @@ sync hostname password="husarion":  _install-rsync
     while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
-

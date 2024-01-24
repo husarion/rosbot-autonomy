@@ -1,11 +1,15 @@
 # rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
+Autonomous navigation & mapping for ROSbot 2R / 2 PRO with RViz interface running on remote PC. Works over the Internet thanks to Husarnet VPN
 
-You can test the robot's autonomy on two branches:
+![autonomy-result](.docs/autonomy-result.gif)
 
-- [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
-- [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
+> [!NOTE]
+> There are two setups on two separate branchers available
+> | branch name | description |
+> | - | - |
+> | [**ros2router**](https://github.com/husarion/rosbot-autonomy/) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
+> | [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
 
 ## Quick start (Physical ROSbot)
 
@@ -27,6 +31,7 @@ Available recipes:
     flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
     start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
     start-pc          # start RViz visualization on PC
+    restart-nav2      # restart the navigation stack (and SLAM)
     start-gazebo-sim  # start Gazebo simulator with autonomy
     start-webots-sim  # start Webots simulator with autonomy
     run-teleop        # run teleop_twist_keybaord (host)
@@ -60,7 +65,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
 ```
 
 > [!NOTE]
