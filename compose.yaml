@@ -1,13 +1,8 @@
-x-common-config:
-  &common-config
-  network_mode: host
-  ipc: host
-
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
-    <<: *common-config
+    image: husarion/rosbot:humble-0.13.0-20240115
+    restart: unless-stopped
     devices:
       - ${SERIAL_PORT:?err}
     command: >
@@ -17,32 +12,36 @@ services:
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20231219
-    <<: *common-config
+    image: husarion/rplidar:humble-1.0.1-20240104
+    restart: unless-stopped
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
+    command: >
+      ros2 launch /husarion_utils/rplidar.launch.py
+        serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+        serial_port:=/dev/ttyUSB0
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
-    <<: *common-config
+    image: husarion/navigation2:humble-1.1.12-20240123
+    restart: unless-stopped
     depends_on:
       rplidar: { condition: service_healthy }
       rosbot: { condition: service_healthy }
+    environment:
+      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     volumes:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
-    environment:
-      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup bringup_launch.py
+      ros2 launch /husarion_utils/bringup_launch.py
         slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
         use_sim_time:=False
 
   foxglove:
-    image: husarion/foxglove:1.83.0
+    image: husarion/foxglove:1.84.0
+    restart: unless-stopped
     ports:
       - 8080:8080
       - 8765:8765
@@ -65,5 +64,6 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-ds:
-    image: husarion/foxglove-bridge:humble-0.7.3-20231222
+    image: husarion/foxglove-bridge:humble-0.7.3-20240108
+    restart: unless-stopped
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]

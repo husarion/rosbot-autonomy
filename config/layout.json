@@ -23,17 +23,33 @@
             0
           ],
           "order": 1
+        },
+        "160e6e08-676d-470b-95d1-a3784efa5993": {
+          "visible": true,
+          "frameLocked": true,
+          "label": "URDF",
+          "instanceId": "160e6e08-676d-470b-95d1-a3784efa5993",
+          "layerId": "foxglove.Urdf",
+          "sourceType": "topic",
+          "url": "",
+          "filePath": "",
+          "parameter": "",
+          "topic": "<robot_namespace>/robot_description",
+          "framePrefix": "",
+          "displayMode": "auto",
+          "fallbackColor": "#ffffff",
+          "order": 2
         }
       },
       "cameraState": {
         "perspective": true,
         "distance": 5,
-        "phi": 45,
+        "phi": 30,
         "thetaOffset": 90,
         "targetOffset": [
           1.5,
           0,
-          -4.221587027584479e-16
+          0
         ],
         "target": [
           0,
@@ -133,11 +149,11 @@
         }
       },
       "topics": {
-        "/map": {
+        "<robot_namespace>/map": {
           "visible": true,
           "colorMode": "map"
         },
-        "/plan": {
+        "<robot_namespace>/plan": {
           "visible": true,
           "gradient": [
             "#03a800de",
@@ -145,7 +161,7 @@
           ],
           "lineWidth": 0.02
         },
-        "/plan_smoothed": {
+        "<robot_namespace>/plan_smoothed": {
           "visible": false,
           "lineWidth": 0.02,
           "gradient": [
@@ -153,25 +169,27 @@
             "#24ff0080"
           ]
         },
-        "/robot_description": {
+        "<robot_namespace>/robot_description": {
           "visible": true,
           "displayMode": "auto"
         },
-        "/scan": {
-          "visible": false,
+        "<robot_namespace>/scan": {
+          "visible": true,
           "colorField": "intensity",
           "colorMode": "gradient",
           "colorMap": "turbo",
           "flatColor": "#e11d1dff",
           "gradient": [
-            "#ff0000ff",
-            "rgba(227, 177, 135, 1)"
-          ]
+            "#ff6262ff",
+            "#ff0000ff"
+          ],
+          "pointSize": 5,
+          "pointShape": "circle"
         },
-        "/camera/color/camera_info": {
+        "<robot_namespace>/camera/color/camera_info": {
           "visible": false
         },
-        "/camera/color/image_raw": {
+        "<robot_namespace>/camera/color/image_raw": {
           "visible": false,
           "frameLocked": true,
           "cameraInfoTopic": "/camera/color/camera_info",
@@ -179,7 +197,7 @@
           "planarProjectionFactor": 0,
           "color": "#ffffff"
         },
-        "/goal_pose": {
+        "<robot_namespace>/goal_pose": {
           "visible": true,
           "type": "arrow",
           "color": "#0bff00ff",
@@ -189,10 +207,19 @@
             0.1
           ]
         },
-        "/amcl_pose": {
-          "visible": true
+        "<robot_namespace>/amcl_pose": {
+          "visible": true,
+          "type": "arrow",
+          "arrowScale": [
+            0.3,
+            0.1,
+            0.1
+          ],
+          "color": "#ff0000ff",
+          "covarianceColor": "#9d00ff40",
+          "showCovariance": false
         },
-        "/unsmoothed_plan": {
+        "<robot_namespace>/unsmoothed_plan": {
           "visible": true,
           "gradient": [
             "#00721abd",
@@ -201,41 +228,41 @@
           "lineWidth": 0.01,
           "type": "line"
         },
-        "/trajectories": {
+        "<robot_namespace>/trajectories": {
           "visible": true
         },
-        "/marker": {
+        "<robot_namespace>/marker": {
           "visible": true
         },
-        "/local_costmap/costmap": {
+        "<robot_namespace>/local_costmap/costmap": {
           "visible": true,
           "colorMode": "costmap"
         },
-        "/global_costmap/costmap": {
+        "<robot_namespace>/global_costmap/costmap": {
           "colorMode": "costmap",
           "visible": true
         },
-        "/local_costmap/published_footprint": {
+        "<robot_namespace>/local_costmap/published_footprint": {
           "visible": true,
           "color": "#34ff00ff",
           "lineWidth": 0.03
         },
-        "/pose": {
+        "<robot_namespace>/pose": {
           "visible": false
         },
-        "/initialpose": {
+        "<robot_namespace>/initialpose": {
           "visible": false
         },
-        "/move_base_simple/goal": {
+        "<robot_namespace>/move_base_simple/goal": {
           "visible": false,
           "type": "arrow"
         }
       },
       "publish": {
         "type": "pose",
-        "poseTopic": "/goal_pose",
+        "poseTopic": "<robot_namespace>/goal_pose",
         "pointTopic": "/clicked_point",
-        "poseEstimateTopic": "/initialpose",
+        "poseEstimateTopic": "<robot_namespace>/initialpose",
         "poseEstimateXDeviation": 0.5,
         "poseEstimateYDeviation": 0.5,
         "poseEstimateThetaDeviation": 0.26179939
@@ -252,7 +279,7 @@
       }
     },
     "Teleop!43h55pp": {
-      "topic": "/cmd_vel",
+      "topic": "<robot_namespace>/cmd_vel",
       "publishRate": 1,
       "upButton": {
         "field": "linear-x",

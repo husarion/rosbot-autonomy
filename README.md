@@ -1,138 +1,148 @@
 # rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
+Autonomous navigation & mapping for ROSbot 2R / 2 PRO with a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
 
-## Connecting ROSbot and laptop over VPN
+![autonomy-result](.docs/autonomy-result.gif)
 
-Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
+> [!NOTE]
+> There are two setups on two separate branchers available
+> | branch name | description |
+> | - | - |
+> | [**ros2router**](https://github.com/husarion/rosbot-autonomy/) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
+> | [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
 
-1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
 
-   ```bash
-   curl https://install.husarnet.com/install.sh | sudo bash
-   ```
+## Quick start (Physical ROSbot)
 
-   and connect to the Husarnet network with:
+> [!NOTE]
+> To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
+>
+> Install it with:
+>
+> ```bash
+> curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
+> ```
 
-   ```bash
-   sudo husarnet join <paste-join-code-here>
-   ```
-
-3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
-
-   ```bash
-   sudo husarnet join <paste-join-code-here> rosbot2r
-   ```
-
-## Repository Setup
-
-This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+To see all available commands just run `just`:
 
 ```bash
-git clone -b foxglove https://github.com/husarion/rosbot-autonomy
-cd rosbot-autonomy
-./sync_with_rosbot.sh rosbot2r # Or clone the same repo on your rosbot
+husarion@rosbot2r:~/rosbot-telepresence$ just
+Available recipes:
+    connect-husarnet joincode hostname # connect to Husarnet VPN network
+    flash-firmware     # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot       # start ROSbot 2R / 2 PRO autonomy containers
+    start-gazebo-sim   # start the Gazebo simulation
+    start-webots-sim   # start the Webots simulation
+    restart-navigation # Restart the Nav2 container
+    sync hostname password="husarion" # Copy repo content to remote host with 'rsync' and watch for changes
 ```
 
-## Verifying User Configuration
+### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
+
+Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
+
+1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+2. Run in the linux terminal on your PC:
+   ```bash
+   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   just connect-husarnet $JOINCODE my-laptop
+   ```
+3. Run in the linux terminal of your ROSbot:
+   ```bash
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   sudo husarnet join $JOINCODE rosbot2r
+   ```
+   > note that `rosbot2r` is a default ROSbot hostname used in this project
+
+
+### 📡 Step 2: Sync
+
+This repository contains the Docker Compose setup for ROSbot 2R and 2 PRO. You can clone it to both PC and ROSbot, or use the `just sync` script to clone it to your PC and keep it synchronized with the robot
+
+```bash
+just sync rosbot2r
+```
+
+> [!NOTE]
+> This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
+
+### 🔧 Step 3: Verifying User Configuration
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
-- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR
-- **`MECANUM`** - wheel type
-- **`SLAM`** - choose between mapping and localization modes
-- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
-- **`CONTROLLER`** - choose the navigation controller type
+- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR,
+- **`MECANUM`** - wheel type,
+- **`SLAM`** - choose between mapping and localization modes,
+- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable),
+- **`CONTROLLER`** - choose the navigation controller type,
 
-> [!IMPORTANT]
-> Due to efficiency and official manufacturer support, it is recommended to use `foxglove-websocket`. When using `rosbridge-websocket`, it is necessary to edit `Custom Layers` to visualize the robot mesh.
+### 🤖 Step 4: Running Navigation & Mapping
 
-## I. Running on a Physical Robot
+1. Connect to the ROSbot.
 
-### ROSbot 2, 2R and 2 PRO
+   ```bash
+   ssh husarion@rosbot2r
+   cd rosbot-autonomy
+   ```
 
-Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
+   > [!NOTE]
+   > `rosbot2r` is the name of device set in Husarnet.
 
-#### Pulling the latest version
+2. Flashing the ROSbot's firmware.
 
-```bash
-docker compose pull
-```
+   To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
-#### Flashing the ROSbot's Firmware
+   ```bash
+   just flash-firmware
+   ```
 
-To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
+3. Running autonomy on ROSbot.
 
-```bash
-./flash_firmware.sh
-```
+   ```bash
+   just start-rosbot
+   ```
 
-#### Running autonomy
-
-```bash
-docker compose up
-```
-
-### PC
+### 🚗 Step 5: Control the ROSbot from a Web Browser
 
 Open the **Google Chrome** browser on your laptop and navigate to:
 
 http://rosbot2r:8080/ui
 
-#### Result
-
-![autonomy-result](.docs/autonomy-result.gif)
 
 > [!NOTE]
-> To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[Goal Pose]** in Foxglove. Please note that whenever you disable `SLAM`, you must disable the containers with the `docker compose down` command. When `SLAM` is off, you can indicate the robot's current position by changing the published message from **/goal_pose** to **/initialpose** topic.
+> `rosbot2r` is the name of device set in Husarnet.
 
 ---
 
-## II. Simulation
+## Simulation
 
 > [!IMPORTANT]
-> The `compose.sim.gazebo.yaml` and `compose.sim.webots.yaml` files use NVIDIA Container Runtime. Make sure you have NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+> To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+
+If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation environment.
 
 ### Gazebo
 
-1. Start the containers in a new terminal:
+1. To start Gazebo simulation run:
 
    ```bash
-   xhost +local:docker && \
-   docker compose -f compose.sim.gazebo.yaml up
+   just start-gazebo-sim
    ```
 
-2. Then open the **Google Chrome** browser on your laptop and navigate to:
-
-   http://localhost:8080/ui
+2. Then open the **Google Chrome** browser on your laptop and navigate to: http://localhost:8080/ui
 
 ### Webots
 
-1. Start the containers in a new terminal:
+1. To start Webots simulation run:
 
    ```bash
-   xhost +local:docker && \
-   docker compose -f compose.sim.webots.yaml up
+   just start-webots-sim
    ```
 
-2. Then open the **Google Chrome** browser on your laptop and navigate to:
+2. Then open the **Google Chrome** browser on your laptop and navigate to: http://localhost:8080/ui
 
-   http://localhost:8080/ui
+---
 
-## Developer info
-
-### Add pre-commit
-
-[pre-commit configuration](.pre-commit-config.yaml) checks file formats before contributing. Usage:
-
-```bash
-# install pre-commit
-pip install pre-commit
-
-# initialize pre-commit workspace
-pre-commit install
-
-# manually run tests
-pre-commit run -a
-```
+> [!NOTE]
+> Due to efficiency and official manufacturer support, it is recommended to use `foxglove-websocket`. When using `rosbridge-websocket`, it is necessary to edit `Custom Layers` to visualize the robot mesh.
