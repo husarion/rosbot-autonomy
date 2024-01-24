@@ -2,133 +2,154 @@
 
 A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from RViz. Works over the Internet thanks to Husarnet VPN
 
+You can test the robot's autonomy on two branches:
 
-## Connecting ROSbot and laptop over VPN
+- [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
+- [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
 
-Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
+## Quick start (Physical ROSbot)
+
+> [!NOTE]
+> To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
+>
+> Install it with:
+>
+> ```bash
+> curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
+> ```
+
+To see all available commands just run `just`:
+
+```bash
+husarion@rosbot2r:~/rosbot-telepresence$ just
+Available recipes:
+    connect-husarnet joincode hostname # connect to Husarnet VPN network
+    flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
+    start-pc          # start RViz visualization on PC
+    start-gazebo-sim  # start Gazebo simulator with autonomy
+    start-webots-sim  # start Webots simulator with autonomy
+    run-teleop        # run teleop_twist_keybaord (host)
+    run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
+    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+```
+
+### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
+
+Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
-
+2. Run in the linux terminal on your PC:
    ```bash
-   curl https://install.husarnet.com/install.sh | sudo bash
+   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   just connect-husarnet $JOINCODE my-laptop
    ```
-
-   and connect to the Husarnet network with:
-
+3. Run in the linux terminal of your ROSbot:
    ```bash
-   sudo husarnet join <paste-join-code-here>
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   sudo husarnet join $JOINCODE rosbot2r
    ```
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   > ```bash
+   > ROBOT_NAMESPACE=rosbot2r
+   > ```
 
-3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
+### 📡 Step 2: Sync
 
-   ```bash
-   sudo husarnet join <paste-join-code-here> rosbot2r
-   ```
-
-4. Modify the `.env` file and set your ROSbot's Husanret hostname in this line:
-
-   ```bash
-   # =======================================
-   # Husarnet config
-   # =======================================
-
-   # The Husarnet hostname of the ROSbot
-   ROSBOT_HOSTNAME=rosbot2r
-   ```
-
-## Repository Setup
-
-This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-git clone https://github.com/husarion/rosbot-autonomy
-cd rosbot-autonomy
-export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet hostname
-./sync_with_rosbot.sh $ROSBOT_ADDR
-```
-
-## Flashing the ROSbot's Firmware
-
-To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
-
-```bash
-./flash_firmware.sh
-```
-
-## Verifying User Configuration
-
-To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
-
-- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR
-- **`MECANUM`** - wheel type
-- **`SLAM`** - choose between mapping and localization modes
-- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable)
-- **`CONTROLLER`** - choose the navigation controller type
-
-## I. Running on a Physical Robot
-
-### ROSbot 2, 2R and 2 PRO
-
-Run Docker images defined in `compose.yaml` inside `rosbot-autonomy` on ROSbot:
-
-```bash
-docker compose pull
-docker compose up
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
 ```
 
 > [!NOTE]
-> You need to restart containers to switch between modes. Use following command to stop container: `docker compose down`.
+> This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
 
-### PC
+### 🔧 Step 3: Verifying User Configuration
 
-To initiate a user interface and navigation stack based on RViz, execute these commands on your PC:
+To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up
-```
-
-To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in RViz to inform the robot of its location on the map.
-
----
-
-## II. Simulation
+- **`LIDAR_BAUDRATE`** - depend on mounted LiDAR,
+- **`MECANUM`** - wheel type,
+- **`SLAM`** - choose between mapping and localization modes,
+- **`SAVE_MAP_PERIOD`** - period of time for autosave map (set `0` to disable),
+- **`CONTROLLER`** - choose the navigation controller type,
+- **`ROBOT_NAMESPACE`** - type your ROSbot device name the same as in Husarnet.
 
 > [!IMPORTANT]
-> The `compose.sim.gazebo.yaml` and `compose.sim.webots.yaml` files use NVIDIA Container Runtime. Make sure you have NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+> The value of the `ROBOT_NAMESPACE` parameter in the `.env` file should be the same as the name of the Husarnet device.
+
+### 🤖 Step 4: Running Navigation & Mapping
+
+To enable autonomy on the robot, it is necessary:
+
+- starting autonomy on ROSbot
+- launching visualization on PC
+
+#### ROSbot
+
+1. Connect to the ROSbot.
+
+   ```bash
+   ssh husarion@rosbot2r
+   cd rosbot-autonomy
+   ```
+
+   > [!NOTE]
+   > `rosbot2r` is the name of device set in Husarnet.
+
+2. Flashing the ROSbot's Firmware.
+
+   To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
+
+   ```bash
+   just flash-firmware
+   ```
+
+3. Running autonomy on ROSbot.
+
+   ```bash
+   just start-rosbot
+   ```
+
+#### PC
+
+To initiate a user interface and navigation stack based on RViz, execute below command on your PC:
+
+```bash
+just start-pc
+```
+
+### 🚗 Step 5: Control the ROSbot from RViz
+
+To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
+
+![autonomy-result](.docs/autonomy-result.gif)
+
+------
+
+## Simulation
+
+> [!IMPORTANT]
+> To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+
+If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation.
+
+![Gazebo](.docs/gazebo-rviz.png)
 
 ### Gazebo
 
-Start the containers in a new terminal:
+To start Gazebo simulator run:
 
 ```bash
-xhost +local:docker && \
-docker compose -f compose.sim.gazebo.yaml up
+just start-gazebo-sim
 ```
 
 ### Webots
 
-Start the containers in a new terminal:
+To start Webots simulator run:
 
 ```bash
-xhost +local:docker && \
-docker compose -f compose.sim.webots.yaml up
-```
-
-To direct the robot to explore new areas autonomously and create a map (in the `slam` mode) or simply to position itself within an existing map, click on the **[2D Goal Pose]** button in RViz. It is important to note that when switching from `slam` to `localization` mode, you should use the **[2D Pose Estimate]** button in RViz to inform the robot of its location on the map.
-
-## pre-commit
-
-[pre-commit configuration](.pre-commit-config.yaml) checks file formats before contributing. Usage:
-
-```bash
-# install pre-commit
-pip install pre-commit
-
-# initialize pre-commit workspace
-pre-commit install
-
-# manually run tests
-pre-commit run -a
+just start-webots-sim
 ```

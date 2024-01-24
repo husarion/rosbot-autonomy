@@ -2,29 +2,42 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  env_file: dds.env
+  restart: unless-stopped
+
+x-dds-envs:
+  &dds-envs
+  env_file: .env.dds
 
 services:
 
   ros2router:
-    image: husarnet/ros2router:release-1.5.0
-    network_mode: host
-    ipc: host
+    image: husarnet/ros2router:1.6.3
+    <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-    # # envs for LAN only setup
-    #   - ROS_LOCALHOST_ONLY=0
-    #   - USE_HUSARNET=false
-    # envs for Husarnet only setup
+      - USER
+      - ROBOT_NAMESPACE
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
 
   rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
-    <<: *common-config
+    image: husarion/rosbot:humble-0.13.0-20240115
+    <<:
+      - *common-config
+      - *dds-envs
     devices:
       - ${SERIAL_PORT:?err}
+    environment:
+      - ROBOT_NAMESPACE
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
@@ -32,15 +45,24 @@ services:
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20231219
-    <<: *common-config
+    image: husarion/rplidar:humble-1.0.1-20240104
+    <<:
+      - *common-config
+      - *dds-envs
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
+    environment:
+      - ROBOT_NAMESPACE
+    command: >
+      ros2 launch /husarion_utils/rplidar.launch.py
+        serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+        serial_port:=/dev/ttyUSB0
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
-    <<: *common-config
+    image: husarion/navigation2:humble-1.1.12-20240123
+    <<:
+      - *common-config
+      - *dds-envs
     depends_on:
       rplidar: { condition: service_healthy }
       rosbot: { condition: service_healthy }
@@ -48,9 +70,10 @@ services:
       - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
-      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
+      - SAVE_MAP_PERIOD
+      - ROBOT_NAMESPACE
     command: >
-      ros2 launch nav2_bringup bringup_launch.py
+      ros2 launch /husarion_utils/bringup_launch.py
         slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml

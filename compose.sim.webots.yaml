@@ -1,10 +1,7 @@
 x-gpu-config:
   &gpu-config
   runtime: nvidia
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - NVIDIA_VISIBLE_DEVICES=all
-    - NVIDIA_DRIVER_CAPABILITIES=all
+  env_file: .env.gpu
 
 services:
 
@@ -16,16 +13,15 @@ services:
     command: ros2 launch webots_ros2_husarion rosbot_launch.py
 
   navigation:
-    image: husarion/navigation2:humble-1.1.12-20231219
-
+    image: husarion/navigation2:humble-1.1.12-20240123
     <<: *gpu-config
     volumes:
-      - ./config/nav2_${CONTROLLER:-rpp}_webots_params.yaml:/params.yaml
+      - ./config/nav2_${CONTROLLER:-rpp}_params.yaml:/params.yaml
       - ./maps:/maps
     environment:
       - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
     command: >
-      ros2 launch nav2_bringup bringup_launch.py
+      ros2 launch /husarion_utils/bringup_launch.py
         slam:=${SLAM:-True}
         params_file:=/params.yaml
         map:=/maps/map.yaml
