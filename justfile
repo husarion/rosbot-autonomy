@@ -98,6 +98,12 @@ start-webots-sim:
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
+# Restart Nav2 container
+restart-navigation:
+    #!/bin/bash   
+    docker compose down navigation
+    docker compose up -d navigation
+
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync
     #!/bin/bash

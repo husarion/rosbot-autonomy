@@ -1,11 +1,16 @@
 # rosbot-autonomy
 
-A step-by-step guide for the ROSbot 2R/PRO to map an unknown environment and navigate autonomously within it from a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
+Autonomous navigation & mapping for ROSbot 2R / 2 PRO with a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
 
-You can test the robot's autonomy on two branches:
+![autonomy-result](.docs/autonomy-result.gif)
 
-- [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
-- [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
+> [!NOTE]
+> There are two setups on two separate branchers available
+> | branch name | description |
+> | - | - |
+> | [**ros2router**](https://github.com/husarion/rosbot-autonomy/) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
+> | [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
+
 
 ## Quick start (Physical ROSbot)
 
@@ -24,10 +29,11 @@ To see all available commands just run `just`:
 husarion@rosbot2r:~/rosbot-telepresence$ just
 Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
-    flash-firmware   # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-    start-rosbot     # start ROSbot 2R / 2 PRO autonomy containers
-    start-gazebo-sim # start Gazebo simulator with autonomy
-    start-webots-sim # start Webots simulator with autonomy
+    flash-firmware     # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot       # start ROSbot 2R / 2 PRO autonomy containers
+    start-gazebo-sim   # start Gazebo simulator with autonomy
+    start-webots-sim   # start Webots simulator with autonomy
+    restart-navigation # Restart Nav2 container
     sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
 ```
 
@@ -52,7 +58,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
 ### 📡 Step 2: Sync
 
-This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `just sync` script to clone it to your PC and keep it synchronized with the robot
+This repository contains the Docker Compose setup for ROSbot 2R and 2 PRO. You can clone it to both PC and ROSbot, or use the `just sync` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
 just sync rosbot2r
@@ -83,7 +89,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
    > [!NOTE]
    > `rosbot2r` is the name of device set in Husarnet.
 
-2. Flashing the ROSbot's Firmware.
+2. Flashing the ROSbot's firmware.
 
    To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
@@ -103,8 +109,6 @@ Open the **Google Chrome** browser on your laptop and navigate to:
 
 http://rosbot2r:8080/ui
 
-![autonomy-result](.docs/autonomy-result.gif)
-
 
 > [!NOTE]
 > `rosbot2r` is the name of device set in Husarnet.
@@ -116,11 +120,11 @@ http://rosbot2r:8080/ui
 > [!IMPORTANT]
 > To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
 
-If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation.
+If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation environment.
 
 ### Gazebo
 
-1. To start Gazebo simulator run:
+1. To start Gazebo simulation run:
 
    ```bash
    just start-gazebo-sim
@@ -130,7 +134,7 @@ If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a sim
 
 ### Webots
 
-1. To start Webots simulator run:
+1. To start Webots simulation run:
 
    ```bash
    just start-webots-sim
