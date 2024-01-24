@@ -7,7 +7,7 @@ You can test the robot's autonomy on two branches:
 - [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
 - [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
 
-## Quick start
+## Quick start (Physical ROSbot)
 
 > [!NOTE]
 > To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
@@ -34,49 +34,39 @@ Available recipes:
     sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
 ```
 
-### ⬇️ Step 1: Clone repository
+### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
-Go to the directory in which you want to save the project and execute the following commands:
-
-```bash
-git clone https://github.com/husarion/rosbot-autonomy
-cd rosbot-autonomy
-```
-
-### 🌎 Step 2: Connecting ROSbot and Laptop over VPN
-
-Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
+Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-2. Connect your laptop to the Husarnet network.
-
+2. Run in the linux terminal on your PC:
    ```bash
-   export JOINCODE=<paste-join-code-here>
+   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
-
-3. Connect your ROSbot and add ROSbot to the Husarnet network.
-
+3. Run in the linux terminal of your ROSbot:
    ```bash
-   export JOINCODE=<paste-join-code-here>
-   just connect-husarnet $JOINCODE rosbot2r
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   sudo husarnet join $JOINCODE rosbot2r
    ```
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   > ```bash
+   > ROBOT_NAMESPACE=rosbot2r
+   > ```
 
-> [!NOTE]
-> `rosbot2r` is the robot name that will be used to connect to the robot. This name is related to the robot's namespace.
+### 📡 Step 2: Sync
 
-### 📡 Step 3: Sync
-
-This repository contains the Docker Compose setup for both PC and ROSbot 2, 2R and 2 PRO. You can clone it to both PC and ROSbot 2, 2R and 2 PRO, or use the `just sync` script to clone it to your PC and keep it synchronized with the robot
+Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-just sync rosbot2r
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
 ```
 
 > [!NOTE]
 > This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
 
-### 🔧 Step 4: Verifying User Configuration
+### 🔧 Step 3: Verifying User Configuration
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
@@ -90,27 +80,14 @@ To ensure proper user configuration, review the content of the `.env` file and s
 > [!IMPORTANT]
 > The value of the `ROBOT_NAMESPACE` parameter in the `.env` file should be the same as the name of the Husarnet device.
 
-### 🤖 Step 5: Running Autonomy
-
-Below are three options for starting autonomy:
-
-- on a physical ROSbot
-- in the Gazebo simulation
-- in Webots simulation
-
-> [!IMPORTANT]
-> To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
-
----
-
-#### I. ROSbot 2R and 2 PRO
+### 🤖 Step 4: Running Navigation & Mapping
 
 To enable autonomy on the robot, it is necessary:
 
 - starting autonomy on ROSbot
 - launching visualization on PC
 
-##### ROSbot Actions
+#### ROSbot
 
 1. Connect to the ROSbot.
 
@@ -136,7 +113,7 @@ To enable autonomy on the robot, it is necessary:
    just start-rosbot
    ```
 
-##### PC
+#### PC
 
 To initiate a user interface and navigation stack based on RViz, execute below command on your PC:
 
@@ -144,9 +121,24 @@ To initiate a user interface and navigation stack based on RViz, execute below c
 just start-pc
 ```
 
----
+### 🚗 Step 5: Control the ROSbot from RViz
 
-#### II. Gazebo Simulation
+To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
+
+![autonomy-result](.docs/autonomy-result.gif)
+
+------
+
+## Simulation
+
+> [!IMPORTANT]
+> To run `Gazebo` or `Webots` Simulators you have to use computer with NVIDIA GPU and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) installed.
+
+If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation.
+
+![Gazebo](.docs/gazebo-rviz.png)
+
+### Gazebo
 
 To start Gazebo simulator run:
 
@@ -154,20 +146,10 @@ To start Gazebo simulator run:
 just start-gazebo-sim
 ```
 
----
-
-#### III. Webots Simulation
+### Webots
 
 To start Webots simulator run:
 
 ```bash
 just start-webots-sim
 ```
-
----
-
-### Result
-
-To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
-
-![autonomy-result](.docs/autonomy-result.gif)
