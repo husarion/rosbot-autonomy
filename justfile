@@ -40,7 +40,6 @@ _install-rsync:
         sudo apt-get install -y rsync sshpass inotify-tools
     fi
 
-
 _install-yq:
     #!/bin/bash
     if ! command -v /usr/bin/yq &> /dev/null; then
