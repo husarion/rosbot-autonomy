@@ -2,7 +2,7 @@
 
 Autonomous navigation & mapping for ROSbot 2R / 2 PRO with RViz interface running on remote PC. Works over the Internet thanks to Husarnet VPN
 
-![autonomy-result](.docs/autonomy-result.gif)
+![autonomy-result](https://github-readme-figures.s3.eu-central-1.amazonaws.com/rosbot/rosbot-autonomy/autonomy-result-rviz.gif)
 
 > [!NOTE]
 > There are two setups on two separate branchers available
@@ -131,7 +131,7 @@ just start-pc
 
 To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 
-![autonomy-result](.docs/autonomy-result.gif)
+![autonomy-result](https://github-readme-figures.s3.eu-central-1.amazonaws.com/rosbot/rosbot-autonomy/autonomy-result-rviz.gif)
 
 ------
 
@@ -142,7 +142,7 @@ To instruct the robot to autonomously explore new areas and create a map (in "sl
 
 If you don't have a physical ROSbot 2R / 2 PRO you can run this project in a simulation.
 
-![Gazebo](.docs/gazebo-rviz.png)
+![Gazebo](https://github-readme-figures.s3.eu-central-1.amazonaws.com/rosbot/rosbot-autonomy/gazebo-rviz.png)
 
 ### Gazebo
 
