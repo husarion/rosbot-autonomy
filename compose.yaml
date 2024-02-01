@@ -2,7 +2,6 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  restart: unless-stopped
 
 x-dds-envs:
   &dds-envs

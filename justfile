@@ -68,7 +68,7 @@ _install-yq:
 connect-husarnet joincode hostname:
     #!/bin/bash
     if [ "$EUID" -ne 0 ]; then
-        echo "Please run as root"
+        echo -e "\e[93mPlease run as root to install Husarnet\e[0m"; \
         exit
     fi
     if ! command -v husarnet > /dev/null; then
@@ -92,16 +92,20 @@ flash-firmware: _install-yq
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
-    mkdir -m 775 -p maps
-    docker compose down
-    docker compose pull
-    docker compose up
+    if [[ $USER == "husarion" ]]; then \
+        trap 'docker compose down' SIGINT # Remove containers after CTRL+C
+        mkdir -m 775 -p maps
+        docker compose pull; \
+        docker compose up; \
+    else \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+    fi
 
 # start RViz visualization on PC
 start-pc:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.pc.yaml down
+    trap 'docker compose -f compose.pc.yaml down' SIGINT
     docker compose -f compose.pc.yaml pull
     docker compose -f compose.pc.yaml up
 
@@ -115,7 +119,7 @@ restart-nav2:
 start-gazebo-sim:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.sim.gazebo.yaml down
+    trap 'docker compose  -f compose.sim.gazebo.yaml down' SIGINT
     docker compose -f compose.sim.gazebo.yaml pull
     docker compose -f compose.sim.gazebo.yaml up
 
@@ -123,7 +127,7 @@ start-gazebo-sim:
 start-webots-sim:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.sim.webots.yaml down
+    trap 'docker compose  -f compose.sim.webots.yaml down' SIGINT
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
@@ -138,7 +142,7 @@ run-teleop-docker:
     #!/bin/bash
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
-# copy repo content to remote host with 'rsync' and watch for changes
+# constantly synchronizes changes from host to rosbot
 sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     #!/bin/bash
     mkdir -m 775 -p maps
@@ -146,3 +150,13 @@ sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' --exclude='.docs' ; do
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
+
+# copy repo to device and connect to rosbot via ssh
+sync-and-connect hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
+    #!/bin/bash
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/} > /dev/null
+        sshpass -p {{password}} ssh husarion@{{hostname}}
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi

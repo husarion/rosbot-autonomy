@@ -36,7 +36,8 @@ Available recipes:
     start-webots-sim  # start Webots simulator with autonomy
     run-teleop        # run teleop_twist_keybaord (host)
     run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
-    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # constantly synchronizes changes from host to rosbot
+    sync-and-connect hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo to device and connect to rosbot via ssh
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
@@ -45,34 +46,28 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Run in the linux terminal on your PC:
+
    ```bash
    cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
+
    > [!IMPORTANT]
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change the line:
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change following line according to your Husarnet device name:
+   >
    > ```bash
    > ROBOT_NAMESPACE=rosbot2r
    > ```
 
-### 📡 Step 2: Sync
-
-Copy the local changes (on PC) to the remote ROSbot
-
-```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
-```
-
-> [!NOTE]
-> This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
-
-### 🔧 Step 3: Verifying User Configuration
+### 🔧 Step 2: Verifying User Configuration
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
@@ -86,7 +81,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
 > [!IMPORTANT]
 > The value of the `ROBOT_NAMESPACE` parameter in the `.env` file should be the same as the name of the Husarnet device.
 
-### 🤖 Step 4: Running Navigation & Mapping
+### 🤖 Step 3: Running Navigation & Mapping
 
 To enable autonomy on the robot, it is necessary:
 
@@ -95,15 +90,12 @@ To enable autonomy on the robot, it is necessary:
 
 #### ROSbot
 
-1. Connect to the ROSbot.
+1. Copy repository and connect to the ROSbot.
 
    ```bash
-   ssh husarion@rosbot2r
+   just sync-and-connect
    cd rosbot-autonomy
    ```
-
-   > [!NOTE]
-   > `rosbot2r` is the name of device set in Husarnet.
 
 2. Flashing the ROSbot's Firmware.
 
