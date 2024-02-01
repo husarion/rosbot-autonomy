@@ -7,7 +7,7 @@ alias flash := flash-firmware
 [private]
 alias rosbot := start-rosbot
 [private]
-alias pc := start-pc
+alias pc := start-visualization
 [private]
 alias teleop := run-teleop
 [private]
@@ -77,7 +77,7 @@ connect-husarnet joincode hostname:
     fi
     husarnet join {{joincode}} {{hostname}}
 
-# flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+# connect to rosbot amd flash the proper firmware
 flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync _install-yq
     #!/bin/bash
     if ping -c 1 -W 3 {{hostname}} > /dev/null; then
@@ -86,12 +86,34 @@ flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
 
         echo -e "\033[32mFlashing the firmware for STM32 microcontroller in ROSbot\033[0m"
         sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
-
     else
         echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
     fi
 
-# start ROSbot 2R / 2 PRO autonomy containers
+# connect to rosbot and run autonomy
+start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
+    #!/bin/bash
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        path=/home/husarion/${PWD##*/}
+        RUN_COMMAND="cd $path && /bin/bash -c 'docker compose pull && docker compose up'"
+        REMOVE_COMMAND="cd $path && /bin/bash -c 'docker compose down'"
+
+        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:$path > /dev/null
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$REMOVE_COMMAND" > /dev/null 2>&1
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
+
+# start RViz visualization on PC
+start-visualization:
+    #!/bin/bash
+    xhost +local:docker
+    trap 'docker compose -f compose.pc.yaml down' SIGINT
+    docker compose -f compose.pc.yaml pull
+    docker compose -f compose.pc.yaml up
+
+# [run on rosbot] start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
     if [[ $USER == "husarion" ]]; then \
@@ -103,19 +125,15 @@ start-rosbot:
         echo "This command can be run only on ROSbot 2R / 2 PRO."; \
     fi
 
-# start RViz visualization on PC
-start-pc:
-    #!/bin/bash
-    xhost +local:docker
-    trap 'docker compose -f compose.pc.yaml down' SIGINT
-    docker compose -f compose.pc.yaml pull
-    docker compose -f compose.pc.yaml up
-
-# restart the navigation stack (and SLAM)
+# [run on rosbot] restart the navigation stack (and SLAM)
 restart-nav2:
     #!/bin/bash
-    docker compose down navigation
-    docker compose up -d navigation
+    if [[ $USER == "husarion" ]]; then \
+        docker compose down navigation
+        docker compose up -d navigation
+    else \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+    fi
 
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
@@ -152,19 +170,3 @@ sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' --exclude='.docs' ; do
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
-
-# copy repo to device and run autonomy on rosbot
-start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
-    #!/bin/bash
-    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
-        path=/home/husarion/${PWD##*/}
-        RUN_COMMAND="cd $path && /bin/bash -c 'docker compose pull && docker compose up'"
-        REMOVE_COMMAND="cd $path && /bin/bash -c 'docker compose down'"
-
-        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:$path > /dev/null
-        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
-        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$REMOVE_COMMAND" > /dev/null 2>&1
-
-    else
-        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
-    fi

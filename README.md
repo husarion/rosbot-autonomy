@@ -28,16 +28,16 @@ To see all available commands just run `just`:
 husarion@rosbot2r:~/rosbot-autonomy$ just
 Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
-    flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion" # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-    start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
-    start-pc          # start RViz visualization on PC
-    restart-nav2      # restart the navigation stack (and SLAM)
-    start-gazebo-sim  # start Gazebo simulator with autonomy
-    start-webots-sim  # start Webots simulator with autonomy
-    run-teleop        # run teleop_twist_keybaord (host)
-    run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
+    flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion" # connect to rosbot amd flash the proper firmware
+    start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion" # connect to rosbot and run autonomy
+    start-visualization # start RViz visualization on PC
+    start-rosbot        # [run on rosbot] start ROSbot 2R / 2 PRO autonomy containers
+    restart-nav2        # [run on rosbot] restart the navigation stack (and SLAM)
+    start-gazebo-sim    # start Gazebo simulator with autonomy
+    start-webots-sim    # start Webots simulator with autonomy
+    run-teleop          # run teleop_twist_keybaord (host)
+    run-teleop-docker   # run teleop_twist_keybaord (inside rviz2 container)
     sync hostname="${ROBOT_NAMESPACE}" password="husarion" # constantly synchronizes changes from host to rosbot
-    start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo to device and run autonomy on rosbot
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
@@ -109,7 +109,7 @@ To enable autonomy on the robot, it is necessary:
 To initiate a user interface and navigation stack based on RViz, execute below command on your PC:
 
 ```bash
-just start-pc
+just start-visualization
 ```
 
 ### 🚗 Step 4: Control the ROSbot from RViz
