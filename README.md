@@ -28,7 +28,7 @@ To see all available commands just run `just`:
 husarion@rosbot2r:~/rosbot-autonomy$ just
 Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
-    flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion" # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
     start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
     start-pc          # start RViz visualization on PC
     restart-nav2      # restart the navigation stack (and SLAM)
@@ -37,7 +37,7 @@ Available recipes:
     run-teleop        # run teleop_twist_keybaord (host)
     run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
     sync hostname="${ROBOT_NAMESPACE}" password="husarion" # constantly synchronizes changes from host to rosbot
-    sync-and-connect hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo to device and connect to rosbot via ssh
+    start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo to device and run autonomy on rosbot
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
@@ -90,14 +90,7 @@ To enable autonomy on the robot, it is necessary:
 
 #### ROSbot
 
-1. Copy repository and connect to the ROSbot.
-
-   ```bash
-   just sync-and-connect
-   cd rosbot-autonomy
-   ```
-
-2. Flashing the ROSbot's Firmware.
+1. Flashing the ROSbot's Firmware.
 
    To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
@@ -105,10 +98,10 @@ To enable autonomy on the robot, it is necessary:
    just flash-firmware
    ```
 
-3. Running autonomy on ROSbot.
+2. Running autonomy on ROSbot.
 
    ```bash
-   just start-rosbot
+   just start-autonomy
    ```
 
 #### PC
@@ -119,7 +112,7 @@ To initiate a user interface and navigation stack based on RViz, execute below c
 just start-pc
 ```
 
-### 🚗 Step 5: Control the ROSbot from RViz
+### 🚗 Step 4: Control the ROSbot from RViz
 
 To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 

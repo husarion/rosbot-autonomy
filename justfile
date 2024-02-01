@@ -78,16 +78,18 @@ connect-husarnet joincode hostname:
     husarnet join {{joincode}} {{hostname}}
 
 # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-flash-firmware: _install-yq
+flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync _install-yq
     #!/bin/bash
-    echo "Stopping all running containers"
-    docker ps -q | xargs -r docker stop
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        image=$(yq .services.rosbot.image compose.yaml)
+        RUN_COMMAND="docker ps -q | xargs -r docker stop && docker run --rm -it --privileged $image ros2 run rosbot_utils flash_firmware"
 
-    echo "Flashing the firmware for STM32 microcontroller in ROSbot"
-    docker run \
-        --rm -it --privileged \
-        $(yq .services.rosbot.image compose.yaml) \
-        ros2 run rosbot_utils flash_firmware
+        echo -e "\033[32mFlashing the firmware for STM32 microcontroller in ROSbot\033[0m"
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
+
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
 
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
@@ -151,12 +153,18 @@ sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
         sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
 
-# copy repo to device and connect to rosbot via ssh
-sync-and-connect hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
+# copy repo to device and run autonomy on rosbot
+start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
     #!/bin/bash
     if ping -c 1 -W 3 {{hostname}} > /dev/null; then
-        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/} > /dev/null
-        sshpass -p {{password}} ssh husarion@{{hostname}}
+        path=/home/husarion/${PWD##*/}
+        RUN_COMMAND="cd $path && /bin/bash -c 'docker compose pull && docker compose up'"
+        REMOVE_COMMAND="cd $path && /bin/bash -c 'docker compose down'"
+
+        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:$path > /dev/null
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$REMOVE_COMMAND" > /dev/null 2>&1
+
     else
         echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
     fi
