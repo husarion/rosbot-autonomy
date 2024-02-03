@@ -97,14 +97,6 @@ start-rosbot:
     docker compose pull
     docker compose up
 
-# start ROSbot 2R / 2 PRO autonomy containers
-start-rosbot-xl:
-    #!/bin/bash
-    mkdir -m 775 -p maps
-    docker compose -f compose.xl.yaml down
-    docker compose -f compose.xl.yaml pull
-    docker compose -f compose.xl.yaml up
-
 # start RViz visualization on PC
 start-pc:
     #!/bin/bash
