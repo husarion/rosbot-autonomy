@@ -7,7 +7,7 @@ alias flash := flash-firmware
 [private]
 alias rosbot := start-rosbot
 [private]
-alias pc := start-pc
+alias pc := start-visualization
 [private]
 alias teleop := run-teleop
 [private]
@@ -68,7 +68,7 @@ _install-yq:
 connect-husarnet joincode hostname:
     #!/bin/bash
     if [ "$EUID" -ne 0 ]; then
-        echo "Please run as root"
+        echo -e "\e[93mPlease run as root to install Husarnet\e[0m"; \
         exit
     fi
     if ! command -v husarnet > /dev/null; then
@@ -77,45 +77,69 @@ connect-husarnet joincode hostname:
     fi
     husarnet join {{joincode}} {{hostname}}
 
-# flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-flash-firmware: _install-yq
+# connect to rosbot amd flash the proper firmware
+flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync _install-yq
     #!/bin/bash
-    echo "Stopping all running containers"
-    docker ps -q | xargs -r docker stop
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        image=$(yq .services.rosbot.image compose.yaml)
+        RUN_COMMAND="docker ps -q | xargs -r docker stop && docker run --rm -it --privileged $image ros2 run rosbot_utils flash_firmware"
 
-    echo "Flashing the firmware for STM32 microcontroller in ROSbot"
-    docker run \
-        --rm -it --privileged \
-        $(yq .services.rosbot.image compose.yaml) \
-        ros2 run rosbot_utils flash_firmware
+        echo -e "\033[32mFlashing the firmware for STM32 microcontroller in ROSbot\033[0m"
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
 
-# start ROSbot 2R / 2 PRO autonomy containers
-start-rosbot:
+# connect to rosbot and run autonomy
+start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
     #!/bin/bash
-    mkdir -m 775 -p maps
-    docker compose down
-    docker compose pull
-    docker compose up
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        path=/home/husarion/${PWD##*/}
+        RUN_COMMAND="cd $path && /bin/bash -c 'docker compose pull && docker compose up'"
+        REMOVE_COMMAND="cd $path && /bin/bash -c 'docker compose down'"
+
+        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:$path > /dev/null
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$RUN_COMMAND"
+        sshpass -p {{password}} ssh husarion@{{hostname}} -t "$REMOVE_COMMAND" > /dev/null 2>&1
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
 
 # start RViz visualization on PC
-start-pc:
+start-visualization:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.pc.yaml down
+    trap 'docker compose -f compose.pc.yaml down' SIGINT
     docker compose -f compose.pc.yaml pull
     docker compose -f compose.pc.yaml up
 
-# restart the navigation stack (and SLAM)
+# [run on rosbot] start ROSbot 2R / 2 PRO autonomy containers
+start-rosbot:
+    #!/bin/bash
+    if [[ $USER == "husarion" ]]; then \
+        trap 'docker compose down' SIGINT # Remove containers after CTRL+C
+        mkdir -m 775 -p maps
+        docker compose pull; \
+        docker compose up; \
+    else \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+    fi
+
+# [run on rosbot] restart the navigation stack (and SLAM)
 restart-nav2:
     #!/bin/bash
-    docker compose down navigation
-    docker compose up -d navigation
+    if [[ $USER == "husarion" ]]; then \
+        docker compose down navigation
+        docker compose up -d navigation
+    else \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+    fi
 
 # start Gazebo simulator with autonomy
 start-gazebo-sim:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.sim.gazebo.yaml down
+    trap 'docker compose  -f compose.sim.gazebo.yaml down' SIGINT
     docker compose -f compose.sim.gazebo.yaml pull
     docker compose -f compose.sim.gazebo.yaml up
 
@@ -123,7 +147,7 @@ start-gazebo-sim:
 start-webots-sim:
     #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.sim.webots.yaml down
+    trap 'docker compose  -f compose.sim.webots.yaml down' SIGINT
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
@@ -138,7 +162,7 @@ run-teleop-docker:
     #!/bin/bash
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
-# copy repo content to remote host with 'rsync' and watch for changes
+# constantly synchronizes changes from host to rosbot
 sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     #!/bin/bash
     mkdir -m 775 -p maps

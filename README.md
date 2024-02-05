@@ -28,15 +28,16 @@ To see all available commands just run `just`:
 husarion@rosbot2r:~/rosbot-autonomy$ just
 Available recipes:
     connect-husarnet joincode hostname # connect to Husarnet VPN network
-    flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-    start-rosbot      # start ROSbot 2R / 2 PRO autonomy containers
-    start-pc          # start RViz visualization on PC
-    restart-nav2      # restart the navigation stack (and SLAM)
-    start-gazebo-sim  # start Gazebo simulator with autonomy
-    start-webots-sim  # start Webots simulator with autonomy
-    run-teleop        # run teleop_twist_keybaord (host)
-    run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
-    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+    flash-firmware hostname="${ROBOT_NAMESPACE}" password="husarion" # connect to rosbot amd flash the proper firmware
+    start-autonomy hostname="${ROBOT_NAMESPACE}" password="husarion" # connect to rosbot and run autonomy
+    start-visualization # start RViz visualization on PC
+    start-rosbot        # [run on rosbot] start ROSbot 2R / 2 PRO autonomy containers
+    restart-nav2        # [run on rosbot] restart the navigation stack (and SLAM)
+    start-gazebo-sim    # start Gazebo simulator with autonomy
+    start-webots-sim    # start Webots simulator with autonomy
+    run-teleop          # run teleop_twist_keybaord (host)
+    run-teleop-docker   # run teleop_twist_keybaord (inside rviz2 container)
+    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # constantly synchronizes changes from host to rosbot
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
@@ -45,34 +46,28 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Run in the linux terminal on your PC:
+
    ```bash
    cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
+
    > [!IMPORTANT]
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change the line:
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change following line according to your Husarnet device name:
+   >
    > ```bash
    > ROBOT_NAMESPACE=rosbot2r
    > ```
 
-### 📡 Step 2: Sync
-
-Copy the local changes (on PC) to the remote ROSbot
-
-```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
-```
-
-> [!NOTE]
-> This `just sync` script locks the terminal and synchronizes online all changes made locally on the robot. `rosbot2r` is the name of device set in Husarnet.
-
-### 🔧 Step 3: Verifying User Configuration
+### 🔧 Step 2: Verifying User Configuration
 
 To ensure proper user configuration, review the content of the `.env` file and select the appropriate configuration (the default options should be suitable).
 
@@ -86,7 +81,7 @@ To ensure proper user configuration, review the content of the `.env` file and s
 > [!IMPORTANT]
 > The value of the `ROBOT_NAMESPACE` parameter in the `.env` file should be the same as the name of the Husarnet device.
 
-### 🤖 Step 4: Running Navigation & Mapping
+### 🤖 Step 3: Running Navigation & Mapping
 
 To enable autonomy on the robot, it is necessary:
 
@@ -95,17 +90,7 @@ To enable autonomy on the robot, it is necessary:
 
 #### ROSbot
 
-1. Connect to the ROSbot.
-
-   ```bash
-   ssh husarion@rosbot2r
-   cd rosbot-autonomy
-   ```
-
-   > [!NOTE]
-   > `rosbot2r` is the name of device set in Husarnet.
-
-2. Flashing the ROSbot's Firmware.
+1. Flashing the ROSbot's Firmware.
 
    To flash the Micro-ROS based firmware for STM32F4 microcontroller responsible for low-level functionalities of ROSbot 2, 2R and 2 PRO, execute in the ROSbot's shell:
 
@@ -113,10 +98,10 @@ To enable autonomy on the robot, it is necessary:
    just flash-firmware
    ```
 
-3. Running autonomy on ROSbot.
+2. Running autonomy on ROSbot.
 
    ```bash
-   just start-rosbot
+   just start-autonomy
    ```
 
 #### PC
@@ -124,10 +109,10 @@ To enable autonomy on the robot, it is necessary:
 To initiate a user interface and navigation stack based on RViz, execute below command on your PC:
 
 ```bash
-just start-pc
+just start-visualization
 ```
 
-### 🚗 Step 5: Control the ROSbot from RViz
+### 🚗 Step 4: Control the ROSbot from RViz
 
 To instruct the robot to autonomously explore new areas and create a map (in "slam" mode) of **[2D Goal Pose]** in RViz. When `SLAM` is off, you can indicate the robot's current position by **[2D Pose Estimate]** button.
 
