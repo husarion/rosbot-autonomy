@@ -1,4 +1,4 @@
-set dotenv-load
+set dotenv-load # to read ROBOT_NAMESPACE from .env file
 
 [private]
 alias husarnet := connect-husarnet
@@ -29,7 +29,7 @@ _install-rsync:
     if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
+            exit
         fi
         sudo apt-get install -y rsync sshpass inotify-tools
     fi
@@ -39,7 +39,7 @@ _install-yq:
     if ! command -v /usr/bin/yq &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
+            exit
         fi
 
         YQ_VERSION=v4.35.1
@@ -86,12 +86,17 @@ flash-firmware: _install-yq
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
+    if grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo && [[ "${CONTROLLER}" == "mppi" ]]; then
+        echo -e "\e[1;33mMPPI controller is currently not compatible with ROSbot 2 PRO. Please use DWB or RPP controller\e[0m"
+        exit
+    fi
+
     mkdir -m 775 -p maps
     docker compose down
     docker compose pull
     docker compose up
 
-# start the Gazebo simulation
+# start Gazebo simulator with autonomy
 start-gazebo-sim:
     #!/bin/bash
     xhost +local:docker
@@ -99,7 +104,7 @@ start-gazebo-sim:
     docker compose -f compose.sim.gazebo.yaml pull
     docker compose -f compose.sim.gazebo.yaml up
 
-# start the Webots simulation
+# start Webots simulator with autonomy
 start-webots-sim:
     #!/bin/bash
     xhost +local:docker
@@ -107,17 +112,17 @@ start-webots-sim:
     docker compose -f compose.sim.webots.yaml pull
     docker compose -f compose.sim.webots.yaml up
 
-# Restart the Nav2 container
+# restart the Nav2 container
 restart-navigation:
     #!/bin/bash
     docker compose down navigation
     docker compose up -d navigation
 
-# Copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion": _install-rsync
+# copy repo content to remote host with 'rsync' and watch for changes
+sync hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
     #!/bin/bash
     mkdir -m 775 -p maps
-    sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' ; do
-        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' --exclude='.docs' ; do
+        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done

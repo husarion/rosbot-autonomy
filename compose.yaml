@@ -1,7 +1,7 @@
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.13.0-20240115
+    image: husarion/rosbot:humble-0.13.1-20240201
     restart: unless-stopped
     devices:
       - ${SERIAL_PORT:?err}
