@@ -35,7 +35,7 @@ _install-rsync:
     if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
+            exit
         fi
         sudo apt-get install -y rsync sshpass inotify-tools
     fi
@@ -45,7 +45,7 @@ _install-yq:
     if ! command -v /usr/bin/yq &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
+            exit
         fi
 
         YQ_VERSION=v4.35.1
@@ -92,6 +92,11 @@ flash-firmware: _install-yq
 # start ROSbot 2R / 2 PRO autonomy containers
 start-rosbot:
     #!/bin/bash
+    if grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo && [[ "${CONTROLLER}" == "mppi" ]]; then
+        echo -e "\e[1;33mMPPI controller is currently not compatible with ROSbot 2 PRO. Please use DWB or RPP controller\e[0m"
+        exit
+    fi
+
     mkdir -m 775 -p maps
     docker compose down
     docker compose pull
