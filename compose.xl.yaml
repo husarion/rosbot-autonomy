@@ -11,10 +11,12 @@ x-dds-envs:
 services:
 
   ros2router:
-    image: husarnet/ros2router:1.6.3
+    image: husarnet/ros2router:1.7.0 #1.6.3
     <<: *common-config
     volumes:
-      - ./filter.yaml:/filter.yaml
+      - ./filter-xl.yaml:/filter.yaml
+    # depends_on:
+    #   navigation: { condition: service_healthy }
     environment:
       - USER
       - ROBOT_NAMESPACE

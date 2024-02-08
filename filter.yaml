@@ -1,4 +1,8 @@
 ---
+specs:
+  remove-unused-entities: true
+  discovery-trigger: reader
+  
 # reliability: true - reliable, false - best effort
 # durability: true - transient local, false - volatile
 allowlist:

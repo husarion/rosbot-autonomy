@@ -1,0 +1,313 @@
+allowlist:
+  - name: rt/battery_state
+    type: sensor_msgs::msg::dds_::BatteryState_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/diagnostics
+    type: diagnostic_msgs::msg::dds_::DiagnosticArray_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/parameter_events
+    type: rcl_interfaces::msg::dds_::ParameterEvent_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/behavior_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/behavior_tree_log
+    type: ::msg::dds_::_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/bond
+    type: bond::msg::dds_::Status_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/bt_navigator/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/cmd_vel
+    type: geometry_msgs::msg::dds_::Twist_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/cmd_vel_nav
+    type: geometry_msgs::msg::dds_::Twist_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/cmd_vel_teleop
+    type: geometry_msgs::msg::dds_::Twist_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/controller_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/dynamic_joint_states
+    type: control_msgs::msg::dds_::DynamicJointState_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/global_costmap/costmap
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/global_costmap/costmap_raw
+    type: nav2_msgs::msg::dds_::Costmap_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/global_costmap/costmap_updates
+    type: map_msgs::msg::dds_::OccupancyGridUpdate_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/global_costmap/footprint
+    type: geometry_msgs::msg::dds_::Polygon_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/global_costmap/global_costmap/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/global_costmap/published_footprint
+    type: geometry_msgs::msg::dds_::PolygonStamped_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/global_costmap/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/goal_pose
+    type: geometry_msgs::msg::dds_::PoseStamped_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/imu_broadcaster/imu
+    type: sensor_msgs::msg::dds_::Imu_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/imu_broadcaster/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/joint_state_broadcaster/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/joint_states
+    type: sensor_msgs::msg::dds_::JointState_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/laser_scan_box_filter/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/local_costmap/costmap
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/local_costmap/costmap_raw
+    type: nav2_msgs::msg::dds_::Costmap_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/local_costmap/costmap_updates
+    type: map_msgs::msg::dds_::OccupancyGridUpdate_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/local_costmap/footprint
+    type: geometry_msgs::msg::dds_::Polygon_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/local_costmap/local_costmap/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/local_costmap/published_footprint
+    type: geometry_msgs::msg::dds_::PolygonStamped_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/local_costmap/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/map
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/map_metadata
+    type: nav_msgs::msg::dds_::MapMetaData_
+    qos:
+      reliability: true
+      durability: true
+  - name: rt/rosbotxl/map_saver/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/odom
+    type: nav_msgs::msg::dds_::Odometry_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/odometry/filtered
+    type: nav_msgs::msg::dds_::Odometry_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/plan
+    type: nav_msgs::msg::dds_::Path_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/plan_smoothed
+    type: nav_msgs::msg::dds_::Path_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/planner_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/pose
+    type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/preempt_teleop
+    type: std_msgs::msg::dds_::Empty_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/robot_description
+    type: ::msg::dds_::_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/rosbot_xl_base_controller/odom
+    type: nav_msgs::msg::dds_::Odometry_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/rosbot_xl_base_controller/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/scan_filtered
+    type: sensor_msgs::msg::dds_::LaserScan_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/set_pose
+    type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/slam_toolbox/feedback
+    type: visualization_msgs::msg::dds_::InteractiveMarkerFeedback_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/slam_toolbox/graph_visualization
+    type: visualization_msgs::msg::dds_::MarkerArray_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/slam_toolbox/scan_visualization
+    type: sensor_msgs::msg::dds_::LaserScan_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/slam_toolbox/update
+    type: visualization_msgs::msg::dds_::InteractiveMarkerUpdate_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/smoother_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/speed_limit
+    type: nav2_msgs::msg::dds_::SpeedLimit_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/tf
+    type: tf2_msgs::msg::dds_::TFMessage_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/tf_static
+    type: tf2_msgs::msg::dds_::TFMessage_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/rosbotxl/transformed_global_plan
+    type: nav_msgs::msg::dds_::Path_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/unsmoothed_plan
+    type: nav_msgs::msg::dds_::Path_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/velocity_smoother/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosbotxl/waypoint_follower/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+    qos:
+      reliability: true
+      durability: false
+  - name: rt/rosout
+    type: rcl_interfaces::msg::dds_::Log_
+    qos:
+      reliability: false
+      durability: false
+  - name: rt/trajectories
+    type: visualization_msgs::msg::dds_::MarkerArray_
+    qos:
+      reliability: true
+      durability: false
+blocklist: []
+builtin-topics: []

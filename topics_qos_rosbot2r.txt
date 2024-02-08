@@ -1,0 +1,1784 @@
+QoS for topic /parameter_events:
+Type: rcl_interfaces/msg/ParameterEvent
+
+Publisher count: 4
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _ros2cli_daemon_0_6cbca093b8964e08bad7b250eafc6733
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 5
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/ParameterEvent
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/amcl_pose:
+Type: geometry_msgs/msg/PoseWithCovarianceStamped
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/clicked_point:
+Type: geometry_msgs/msg/PointStamped
+
+Publisher count: 1
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PointStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+QoS for topic /rosbot2r/cmd_vel:
+Type: geometry_msgs/msg/Twist
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Twist
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Twist
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/global_costmap/costmap:
+Type: nav_msgs/msg/OccupancyGrid
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/global_costmap/costmap_updates:
+Type: map_msgs/msg/OccupancyGridUpdate
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/goal_pose:
+Type: geometry_msgs/msg/PoseStamped
+
+Publisher count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PoseStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PoseStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/imu_broadcaster/imu:
+Type: sensor_msgs/msg/Imu
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: sensor_msgs/msg/Imu
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: sensor_msgs/msg/Imu
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/initialpose:
+Type: geometry_msgs/msg/PoseWithCovarianceStamped
+
+Publisher count: 1
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+QoS for topic /rosbot2r/local_costmap/costmap:
+Type: nav_msgs/msg/OccupancyGrid
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+  
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/local_costmap/costmap_updates:
+Type: map_msgs/msg/OccupancyGridUpdate
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/local_costmap/published_footprint:
+Type: geometry_msgs/msg/PolygonStamped
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PolygonStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PolygonStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PolygonStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/lookahead_collision_arc:
+Type: nav_msgs/msg/Path
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/lookahead_point:
+Type: geometry_msgs/msg/PointStamped
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PointStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PointStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: geometry_msgs/msg/PointStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/map:
+Type: nav_msgs/msg/OccupancyGrid
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/OccupancyGrid
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/map_updates:
+Type: map_msgs/msg/OccupancyGridUpdate
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/marker:
+Type: visualization_msgs/msg/MarkerArray
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/odometry/filtered:
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Odometry
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Odometry
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/particle_cloud:
+Type: nav2_msgs/msg/ParticleCloud
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/ParticleCloud
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/ParticleCloud
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav2_msgs/msg/ParticleCloud
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/plan:
+Type: nav_msgs/msg/Path
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/received_global_plan:
+Type: nav_msgs/msg/Path
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/robot_description:
+Type: std_msgs/msg/String
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: std_msgs/msg/String
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: std_msgs/msg/String
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: std_msgs/msg/String
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/scan:
+Type: sensor_msgs/msg/LaserScan
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: sensor_msgs/msg/LaserScan
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: sensor_msgs/msg/LaserScan
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/set_pose:
+Type: geometry_msgs/msg/PoseWithCovarianceStamped
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/tf:
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 3
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/tf_static:
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 3
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: tf2_msgs/msg/TFMessage
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/trajectories:
+Type: visualization_msgs/msg/MarkerArray
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/unsmoothed_plan:
+Type: nav_msgs/msg/Path
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: nav_msgs/msg/Path
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/visualization_marker_array:
+Type: visualization_msgs/msg/MarkerArray
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/waypoints:
+Type: visualization_msgs/msg/MarkerArray
+
+Publisher count: 1
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: visualization_msgs/msg/MarkerArray
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+QoS for topic /rosout:
+Type: rcl_interfaces/msg/Log
+
+Publisher count: 5
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/Log
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/Log
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/Log
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rcl_interfaces/msg/Log
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _ros2cli_daemon_0_6cbca093b8964e08bad7b250eafc6733
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+
+QoS for topic /rosbot2r/rosbot_base_controller/odom:
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Odometry
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav_msgs/msg/Odometry
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+QoS for topic /rosbot2r/speed_limit:
+Type: nav2_msgs/msg/SpeedLimit
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/SpeedLimit
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/SpeedLimit
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/local_costmap/footprint:
+Type: geometry_msgs/msg/Polygon
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Polygon
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Polygon
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/local_costmap/costmap_raw:
+Type: nav2_msgs/msg/Costmap
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/Costmap
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/Costmap
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+  QoS for topic /rosbot2r/global_costmap/footprint:
+Type: geometry_msgs/msg/Polygon
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Polygon
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/Polygon
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/global_costmap/published_footprint:
+Type: geometry_msgs/msg/PolygonStamped
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PolygonStamped
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: geometry_msgs/msg/PolygonStamped
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+
+QoS for topic /rosbot2r/global_costmap/costmap_raw:
+Type: nav2_msgs/msg/Costmap
+
+Publisher count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/Costmap
+Endpoint type: PUBLISHER
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: 0 nanoseconds
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: _CREATED_BY_BARE_DDS_APP_
+Node namespace: _CREATED_BY_BARE_DDS_APP_
+Topic type: nav2_msgs/msg/Costmap
+Endpoint type: SUBSCRIPTION
+
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite

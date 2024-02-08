@@ -1,0 +1,125 @@
+allowlist:
+  - name: rt/battery_state
+    type: sensor_msgs::msg::dds_::BatteryState_
+  - name: rt/diagnostics
+    type: diagnostic_msgs::msg::dds_::DiagnosticArray_
+  - name: rt/parameter_events
+    type: rcl_interfaces::msg::dds_::ParameterEvent_
+  - name: rt/rosbotxl/behavior_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/bond
+    type: bond::msg::dds_::Status_
+  - name: rt/rosbotxl/bt_navigator/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/cmd_vel
+    type: geometry_msgs::msg::dds_::Twist_
+  - name: rt/rosbotxl/cmd_vel_nav
+    type: geometry_msgs::msg::dds_::Twist_
+  - name: rt/rosbotxl/cmd_vel_teleop
+    type: geometry_msgs::msg::dds_::Twist_
+  - name: rt/rosbotxl/controller_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/dynamic_joint_states
+    type: control_msgs::msg::dds_::DynamicJointState_
+  - name: rt/rosbotxl/global_costmap/costmap
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+  - name: rt/rosbotxl/global_costmap/costmap_raw
+    type: nav2_msgs::msg::dds_::Costmap_
+  - name: rt/rosbotxl/global_costmap/costmap_updates
+    type: map_msgs::msg::dds_::OccupancyGridUpdate_
+  - name: rt/rosbotxl/global_costmap/footprint
+    type: geometry_msgs::msg::dds_::Polygon_
+  - name: rt/rosbotxl/global_costmap/global_costmap/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/global_costmap/published_footprint
+    type: geometry_msgs::msg::dds_::PolygonStamped_
+  - name: rt/rosbotxl/global_costmap/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/goal_pose
+    type: geometry_msgs::msg::dds_::PoseStamped_
+  - name: rt/rosbotxl/imu_broadcaster/imu
+    type: sensor_msgs::msg::dds_::Imu_
+  - name: rt/rosbotxl/imu_broadcaster/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/joint_state_broadcaster/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/joint_states
+    type: sensor_msgs::msg::dds_::JointState_
+  - name: rt/rosbotxl/laser_scan_box_filter/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/local_costmap/costmap
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+  - name: rt/rosbotxl/local_costmap/costmap_raw
+    type: nav2_msgs::msg::dds_::Costmap_
+  - name: rt/rosbotxl/local_costmap/costmap_updates
+    type: map_msgs::msg::dds_::OccupancyGridUpdate_
+  - name: rt/rosbotxl/local_costmap/footprint
+    type: geometry_msgs::msg::dds_::Polygon_
+  - name: rt/rosbotxl/local_costmap/local_costmap/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/local_costmap/published_footprint
+    type: geometry_msgs::msg::dds_::PolygonStamped_
+  - name: rt/rosbotxl/local_costmap/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/map
+    type: nav_msgs::msg::dds_::OccupancyGrid_
+  - name: rt/rosbotxl/map_metadata
+    type: nav_msgs::msg::dds_::MapMetaData_
+  - name: rt/rosbotxl/map_saver/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/odom
+    type: nav_msgs::msg::dds_::Odometry_
+  - name: rt/rosbotxl/odometry/filtered
+    type: nav_msgs::msg::dds_::Odometry_
+  - name: rt/rosbotxl/plan
+    type: nav_msgs::msg::dds_::Path_
+  - name: rt/rosbotxl/plan_smoothed
+    type: nav_msgs::msg::dds_::Path_
+  - name: rt/rosbotxl/planner_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/pose
+    type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+  - name: rt/rosbotxl/preempt_teleop
+    type: std_msgs::msg::dds_::Empty_
+  - name: rt/rosbotxl/robot_description
+    type: std_msgs::msg::dds_::String_
+  - name: rt/rosbotxl/rosbot_xl_base_controller/odom
+    type: nav_msgs::msg::dds_::Odometry_
+  - name: rt/rosbotxl/rosbot_xl_base_controller/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/scan_filtered
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/set_pose
+    type: geometry_msgs::msg::dds_::PoseWithCovarianceStamped_
+  - name: rt/rosbotxl/slam_toolbox/feedback
+    type: visualization_msgs::msg::dds_::InteractiveMarkerFeedback_
+  - name: rt/rosbotxl/slam_toolbox/graph_visualization
+    type: visualization_msgs::msg::dds_::MarkerArray_
+  - name: rt/rosbotxl/slam_toolbox/scan_visualization
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/slam_toolbox/update
+    type: visualization_msgs::msg::dds_::InteractiveMarkerUpdate_
+  - name: rt/rosbotxl/smoother_server/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/speed_limit
+    type: nav2_msgs::msg::dds_::SpeedLimit_
+  - name: rt/rosbotxl/tf
+    type: tf2_msgs::msg::dds_::TFMessage_
+  - name: rt/rosbotxl/tf_static
+    type: tf2_msgs::msg::dds_::TFMessage_
+  - name: rt/rosbotxl/transformed_global_plan
+    type: nav_msgs::msg::dds_::Path_
+  - name: rt/rosbotxl/unsmoothed_plan
+    type: nav_msgs::msg::dds_::Path_
+  - name: rt/rosbotxl/velocity_smoother/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosbotxl/waypoint_follower/transition_event
+    type: lifecycle_msgs::msg::dds_::TransitionEvent_
+  - name: rt/rosout
+    type: rcl_interfaces::msg::dds_::Log_
+  - name: rt/trajectories
+    type: visualization_msgs::msg::dds_::MarkerArray_
+blocklist: []
+builtin-topics: []
