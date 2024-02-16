@@ -1,0 +1,6 @@
+version: v4.0
+specs:
+  discovery-trigger: reader
+  remove-unused-entities: true
+  # discovery-trigger: writer
+participants: []

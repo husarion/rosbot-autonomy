@@ -11,23 +11,22 @@ x-dds-envs:
 services:
 
   ros2router:
-    image: husarnet/ros2router:1.6.3
+    image: husarnet/ros2router:humble-iron-localhost #1.6.3
     <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
       - USER
       - ROBOT_NAMESPACE
+      - PARTICIPANTS=shm,husarnet
       # ==========================
       # envs for Husarnet setup
       # ==========================
-      - DISCOVERY_SERVER_LISTENING_PORT=11811
-      - DISCOVERY_SERVER_ID=0
+      # - DISCOVERY_SERVER_LISTENING_PORT=11811
+      # - DISCOVERY_SERVER_ID=0
       # ==========================
       # envs for LAN setup
       # ==========================
-      # - ROS_LOCALHOST_ONLY=0
-      # - HUSARNET_PARTICIPANT_ENABLED=false
 
   rosbot:
     image: husarion/rosbot:humble-0.13.0-20240115
@@ -53,10 +52,11 @@ services:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     environment:
       - ROBOT_NAMESPACE
-    command: >
-      ros2 launch /husarion_utils/rplidar.launch.py
-        serial_baudrate:=${LIDAR_BAUDRATE:-256000}
-        serial_port:=/dev/ttyUSB0
+    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+    # command: >
+    #   ros2 launch /husarion_utils/rplidar.launch.py
+    #     serial_baudrate:=${LIDAR_BAUDRATE:-256000}
+    #     serial_port:=/dev/ttyUSB0
 
   navigation:
     image: husarion/navigation2:humble-1.1.12-20240123

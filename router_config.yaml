@@ -1,0 +1,26 @@
+version: v4.0
+specs:
+  discovery-trigger: reader
+  remove-unused-entities: true
+participants:
+  - name: HusarnetParticipant
+    kind: local-discovery-server
+    discovery-server-guid: 
+      ros-discovery-server: true
+      id: 111
+    connection-addresses:
+      - discovery-server-guid:
+          ros-discovery-server: true
+          id: 0
+        addresses:
+          - ip: fc94:8818:ee0c:0dbb:ea6d:50b0:e924:492f
+            port: 11811
+            transport: udp
+  - name: LocalShmParticipant
+    kind: local
+    domain: 0
+    transport: shm
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []

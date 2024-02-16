@@ -11,25 +11,26 @@ x-dds-envs:
 services:
 
   ros2router:
-    image: husarnet/ros2router:1.7.0 #1.6.3
+    image: husarnet/ros2router:1.8.0 #1.7.0 #1.6.3
     <<: *common-config
     volumes:
-      - ./filter-xl.yaml:/filter.yaml
+      # - ./filter.yaml:/filter.yaml
+      # - ./filter-xl.yaml:/filter.yaml
+      - ./config.base.yaml:/config.base.yaml
     # depends_on:
     #   navigation: { condition: service_healthy }
     environment:
       - USER
       - ROBOT_NAMESPACE
+      - PARTICIPANTS=shm,husarnet
       # ==========================
       # envs for Husarnet setup
       # ==========================
-      - DISCOVERY_SERVER_LISTENING_PORT=11811
-      - DISCOVERY_SERVER_ID=0
+      # - DISCOVERY_SERVER_LISTENING_PORT=11811
+      # - DISCOVERY_SERVER_ID=0
       # ==========================
       # envs for LAN setup
       # ==========================
-      # - ROS_LOCALHOST_ONLY=0
-      # - HUSARNET_PARTICIPANT_ENABLED=false
 
   # rosbot:
   #   image: husarion/rosbot:humble-0.13.0-20240115
@@ -47,31 +48,41 @@ services:
   #       serial_baudrate:=576000
 
   rosbot:
-    image: husarion/rosbot-xl:humble-0.10.0-20240202
+    image: husarion/rosbot-xl:humble-healthcheck-fix #humble-0.10.0-20240202
     <<:
       - *common-config
       - *dds-envs
-    devices:
-      - /dev/ttyUSBDB # just for firmware flashing
-      - /dev/bus/usb/ # just for firmware flashing
-    environment:
-      - ROBOT_NAMESPACE
-    command: ros2 launch rosbot_xl_bringup combined.launch.py mecanum:=${MECANUM:-True} namespace:=${ROBOT_NAMESPACE}
-
+    # devices:
+    #   - /dev/ttyUSBDB # just for firmware flashing
+    #   - /dev/bus/usb/ # just for firmware flashing
+    # environment:
+    #   - ROBOT_NAMESPACE
+    # volumes:
+    #   - ./rosbot.launch.py:/husarion_utils/rosbot.launch.py
+    #   - ./run_healthcheck_node.sh:/run_healthcheck_node.sh
+    # command: ros2 launch rosbot_xl_bringup combined.launch.py mecanum:=${MECANUM:-True} namespace:=${ROBOT_NAMESPACE}
+    command: >
+      ros2 launch /husarion_utils/rosbot.launch.py
+        mecanum:=${MECANUM:-True} 
+        namespace:=${ROBOT_NAMESPACE}
+        healthcheck:=True
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20240104
+    image: husarion/rplidar:humble-ros2-healthcheck-fix #humble-1.0.1-20240104
     <<:
       - *common-config
       - *dds-envs
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
-    environment:
-      - ROBOT_NAMESPACE
+    # environment:
+    #   - ROBOT_NAMESPACE
+    # command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-256000}
     command: >
       ros2 launch /husarion_utils/rplidar.launch.py
         serial_baudrate:=${LIDAR_BAUDRATE:-256000}
         serial_port:=/dev/ttyUSB0
+        robot_namespace:=${ROBOT_NAMESPACE}
+        healthcheck:=True
 
   navigation:
     image: husarion/navigation2:humble-1.1.12-20240123

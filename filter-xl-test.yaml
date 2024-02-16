@@ -1,0 +1,12 @@
+allowlist:
+  - name: rt/rosbotxl/scan
+    type: sensor_msgs::msg::dds_::LaserScan_
+  - name: rt/rosbotxl/odometry/filtered
+    type: nav_msgs::msg::dds_::Odometry_
+# blocklist: []
+# builtin-topics:
+#   - name: rt/rosbotxl/scan
+#     type: sensor_msgs::msg::dds_::LaserScan_
+#     qos:
+#       reliability: true
+#       durability: false

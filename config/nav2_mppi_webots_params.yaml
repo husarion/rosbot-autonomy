@@ -6,7 +6,7 @@ amcl:
     global_frame_id: map
     odom_frame_id: odom
     base_frame_id: base_link
-    scan_topic: scan
+    scan_topic: scan_filtered # scan
 
     robot_model_type: nav2_amcl::DifferentialMotionModel
 
@@ -252,7 +252,7 @@ local_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: scan
+          topic: scan_filtered # scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true
@@ -297,7 +297,7 @@ global_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: scan
+          topic: scan_filtered # scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true
@@ -405,7 +405,7 @@ behavior_server:
     odom_frame: odom
     map_frame: map
     base_frame: base_link
-    scan_topic: scan
+    scan_topic: scan_filtered # scan
     use_map_saver: true
     mode: mapping #localization
 
