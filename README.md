@@ -11,6 +11,12 @@ Autonomous navigation & mapping for ROSbot 2R / 2 PRO with RViz interface runnin
 > | [**ros2router**](https://github.com/husarion/rosbot-autonomy/) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
 > | [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
 
+## 🛍️ Necessary Hardware
+
+For the execution of this project **[ROSbot 2R or ROSbot 2 PRO](https://husarion.com/manuals/rosbot/)** is required. 
+
+You can find it at [our online store](https://store.husarion.com/collections/robots/products/rosbot).
+
 ## Quick start (Physical ROSbot)
 
 > [!NOTE]
