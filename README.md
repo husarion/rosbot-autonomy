@@ -88,8 +88,8 @@ To ensure proper user configuration, review the content of the `.env` file and s
    cd rosbot-autonomy
    ```
 
-   > [!NOTE]
-   > `rosbot2r` is the name of device set in Husarnet.
+> [!NOTE]
+> `rosbot2r` is the name of device set in Husarnet.
 
 2. Flashing the ROSbot's firmware.
 
