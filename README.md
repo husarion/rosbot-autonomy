@@ -11,7 +11,6 @@ Autonomous navigation & mapping for ROSbot 2R / 2 PRO with a web user interface 
 > | [**ros2router**](https://github.com/husarion/rosbot-autonomy/) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
 > | [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
 
-
 ## Quick start (Physical ROSbot)
 
 > [!NOTE]
@@ -43,18 +42,21 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Run in the linux terminal on your PC:
+
    ```bash
-   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   cd rosbot-autonomy/ # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
-   > note that `rosbot2r` is a default ROSbot hostname used in this project
 
+   > note that `rosbot2r` is a default ROSbot hostname used in this project
 
 ### 📡 Step 2: Sync
 
@@ -108,7 +110,6 @@ To ensure proper user configuration, review the content of the `.env` file and s
 Open the **Google Chrome** browser on your laptop and navigate to:
 
 http://rosbot2r:8080/ui
-
 
 > [!NOTE]
 > `rosbot2r` is the name of device set in Husarnet.
