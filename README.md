@@ -13,7 +13,7 @@ Autonomous navigation & mapping for ROSbot 2R / 2 PRO with RViz interface runnin
 
 ## 🛍️ Necessary Hardware
 
-For the execution of this project **[ROSbot 2R or ROSbot 2 PRO](https://husarion.com/manuals/rosbot/)** is required. 
+For the execution of this project **[ROSbot 2R or ROSbot 2 PRO](https://husarion.com/manuals/rosbot/)** is required.
 
 You can find it at [our online store](https://store.husarion.com/collections/robots/products/rosbot).
 
@@ -51,21 +51,26 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Run in the linux terminal on your PC:
+
    ```bash
-   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   cd rosbot-autonomy # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
-   > [!IMPORTANT]
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change the line:
-   > ```bash
-   > ROBOT_NAMESPACE=rosbot2r
-   > ```
+
+> [!IMPORTANT]
+> note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change the line:
+>
+> ```bash
+> ROBOT_NAMESPACE=rosbot2r
+> ```
 
 ### 📡 Step 2: Sync
 
@@ -108,8 +113,8 @@ To enable autonomy on the robot, it is necessary:
    cd rosbot-autonomy
    ```
 
-   > [!NOTE]
-   > `rosbot2r` is the name of device set in Husarnet.
+> [!NOTE]
+> `rosbot2r` is the name of device set in Husarnet.
 
 2. Flashing the ROSbot's Firmware.
 
