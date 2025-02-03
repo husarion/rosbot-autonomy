@@ -78,9 +78,13 @@ flash-firmware: _install-yq
     docker ps -q | xargs -r docker stop
 
     echo "Flashing the firmware for STM32 microcontroller in ROSbot"
+    # docker run \
+    #     --rm -it --privileged \
+    #     $(yq .services.rosbot.image compose.yaml) \
+    #     ros2 run rosbot_utils flash_firmware
     docker run \
         --rm -it --privileged \
-        $(yq .services.rosbot.image compose.yaml) \
+        husarion/rosbot:humble-0.13.1-20240201 \
         ros2 run rosbot_utils flash_firmware
 
 # start ROSbot 2R / 2 PRO autonomy containers

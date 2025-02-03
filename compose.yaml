@@ -1,25 +1,31 @@
 services:
 
   rosbot:
+    # image: husarion/rosbot:humble-0.14.0-20250131
     image: husarion/rosbot:humble-0.13.1-20240201
     restart: unless-stopped
     devices:
-      - ${SERIAL_PORT:?err}
+      - ${SERIAL_PORT_STM32:?err}
+    # command: >
+    #   ros2 launch rosbot_bringup bringup.launch.py
+    #     mecanum:=${MECANUM:-False}
+    #     serial_port:=$SERIAL_PORT_STM32
+    #     serial_baudrate:=576000
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
-        serial_port:=$SERIAL_PORT
+        serial_port:=$SERIAL_PORT_STM32
         serial_baudrate:=576000
 
   rplidar:
     image: husarion/rplidar:humble-1.0.1-20240104
     restart: unless-stopped
     devices:
-      - /dev/ttyRPLIDAR:/dev/ttyUSB0
+      - ${SERIAL_PORT_RPLIDAR:?err}
     command: >
       ros2 launch /husarion_utils/rplidar.launch.py
         serial_baudrate:=${LIDAR_BAUDRATE:-256000}
-        serial_port:=/dev/ttyUSB0
+        serial_port:=$SERIAL_PORT_RPLIDAR
 
   navigation:
     image: husarion/navigation2:humble-1.1.12-20240123
