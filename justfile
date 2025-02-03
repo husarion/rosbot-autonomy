@@ -5,17 +5,7 @@ alias husarnet := connect-husarnet
 [private]
 alias flash := flash-firmware
 [private]
-alias rosbot := start-rosbot
-[private]
-alias pc := start-pc
-[private]
-alias teleop := run-teleop
-[private]
-alias teleop-docker := run-teleop-docker
-[private]
-alias gazebo := start-gazebo-sim
-[private]
-alias webots := start-webots-sim
+alias start := start-rosbot
 
 [private]
 default:
@@ -98,56 +88,24 @@ start-rosbot:
     fi
 
     mkdir -m 775 -p maps
+
+    sudo snap install rosbot --channel=humble/stable
+    sudo /var/snap/rosbot/common/post_install.sh
+    sudo rosbot.flash
+    sudo snap set rosbot ros.domain-id=77 transport=udp
+
+    sudo snap install husarion-rplidar --channel=humble/stable
+    sudo snap set husarion-rplidar configuration=a2m12
+    sudo snap set husarion-rplidar ros.domain-id=77 transport=udp
+
+    sudo snap install husarion-webui --channel=humble/stable
+    sudo snap set husarion-webui ros.domain-id=77 transport=udp
+    sudo cp config/foxglove-autonomy.json /var/snap/husarion-webui/common
+    sudo snap set husarion-webui webui.layout=autonomy
+    sudo husarion-webui.start
+
+    grep -v '^unset ' "/var/snap/rosbot/common/ros.env" | sed 's/^export //g' > .env.dds
+
     docker compose down
     docker compose pull
     docker compose up
-
-# start RViz visualization on PC
-start-pc:
-    #!/bin/bash
-    xhost +local:docker
-    docker compose -f compose.pc.yaml down
-    docker compose -f compose.pc.yaml pull
-    docker compose -f compose.pc.yaml up
-
-# restart the navigation stack (and SLAM)
-restart-nav2:
-    #!/bin/bash
-    docker compose down navigation
-    docker compose up -d navigation
-
-# start Gazebo simulator with autonomy
-start-gazebo-sim:
-    #!/bin/bash
-    xhost +local:docker
-    docker compose -f compose.sim.gazebo.yaml down
-    docker compose -f compose.sim.gazebo.yaml pull
-    docker compose -f compose.sim.gazebo.yaml up
-
-# start Webots simulator with autonomy
-start-webots-sim:
-    #!/bin/bash
-    xhost +local:docker
-    docker compose -f compose.sim.webots.yaml down
-    docker compose -f compose.sim.webots.yaml pull
-    docker compose -f compose.sim.webots.yaml up
-
-# run teleop_twist_keybaord (host)
-run-teleop:
-    #!/bin/bash
-    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}
-
-# run teleop_twist_keybaord (inside rviz2 container)
-run-teleop-docker:
-    #!/bin/bash
-    docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
-
-# copy repo content to remote host with 'rsync' and watch for changes
-sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
-    #!/bin/bash
-    mkdir -m 775 -p maps
-    sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' --exclude='.docs' ; do
-        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    done
