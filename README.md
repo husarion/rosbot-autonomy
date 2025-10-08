@@ -1,6 +1,6 @@
 # rosbot-autonomy
 
-Autonomous navigation & mapping for ROSbot 2R / 2 PRO with a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
+Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 PRO, ROSbot 2R / 2 PRO) with a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
 
 ![autonomy-result](https://github-readme-figures.s3.eu-central-1.amazonaws.com/rosbot/rosbot-autonomy/rosbot-autonomy.webp)
 
@@ -10,7 +10,7 @@ Autonomous navigation & mapping for ROSbot 2R / 2 PRO with a web user interface 
 
 1. **ROSbot Platform & ROS Driver**
 
-    This demo is prepared for the **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 PRO, ROSbot 2R / 2 PRO). This version is prepared to work with [rosbot](https://snapcraft.io/rosbot) ROS driver snap. To install snap follow the information in snapcraft.
+    This demo is prepared for the **ROSbot Series**. This version is prepared to work with [rosbot](https://snapcraft.io/rosbot) ROS driver snap. To install snap follow the information in snapcraft.
 
 2. **Robot Configuration**
 

@@ -4,6 +4,8 @@ set dotenv-load # to read ROBOT_NAMESPACE from .env file
 alias hw := start-navigation
 [private]
 alias sim := start-simulation
+[private]
+alias vis := start-visualization
 
 [private]
 default:
@@ -43,7 +45,8 @@ check-husarion-webui:
             read -p "Do you want to reinstall husarion-webui with channel=$ROS_DISTRO? (y/n): " choice
             case "$choice" in
                 y|Y )
-                    sudo snap refresh husarion-webui --channel="$ROS_DISTRO"
+                    sudo snap remove husarion-webui
+                    sudo snap install husarion-webui --channel="$ROS_DISTRO"
                     ;;
                 n|N )
                     echo "Reinstallation aborted."

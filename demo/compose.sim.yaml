@@ -17,12 +17,11 @@ x-cpu-config:
   &cpu-config
   environment:
     - DISPLAY=${DISPLAY:?err}
-    - LIBGL_ALWAYS_SOFTWARE=1
 
 services:
 
   rosbot_gazebo:
-    image: husarion/rosbot-gazebo:${ROS_DISTRO}-0.16.1-20250901
+    image: husarion/rosbot-gazebo:${ROS_DISTRO}
     <<: [*gpu-config, *common-config]
     volumes:
       - ./dds-config-udp.xml:/udp_profile.xml:ro
@@ -33,10 +32,9 @@ services:
         rviz:=False
 
   rosbot_navigation:
-    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20250916
+    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20251006
     <<: [*common-config]
     volumes:
-      - ./config/nav2_params.yaml:/nav2_params.yaml
       - ./dds-config-udp.xml:/udp_profile.xml:ro
       - ./maps:/maps
     command: >
@@ -44,6 +42,5 @@ services:
         controller:=${CONTROLLER:-mppi}
         map:=/maps/map.yaml
         robot_model:=${ROBOT_MODEL:-err}
-        params_file:=/nav2_params.yaml
         slam:=${SLAM:-True}
         use_sim_time:=True

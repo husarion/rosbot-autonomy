@@ -407,7 +407,7 @@
       "topic": "{{env "NAMESPACE"}}/cmd_vel",
       "frameId": "",
       "publishRate": 10,
-      "stamped": true,
+      "stamped": {{env "CMD_VEL_STAMPED"}},
       "advanced": false,
       "xAxis": {
         "field": "linear-x",

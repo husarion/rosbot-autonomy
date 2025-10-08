@@ -1,13 +1,12 @@
 services:
 
   rosbot_navigation:
-    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20250916
+    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20251006
     network_mode: host
     ipc: host
     env_file:
       - .env
     volumes:
-      - ./config/nav2_params.yaml:/nav2_params.yaml
       - ./dds-config-udp.xml:/udp_profile.xml:ro
       - ./maps:/maps
     command: >
@@ -15,6 +14,5 @@ services:
         controller:=${CONTROLLER:-mppi}
         map:=/maps/map.yaml
         robot_model:=${ROBOT_MODEL:-err}
-        params_file:=/nav2_params.yaml
         slam:=${SLAM:-True}
         use_sim_time:=False
