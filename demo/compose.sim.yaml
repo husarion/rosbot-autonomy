@@ -32,7 +32,7 @@ services:
         rviz:=False
 
   rosbot_navigation:
-    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20251006
+    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20251020
     <<: [*common-config]
     volumes:
       - ./dds-config-udp.xml:/udp_profile.xml:ro
