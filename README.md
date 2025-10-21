@@ -6,6 +6,9 @@ Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 P
 
 ## 🚀 Demo
 
+> [!NOTE]
+> This repo provides only quick demo guideline. The source code can be found in [rosbot_autonomy_ros](https://github.com/husarion/rosbot_autonomy_ros).
+
 ### 📋 Requirements
 
 1. **ROSbot Platform & ROS Driver**
@@ -28,16 +31,7 @@ Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 P
 
 #### Step 1: Environment configuration
 
-Setup environment:
-
-```bash
-export ROBOT_MODEL=rosbot # if you want to use ROSbot XL change to 'rosbot_xl'
-export SLAM=True # if you have a map you can run navigation without SLAM
-```
-
-> [!NOTE]
-> Additional arguments are detailed in the [Launch Arguments](#launch-arguments) section.
-> MPPI controller is not compatible with **ROSbot 2 PRO**. Please use DWB or RPP controller.
+Setup environment variable in `demo/.env`. 
 
 #### Step 2: Run navigation
 
