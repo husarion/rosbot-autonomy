@@ -87,7 +87,7 @@ start-navigation:
         elif [[ -z "$STATUS" ]]; then
             echo "⚠️  $SNAP is not installed." >&2
             missing_or_inactive=true
-        else 
+        else
             echo "❌ $SNAP is not running." >&2
             echo "💡 Try: sudo $SNAP.start" >&2
             missing_or_inactive=true

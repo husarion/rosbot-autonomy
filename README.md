@@ -29,13 +29,13 @@ Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 P
 
 4. **DDS**
 
-    The default configuration starts [FastDDS - UDP](demo/dds-config-udp.xml) configuration. All snap should share the same DDS configuration. 
+    The default configuration starts [FastDDS - UDP](demo/dds-config-udp.xml) configuration. All snap should share the same DDS configuration.
 
 ### 🧭 Navigation
 
 #### Step 1: Environment configuration
 
-Setup environment variable in `demo/.env`. 
+Setup environment variable in `demo/.env`.
 
 #### Step 2: Run navigation
 
