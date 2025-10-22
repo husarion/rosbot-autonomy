@@ -75,6 +75,37 @@ _install-rsync:
 # start ROSbot autonomy container
 start-navigation:
     #!/bin/bash
+    SNAPS=("husarion-rplidar" "rosbot")
+
+    missing_or_inactive=false
+
+    for SNAP in "${SNAPS[@]}"; do
+        STATUS=$(snap services "$SNAP.daemon" 2>/dev/null | awk 'NR>1 {print $3}' | uniq)
+
+        if [[ "$STATUS" == "active" ]]; then
+            echo "✅ $SNAP is running."
+        elif [[ -z "$STATUS" ]]; then
+            echo "⚠️  $SNAP is not installed." >&2
+            missing_or_inactive=true
+        else 
+            echo "❌ $SNAP is not running." >&2
+            echo "💡 Try: sudo $SNAP.start" >&2
+            missing_or_inactive=true
+        fi
+    done
+
+    if [[ "$missing_or_inactive" == true ]]; then
+        echo
+        read -rp "🚨 Some snaps are missing or inactive. Do you still want to start navigation? [y/N]: " CONFIRM
+        case "$CONFIRM" in
+            [yY]|[yY][eE][sS])
+                ;;
+            *)
+                exit 0
+                ;;
+        esac
+    fi
+
     if grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo; then
         echo -e "\e[1;33mWarning: MPPI controller does NOT work on ROSbot 2 PRO (Atom x5-Z8350).\e[0m\n"
         read -p "Do you want to use RPP controller instead? [Y/n]: " choice
@@ -108,7 +139,7 @@ start-visualization: check-husarion-webui
     sudo snap set husarion-webui webui.layout=rosbot-navigation
     sudo husarion-webui.start
 
-    local_ip=$(ip -o -4 addr show scope global | awk '{print $4}' | cut -d/ -f1 | head -n1)
+    local_ip=$(ip -o -4 addr show | awk '/wlan|wl/ {print $4}' | cut -d/ -f1 | head -n1)
     hostname=$(hostname)
     echo "Access the web interface at:"
     echo "  • Localhost:        http://localhost:8080/ui"

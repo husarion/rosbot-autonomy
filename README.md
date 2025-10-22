@@ -27,6 +27,10 @@ Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 P
     sudo snap install just
     ```
 
+4. **DDS**
+
+    The default configuration starts [FastDDS - UDP](demo/dds-config-udp.xml) configuration. All snap should share the same DDS configuration. 
+
 ### 🧭 Navigation
 
 #### Step 1: Environment configuration

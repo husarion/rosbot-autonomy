@@ -193,6 +193,21 @@
         },
         "frame:link4": {
           "visible": false
+        },
+        "frame:camera_mount_mid_link": {
+          "visible": false
+        },
+        "frame:camera_mount_bot_link": {
+          "visible": false
+        },
+        "frame:camera_mount_top_link": {
+          "visible": false
+        },
+        "frame:rplidar_link": {
+          "visible": false
+        },
+        "frame:oak_link": {
+          "visible": false
         }
       },
       "topics": {
