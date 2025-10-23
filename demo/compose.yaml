@@ -7,12 +7,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dds-config-udp.xml:/udp_profile.xml:ro
+      - /var/snap/rosbot/common:/var/snap/rosbot/common:ro
       - ./maps:/maps
-    command: >
-      ros2 launch rosbot_navigation bringup.launch.py
-        controller:=${CONTROLLER:-mppi}
-        map:=/maps/map.yaml
-        robot_model:=${ROBOT_MODEL:-err}
-        slam:=${SLAM:-True}
-        use_sim_time:=False
+    command: bash -c "source /var/snap/rosbot/common/ros.env && ros2 launch rosbot_navigation bringup.launch.py controller:=${CONTROLLER:-mppi} map:=/maps/map.yaml robot_model:=${ROBOT_MODEL:-rosbot_xl} slam:=${SLAM:-True} use_sim_time:=False"

@@ -13,23 +13,16 @@ Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 P
 
 1. **ROSbot Platform & ROS Driver**
 
-    This demo is prepared for the **ROSbot Series**. This version is prepared to work with [rosbot](https://snapcraft.io/rosbot) ROS driver snap. To install snap follow the information in snapcraft.
+    - This demo is prepared for the **ROSbot Series**. This version is prepared to work with [rosbot](https://snapcraft.io/rosbot) ROS driver snap. To install snap follow the information in snapcraft.
+    - The demo assumes that the `/scan` topic (`LaserScan` message type) is available. By default Rosbot use RPlidar device with [husarion-rplidar](https://snapcraft.io/husarion-rplidar) ROS driver
 
-2. **Robot Configuration**
-
-    The demo assumes that the `/scan` topic (`LaserScan` message type) is available.
-
-3. **Just**
+2. **Just**
 
     To simplify running commands, we use [just](https://github.com/casey/just). Install it with:
 
     ```bash
     sudo snap install just
     ```
-
-4. **DDS**
-
-    The default configuration starts [FastDDS - UDP](demo/dds-config-udp.xml) configuration. All snap should share the same DDS configuration.
 
 ### 🧭 Navigation
 
