@@ -9,4 +9,11 @@ services:
     volumes:
       - /var/snap/rosbot/common:/var/snap/rosbot/common:ro
       - ./maps:/maps
-    command: bash -c "source /var/snap/rosbot/common/ros.env && ros2 launch rosbot_navigation bringup.launch.py controller:=${CONTROLLER:-mppi} map:=/maps/map.yaml robot_model:=${ROBOT_MODEL:-rosbot_xl} slam:=${SLAM:-True} use_sim_time:=False"
+    command: >
+      bash -c "source /var/snap/rosbot/common/ros.env &&
+      ros2 launch rosbot_navigation bringup.launch.py
+      controller:=${CONTROLLER:-mppi}
+      map:=/maps/map.yaml
+      robot_model:=${ROBOT_MODEL:-rosbot_xl}
+      slam:=${SLAM:-True}
+      use_sim_time:=False"

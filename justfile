@@ -11,8 +11,9 @@ alias vis := start-visualization
 default:
     @just --list --unsorted
 
+# Validate if the ROS version matches the snap version and reinstall if necessary
 [private]
-check-husarion-webui:
+ros-snap-distro-validation snap:
     #!/bin/bash
     if ! command -v snap &> /dev/null; then
         echo "Snap is not installed. Please install Snap first and try again."
@@ -20,59 +21,73 @@ check-husarion-webui:
         exit 1
     fi
 
-    if ! snap list husarion-webui &> /dev/null; then
-        echo "husarion-webui is not installed."
-        read -p "Do you want to install husarion-webui for ROS_DISTRO=$ROS_DISTRO? (y/n): " choice
+    if ! snap list {{snap}} &> /dev/null; then
+        echo "{{snap}} is not installed."
+        read -p "Do you want to install {{snap}} for ROS_DISTRO=$ROS_DISTRO? (Y/n): " choice
         case "$choice" in
-            y|Y )
-                sudo snap install husarion-webui --channel="$ROS_DISTRO"
-                ;;
-            n|N )
+            [nN]|[nN][oO])
                 echo "Installation aborted."
                 exit 0
                 ;;
-            * )
-                echo "Invalid input. Please respond with 'y' or 'n'."
-                exit 1
+            *)
+                sudo snap install {{snap}} --channel="$ROS_DISTRO"
                 ;;
         esac
     else
-        INSTALLED_CHANNEL=$(snap info husarion-webui | awk '/tracking:/ {print $2}' | cut -d'/' -f1)
-        echo "husarion-webui is installed (channel: $INSTALLED_CHANNEL)."
-
+        INSTALLED_CHANNEL=$(snap info {{snap}} | awk '/tracking:/ {print $2}' | cut -d'/' -f1)
         if [[ "$INSTALLED_CHANNEL" != "$ROS_DISTRO" ]]; then
             echo "Installed channel ($INSTALLED_CHANNEL) does not match ROS_DISTRO ($ROS_DISTRO)."
-            read -p "Do you want to reinstall husarion-webui with channel=$ROS_DISTRO? (y/n): " choice
+            read -p "Do you want to reinstall {{snap}} using the $ROS_DISTRO channel? (Y/n): " choice
             case "$choice" in
-                y|Y )
-                    sudo snap remove husarion-webui
-                    sudo snap install husarion-webui --channel="$ROS_DISTRO"
-                    ;;
-                n|N )
+                [nN]|[nN][oO])
                     echo "Reinstallation aborted."
                     exit 0
                     ;;
-                * )
-                    echo "Invalid input. Please respond with 'y' or 'n'."
-                    exit 1
+                *)
+                    sudo snap remove {{snap}}
+                    sudo snap install {{snap}} --channel="$ROS_DISTRO"
                     ;;
             esac
-        else
-            echo "husarion-webui is up to date and matches ROS_DISTRO=$ROS_DISTRO."
         fi
     fi
 
-_install-rsync:
+# Compare the DDS configuration between two snaps
+[private]
+check-ros-transport source_snap target_snap:
+    #!/bin/bash
+    SOURCE_TRANSPORT=$(sudo snap get {{source_snap}} ros.transport 2>/dev/null)
+    TARGET_TRANSPORT=$(sudo snap get {{target_snap}} ros.transport 2>/dev/null)
+
+    # Check if values were retrieved
+    if [[ -z "$SOURCE_TRANSPORT" || -z "$TARGET_TRANSPORT" ]]; then
+        echo "❌ Failed to get 'ros.transport' value(s):"
+        [[ -z "$SOURCE_TRANSPORT" ]] && echo "   - from {{source_snap}} snap"
+        [[ -z "$TARGET_TRANSPORT" ]] && echo "   - from {{target_snap}} snap"
+        exit 1
+    fi
+
+    # Compare values
+    if [[ "$TARGET_TRANSPORT" != "$SOURCE_TRANSPORT" ]]; then
+        echo "⚠️  Warning: 'ros.transport' values differ between snaps!"
+        echo "   - {{source_snap}}: $SOURCE_TRANSPORT"
+        echo "   - {{target_snap}}: $TARGET_TRANSPORT"
+        echo
+        echo "💡 Recommended action: set both snaps to use the same DDS configuration to avoid communication issues."
+        read -p "Do you want to continue anyway? (y/N): " CONFIRM
+        if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+            echo "❌ Aborted by user."
+            exit 1
+        fi
+    fi
+
+[private]
+install-sync-dependencies:
     #!/bin/bash
     if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
-        if [ "$EUID" -ne 0 ]; then
-            echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit
-        fi
         sudo apt-get install -y rsync sshpass inotify-tools
     fi
 
-# start ROSbot autonomy container
+# Start ROSbot autonomy container
 start-navigation:
     #!/bin/bash
     SNAPS=("husarion-rplidar" "rosbot")
@@ -125,7 +140,7 @@ start-navigation:
     docker compose -f demo/compose.yaml pull
     docker compose -f demo/compose.yaml up
 
-# start Gazebo simulator with autonomy
+# Start Gazebo simulator with autonomy
 start-simulation:
     #!/bin/bash
     xhost +local:docker
@@ -133,8 +148,13 @@ start-simulation:
     docker compose -f demo/compose.sim.yaml pull
     docker compose -f demo/compose.sim.yaml up
 
-start-visualization: check-husarion-webui
+# Start Husarion WebUI for visualization
+start-visualization:
     #!/bin/bash
+    set -e
+    just --quiet ros-snap-distro-validation "husarion-webui"
+    just --quiet check-ros-transport "rosbot" "husarion-webui"
+
     sudo cp demo/foxglove.json /var/snap/husarion-webui/common/foxglove-rosbot-navigation.json
     sudo snap set husarion-webui webui.layout=rosbot-navigation
     sudo husarion-webui.start
@@ -144,12 +164,13 @@ start-visualization: check-husarion-webui
     echo "Access the web interface at:"
     echo "  • Localhost:        http://localhost:8080/ui"
     echo "  • Local network:    http://$local_ip:8080/ui"
-    echo "  • Husarnet network: http://$hostname:8080/ui"
+    echo "  • Husarnet network: http://$hostname:8080/ui (if Husarnet is set up)"
 
-# copy repo content to remote host with 'rsync' and watch for changes
-sync hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync
+# Copy repo content to remote host and keep synced
+sync hostname="husarion" password="husarion": install-sync-dependencies
     #!/bin/bash
-    sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ --exclude='.git/' --exclude='maps/' --exclude='.docs' ; do
-        sshpass -p "{{password}}" rsync -vRr --exclude='.git/' --exclude='maps/' --exclude='.docs' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    EXCLUDES="--exclude=.git --exclude=maps --exclude=.docs"
+    sshpass -p "{{password}}" rsync -vRr $EXCLUDES --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+    while inotifywait -r -e modify,create,delete,move ./ --excludei '\.git|maps|\.docs'; do
+        sshpass -p "{{password}}" rsync -vRr $EXCLUDES --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
