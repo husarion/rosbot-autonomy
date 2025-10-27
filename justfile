@@ -140,22 +140,30 @@ start-navigation:
 
     docker compose -f demo/compose.yaml down
     docker compose -f demo/compose.yaml pull
-    docker compose -f demo/compose.yaml up
+    docker compose -f demo/compose.yaml up -d
+
+    just start-visualization
 
 # Start Gazebo simulator with autonomy
 start-simulation:
     #!/bin/bash
+    set -e
+
     xhost +local:docker
     docker compose -f demo/compose.sim.yaml down
     docker compose -f demo/compose.sim.yaml pull
-    docker compose -f demo/compose.sim.yaml up
+    docker compose -f demo/compose.sim.yaml up -d
+
+    just start-visualization "true"
 
 # Start Husarion WebUI for visualization
-start-visualization:
+start-visualization sim="false":
     #!/bin/bash
     set -e
     just --quiet ros-snap-distro-validation "husarion-webui"
-    just --quiet compare-ros-transport "rosbot" "husarion-webui"
+    if [[ "{{sim}}" == "false" ]]; then
+        just --quiet compare-ros-transport "rosbot" "husarion-webui"
+    fi
 
     sudo cp demo/foxglove.json /var/snap/husarion-webui/common/foxglove-rosbot-navigation.json
     sudo snap set husarion-webui webui.layout=rosbot-navigation
@@ -168,7 +176,19 @@ start-visualization:
     echo "  • Local network:    http://$local_ip:8080/ui"
     echo "  • Husarnet network: http://$hostname:8080/ui (if Husarnet is set up)"
 
-# Copy repo content to remote host and keep synced
+# Stop running containers and Husarion WebUI
+stop:
+    #!/bin/bash
+    docker compose -f demo/compose.sim.yaml down > /dev/null 2>&1 || true
+    docker compose -f demo/compose.yaml down > /dev/null 2>&1 || true
+    sudo husarion-webui.stop
+
+# Show logs from navigation container
+logs:
+    #!/bin/bash
+    docker logs demo-rosbot_navigation-1 -f
+
+# Blocking action which constantly synchronizes changes from host to robot
 sync hostname="husarion" password="husarion": install-sync-dependencies
     #!/bin/bash
     EXCLUDES="--exclude=.git --exclude=maps --exclude=.docs"

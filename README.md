@@ -44,15 +44,8 @@ Run navigation in **Gazebo simulation**:
 just start-simulation
 ```
 
-#### Step 3: Control the robot from a Web Browser
-
-1. Install and run husarion-webui
-
-    ```bash
-    just start-visualization
-    ```
-
-2. Open the your browser on your laptop and navigate to:
-
-    - http://{ip_address}:8080/ui (devices in the same LAN)
-    - http://{hostname}:8080/ui (devices in the same Husarnet Network)
+> Stop demonstration using:
+> 
+> ```bash
+> just stop
+> ```

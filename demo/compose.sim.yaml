@@ -31,7 +31,7 @@ services:
         rviz:=False
 
   rosbot_navigation:
-    image: husarion/rosbot-autonomy:${ROS_DISTRO}-0.1.0-20251022
+    image: husarion/rosbot-autonomy:${ROS_DISTRO}
     <<: [*common-config]
     volumes:
       - ./maps:/maps
