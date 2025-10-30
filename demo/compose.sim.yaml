@@ -3,7 +3,7 @@ x-common-config:
   network_mode: host
   ipc: host
   env_file:
-    - .env
+    - gz-dds.env
 
 x-gpu-config:
   &gpu-config
@@ -24,21 +24,24 @@ services:
     image: husarion/rosbot-gazebo:${ROS_DISTRO}
     <<: [*gpu-config, *common-config]
     volumes:
+      - ./config:/config
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: >
       ros2 launch rosbot_gazebo simulation.launch.py
         robot_model:=${ROBOT_MODEL:-err}
+        configuration:=${CONFIGURATION:-basic}
         rviz:=False
 
   rosbot_navigation:
     image: husarion/rosbot-autonomy:${ROS_DISTRO}
     <<: [*common-config]
     volumes:
+      - ./config:/config
       - ./maps:/maps
     command: >
       ros2 launch rosbot_navigation bringup.launch.py
-        controller:=${CONTROLLER:-mppi}
         map:=/maps/map.yaml
+        params_file:=/config/nav2_${ROS_DISTRO}_params.yaml
         robot_model:=${ROBOT_MODEL:-err}
         slam:=${SLAM:-True}
         use_sim_time:=True

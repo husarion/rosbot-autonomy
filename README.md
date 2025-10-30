@@ -1,8 +1,10 @@
 # rosbot-autonomy
 
-Autonomous navigation & mapping for **ROSbot Series** (ROSbot XL, ROSbot 3 / 3 PRO, ROSbot 2R / 2 PRO) with a web user interface powered by Foxglove. Works over the Internet thanks to Husarnet VPN
+Autonomous navigation & mapping for ROSbot 3 / 3 PRO and ROSbot XL with a web user interface powered by Foxglove. This project runs [husarion/rosbot-autonomy](https://hub.docker.com/r/husarion/rosbot-autonomy) Docker image that integrates Nav2, SLAM toolbox and ready to use configs for ROSbot 3 / 3 PRO and ROSbot XL.
 
 ![autonomy-result](https://github-readme-figures.s3.eu-central-1.amazonaws.com/rosbot/rosbot-autonomy/rosbot-autonomy.webp)
+
+This demo can also work over the internet with Husarnet VPN. Simply add your devices to the same Husarnet network.
 
 ## 🚀 Demo
 

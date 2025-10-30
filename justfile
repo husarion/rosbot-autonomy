@@ -1,4 +1,4 @@
-set dotenv-load # to read ROBOT_NAMESPACE from .env file
+set dotenv-load # to read .env file
 
 [private]
 alias hw := start-navigation
@@ -9,9 +9,23 @@ alias vis := start-visualization
 
 [private]
 default:
-    @just --list --unsorted
+    #!/bin/bash
+    just --list --unsorted
 
-# Validate if the ROS version matches the snap version and reinstall if necessary
+# Validate if the ROS version matches the snap version and reinstall if necessary. Very helpful for testing with different ROS versions.
+[private]
+check-env:
+    #!/bin/bash
+    if [[ -z "$ROS_DISTRO" ]]; then
+        echo "❌ ROS_DISTRO environment variable is not set." >&2
+        exit 1
+    fi
+    if [[ -z "$ROBOT_MODEL" ]]; then
+        echo "❌ ROBOT_MODEL environment variable is not set. Please edit .env file." >&2
+        exit 1
+    fi
+    
+
 [private]
 ros-snap-distro-validation snap:
     #!/bin/bash
@@ -100,7 +114,7 @@ install-sync-dependencies:
     fi
 
 # Start ROSbot autonomy container
-start-navigation:
+start-navigation: check-env
     #!/bin/bash
     set -e
 
@@ -124,18 +138,10 @@ start-navigation:
     just --quiet compare-ros-transport "rosbot" "husarion-rplidar"
 
     if grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo; then
-        echo -e "\e[1;33mWarning: MPPI controller does NOT work on ROSbot 2 PRO (Atom x5-Z8350).\e[0m\n"
-        read -p "Do you want to use RPP controller instead? [Y/n]: " choice
-        case "$choice" in
-            [nN]|[nN][oO])
-                echo "Aborted. Please select a compatible controller manually."
-                exit 1
-                ;;
-            *)
-                export CONTROLLER=RPP
-                echo "Using RPP controller."
-                ;;
-        esac
+        if grep -q "nav2_mppi_controller::MPPIController" ./demo/config/nav2_"$ROS_DISTRO"_params.yaml; then
+            echo -e "\e[1;31mError:\e[0m MPPI controller does NOT work on ROSbot 2 PRO (Atom x5-Z8350). Please use a different controller.\n"
+            exit 1
+        fi
     fi
 
     docker compose -f demo/compose.yaml down
@@ -145,9 +151,14 @@ start-navigation:
     just start-visualization
 
 # Start Gazebo simulator with autonomy
-start-simulation:
+start-simulation: check-env
     #!/bin/bash
     set -e
+
+    if [[ "$ROBOT_MODEL" == "rosbot_xl" && -z "$CONFIGURATION" ]]; then
+        echo "❌ CONFIGURATION environment variable is not set for ROSbot XL. Please edit .env file." >&2
+        exit 1
+    fi
 
     xhost +local:docker
     docker compose -f demo/compose.sim.yaml down

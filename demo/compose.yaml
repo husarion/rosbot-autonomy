@@ -4,16 +4,15 @@ services:
     image: husarion/rosbot-autonomy:${ROS_DISTRO}
     network_mode: host
     ipc: host
-    env_file:
-      - .env
     volumes:
-      - /var/snap/rosbot/common:/var/snap/rosbot/common:ro
+      - ./config:/config
       - ./maps:/maps
+      - /var/snap/rosbot/common:/var/snap/rosbot/common:ro # DDS configs
     command: >
       bash -c "source /var/snap/rosbot/common/ros.env &&
       ros2 launch rosbot_navigation bringup.launch.py
-      controller:=${CONTROLLER:-mppi}
       map:=/maps/map.yaml
+      params_file:=/config/nav2_${ROS_DISTRO}_params.yaml
       robot_model:=${ROBOT_MODEL:-rosbot_xl}
       slam:=${SLAM:-True}
       use_sim_time:=False"
