@@ -1,5 +1,3 @@
-set dotenv-load # to read .env file
-
 [private]
 alias hw := start-navigation
 [private]
@@ -16,6 +14,7 @@ default:
 [private]
 check-env:
     #!/bin/bash
+    . ./demo/.env
     if [[ -z "$ROS_DISTRO" ]]; then
         echo "❌ ROS_DISTRO environment variable is not set." >&2
         exit 1
@@ -24,7 +23,24 @@ check-env:
         echo "❌ ROBOT_MODEL environment variable is not set. Please edit .env file." >&2
         exit 1
     fi
-    
+
+# Validate if the ROS version matches the snap version and reinstall if necessary. Very helpful for testing with different ROS versions.
+[private]
+check-sim-env:
+    #!/bin/bash
+    . demo/sim.env
+    if [[ -z "$ROS_DISTRO" ]]; then
+        echo "❌ ROS_DISTRO environment variable is not set." >&2
+        exit 1
+    fi
+    if [[ -z "$ROBOT_MODEL" ]]; then
+        echo "❌ ROBOT_MODEL environment variable is not set. Please edit .env file." >&2
+        exit 1
+    fi
+    if [[ "$ROBOT_MODEL" == "rosbot_xl" && -z "$CONFIGURATION" ]]; then
+        echo "❌ CONFIGURATION environment variable is not set for ROSbot XL. Please edit .env file." >&2
+        exit 1
+    fi
 
 [private]
 ros-snap-distro-validation snap:
@@ -151,14 +167,9 @@ start-navigation: check-env
     just start-visualization
 
 # Start Gazebo simulator with autonomy
-start-simulation: check-env
+start-simulation: check-sim-env
     #!/bin/bash
     set -e
-
-    if [[ "$ROBOT_MODEL" == "rosbot_xl" && -z "$CONFIGURATION" ]]; then
-        echo "❌ CONFIGURATION environment variable is not set for ROSbot XL. Please edit .env file." >&2
-        exit 1
-    fi
 
     xhost +local:docker
     docker compose -f demo/compose.sim.yaml down
@@ -193,6 +204,7 @@ stop:
     docker compose -f demo/compose.sim.yaml down > /dev/null 2>&1 || true
     docker compose -f demo/compose.yaml down > /dev/null 2>&1 || true
     sudo husarion-webui.stop
+    echo "All containers stopped."
 
 # Show logs from navigation container
 logs:

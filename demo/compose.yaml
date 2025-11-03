@@ -4,6 +4,8 @@ services:
     image: husarion/rosbot-autonomy:${ROS_DISTRO}
     network_mode: host
     ipc: host
+    env_file:
+      - .env
     volumes:
       - ./config:/config
       - ./maps:/maps

@@ -30,7 +30,7 @@ This demo can also work over the internet with Husarnet VPN. Simply add your dev
 
 #### Step 1: Environment configuration
 
-Setup environment variable in `demo/.env`.
+Setup environment variable in `demo/.env` for physical robot or `demo/sim.env` for simulation.
 
 #### Step 2: Run navigation
 
@@ -40,6 +40,9 @@ Run navigation on the **physical robot**:
 just start-navigation
 ```
 
+> [!TIP]
+> Scripts in `justfile` automatically, loads DDS configuration from [rosbot](https://snapcraft.io/rosbot) snap.
+
 Run navigation in **Gazebo simulation**:
 
 ```bash
@@ -47,7 +50,7 @@ just start-simulation
 ```
 
 > Stop demonstration using:
-> 
+>
 > ```bash
 > just stop
 > ```

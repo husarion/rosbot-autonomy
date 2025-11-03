@@ -3,7 +3,7 @@ x-common-config:
   network_mode: host
   ipc: host
   env_file:
-    - gz-dds.env
+    - sim.env
 
 x-gpu-config:
   &gpu-config
