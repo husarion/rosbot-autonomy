@@ -14,7 +14,6 @@ default:
 [private]
 check-env:
     #!/bin/bash
-    . ./demo/.env
     if [[ -z "$ROS_DISTRO" ]]; then
         echo "❌ ROS_DISTRO environment variable is not set." >&2
         exit 1
@@ -28,17 +27,16 @@ check-env:
 [private]
 check-sim-env:
     #!/bin/bash
-    . demo/sim.env
     if [[ -z "$ROS_DISTRO" ]]; then
         echo "❌ ROS_DISTRO environment variable is not set." >&2
         exit 1
     fi
     if [[ -z "$ROBOT_MODEL" ]]; then
-        echo "❌ ROBOT_MODEL environment variable is not set. Please edit .env file." >&2
+        echo "❌ ROBOT_MODEL environment variable is not set. Please edit sim.env file." >&2
         exit 1
     fi
     if [[ "$ROBOT_MODEL" == "rosbot_xl" && -z "$CONFIGURATION" ]]; then
-        echo "❌ CONFIGURATION environment variable is not set for ROSbot XL. Please edit .env file." >&2
+        echo "❌ CONFIGURATION environment variable is not set for ROSbot XL. Please edit sim.env file." >&2
         exit 1
     fi
 
@@ -130,10 +128,13 @@ install-sync-dependencies:
     fi
 
 # Start ROSbot autonomy container
-start-navigation: check-env
+start-navigation:
     #!/bin/bash
-    set -e
+    set -ae
+    . ./demo/.env
+    set +a
 
+    just --quiet check-env
     just --quiet ros-snap-distro-validation "rosbot"
     just --quiet ros-snap-distro-validation "husarion-rplidar"
 
@@ -167,9 +168,13 @@ start-navigation: check-env
     just start-visualization
 
 # Start Gazebo simulator with autonomy
-start-simulation: check-sim-env
+start-simulation:
     #!/bin/bash
-    set -e
+    set -ae
+    . demo/sim.env
+    set +a
+
+    just --quiet check-sim-env
 
     xhost +local:docker
     docker compose -f demo/compose.sim.yaml down
