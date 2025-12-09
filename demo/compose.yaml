@@ -15,6 +15,6 @@ services:
       ros2 launch rosbot_navigation bringup.launch.py
       map:=/maps/map.yaml
       params_file:=/config/nav2_${ROS_DISTRO}_params.yaml
-      robot_model:=${ROBOT_MODEL:-rosbot_xl}
+      robot_model:=${ROBOT_MODEL:?ROBOT_MODEL unset}
       slam:=${SLAM:-True}
       use_sim_time:=False"

@@ -28,7 +28,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: >
       ros2 launch rosbot_gazebo simulation.launch.py
-        robot_model:=${ROBOT_MODEL:-err}
+        robot_model:=${ROBOT_MODEL:?ROBOT_MODEL unset}
         configuration:=${CONFIGURATION:-basic}
         rviz:=False
 
@@ -42,6 +42,6 @@ services:
       ros2 launch rosbot_navigation bringup.launch.py
         map:=/maps/map.yaml
         params_file:=/config/nav2_${ROS_DISTRO}_params.yaml
-        robot_model:=${ROBOT_MODEL:-err}
+        robot_model:=${ROBOT_MODEL:?ROBOT_MODEL unset}
         slam:=${SLAM:-True}
         use_sim_time:=True
