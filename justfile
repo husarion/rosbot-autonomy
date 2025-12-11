@@ -206,8 +206,16 @@ start-visualization sim="false":
 # Stop running containers and Husarion WebUI
 stop:
     #!/bin/bash
-    docker compose -f demo/compose.sim.yaml down > /dev/null 2>&1 || true
+    set -ae
+    . demo/.env
     docker compose -f demo/compose.yaml down > /dev/null 2>&1 || true
+    set +a
+    
+    set -ae
+    . demo/sim.env
+    docker compose -f demo/compose.sim.yaml down > /dev/null 2>&1 || true
+    set +a
+    
     sudo husarion-webui.stop
     echo "All containers stopped."
 
